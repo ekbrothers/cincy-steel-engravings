@@ -343,71 +343,33 @@
                 'steel_engraving_0007', 'steel_engraving_0008', 'steel_engraving_0009'
             ];
 
-            try {
-                const promises = engravingIds.map(async (id) => {
-                    const response = await fetch(`/metadata/${id}.json`);
+            console.log('🔄 Loading engraving data from JSON files...');
+            
+            const promises = engravingIds.map(async (id) => {
+                try {
+                    console.log(`📄 Fetching ${id}.json...`);
+                    const response = await fetch(`./metadata/${id}.json`);
+                    console.log(`📄 Response for ${id}:`, response.status, response.ok);
+                    
                     if (response.ok) {
-                        return response.json();
+                        const data = await response.json();
+                        console.log(`✅ Loaded ${id}:`, data.title);
+                        return data;
+                    } else {
+                        console.error(`❌ Failed to load ${id}: ${response.status}`);
+                        return null;
                     }
+                } catch (error) {
+                    console.error(`❌ Error loading ${id}:`, error);
                     return null;
-                });
+                }
+            });
 
-                const results = await Promise.all(promises);
-                return results.filter(result => result !== null);
-            } catch (error) {
-                console.log('Using sample data due to fetch error:', error);
-                // Fallback to sample data
-                return [
-                    {
-                        id: "steel_engraving_0001",
-                        title: "Cincinnati from Mount Adams",
-                        creator: { engraver: "William Henry Bartlett", publisher: "N.P. Willis American Scenery" },
-                        dates: { created: "1838", published: "1840" },
-                        location: {
-                            subject: "Downtown Cincinnati and Ohio River",
-                            neighborhood: "Central Business District",
-                            viewpoint: {
-                                description: "Mount Adams overlook facing southwest",
-                                coordinates: { lat: 39.1031, lng: -84.5120 }
-                            }
-                        },
-                        technical: { dimensions: "10 x 7 inches", technique: "Steel engraving on paper" },
-                        description: "Panoramic view of Cincinnati's riverfront showing steamboats on the Ohio River, early commercial buildings, and the bustling activity of America's 'Queen City' in the 1830s."
-                    },
-                    {
-                        id: "steel_engraving_0002",
-                        title: "Cincinnati from Covington Heights",
-                        creator: { engraver: "John Caspar Wild", publisher: "Lewis & Thomas" },
-                        dates: { created: "1835", published: "1836" },
-                        location: {
-                            subject: "Cincinnati skyline from Kentucky",
-                            neighborhood: "Covington, Kentucky",
-                            viewpoint: {
-                                description: "Covington Heights overlooking the Ohio River",
-                                coordinates: { lat: 39.0831, lng: -84.5085 }
-                            }
-                        },
-                        technical: { dimensions: "12 x 8 inches", technique: "Steel engraving with hand coloring" },
-                        description: "View from the Kentucky side showing Cincinnati's early development along the riverbank, with numerous steamboats and the growing commercial district."
-                    },
-                    {
-                        id: "steel_engraving_0008",
-                        title: "The Suspension Bridge and Newport",
-                        creator: { engraver: "Robert Hinshelwood", publisher: "Harper's Weekly" },
-                        dates: { created: "1867", published: "1868" },
-                        location: {
-                            subject: "John A. Roebling Suspension Bridge",
-                            neighborhood: "Newport, Kentucky",
-                            viewpoint: {
-                                description: "From Newport riverfront looking northwest",
-                                coordinates: { lat: 39.0886, lng: -84.4921 }
-                            }
-                        },
-                        technical: { dimensions: "12 x 9 inches", technique: "Steel engraving with fine line work" },
-                        description: "Magnificent view of the newly completed Roebling Suspension Bridge connecting Cincinnati to Newport, a marvel of 19th-century engineering and precursor to the Brooklyn Bridge."
-                    }
-                ];
-            }
+            const results = await Promise.all(promises);
+            const validResults = results.filter(result => result !== null);
+            
+            console.log(`📊 Successfully loaded ${validResults.length} out of ${engravingIds.length} engravings`);
+            return validResults;
         }
 
         // Initialize the application
@@ -532,7 +494,7 @@
             modalBody.innerHTML = `
                 <div class="engraving-details">
                     <div>
-                        <img src="/engravings/${engraving.id.replace('steel_engraving_', 'steel_engraving__')}.jpg" 
+                        <img src="./engravings/${engraving.id.replace('steel_engraving_', 'steel_engraving__')}.jpg" 
                              alt="${engraving.title}" 
                              class="engraving-img" 
                              onerror="this.style.display='none'" />
