@@ -1,28 +1,43 @@
 {
   "id": "steel_engraving_0002",
-  "title": "Cincinnati from Covington Heights",
+  "title": "Cincinnati, view from the Carlisle Hotel",
+  "alternateTitle": "Cincinnati buildings, landmarks and street scenes. 68",
   "creator": {
-    "engraver": "John Caspar Wild",
-    "publisher": "Lewis & Thomas"
+    "artist": "Unknown",
+    "publisher": "Unknown"
   },
   "dates": {
-    "created": "1835",
-    "published": "1836"
+    "created": "1874",
+    "published": "1874"
+  },
+  "source": {
+    "collection": "Cincinnati buildings, landmarks and street scenes",
+    "type": "Illustration"
   },
   "location": {
-    "subject": "Cincinnati skyline from Kentucky",
-    "neighborhood": "Covington, Kentucky",
+    "subject": "Cincinnati cityscape from Carlisle Hotel",
+    "neighborhood": "Downtown Cincinnati",
     "viewpoint": {
-      "description": "Covington Heights overlooking the Ohio River",
+      "description": "View of Cincinnati from the Carlisle Hotel, a little west of St. Peter in Chains",
       "coordinates": {
-        "lat": 39.0831,
-        "lng": -84.5085
+        "lat": 39.1031,
+        "lng": -84.5140
       }
     }
   },
   "technical": {
-    "dimensions": "12 x 8 inches",
-    "technique": "Steel engraving with hand coloring"
+    "dimensions": "6 x 8 inches",
+    "technique": "Steel engraving illustration"
   },
-  "description": "View from the Kentucky side showing Cincinnati's early development along the riverbank, with numerous steamboats and the growing commercial district."
+  "keywords": [
+    "Hotels",
+    "Spires",
+    "Carlisle Hotel (Cincinnati, Ohio)"
+  ],
+  "verification": {
+    "status": "verified",
+    "date": "2025-01-12",
+    "source": "Historical documentation"
+  },
+  "description": "Historic 1874 view of Cincinnati from the Carlisle Hotel, showcasing the city's buildings, landmarks, and street scenes. This illustration captures Cincinnati's urban development during the post-Civil War era, with prominent spires and architectural features visible from this elevated downtown vantage point."
 }

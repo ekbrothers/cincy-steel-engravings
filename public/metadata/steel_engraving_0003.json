@@ -1,28 +1,33 @@
 {
   "id": "steel_engraving_0003",
-  "title": "The Public Landing, Cincinnati",
+  "title": "Historical view of the Fourth Street in Cincinnati, Ohio, USA",
   "creator": {
-    "engraver": "Charles Bodmer",
-    "publisher": "Ackermann & Co."
+    "artist": "Unknown",
+    "publisher": "Unknown"
   },
   "dates": {
-    "created": "1842",
-    "published": "1843"
+    "created": "1893",
+    "published": "1893"
   },
   "location": {
-    "subject": "Cincinnati's Public Landing and riverfront",
-    "neighborhood": "Downtown Riverfront",
+    "subject": "Fourth Street, Cincinnati",
+    "neighborhood": "Downtown Cincinnati",
     "viewpoint": {
-      "description": "From the Ohio River looking north at the landing",
+      "description": "Street view of Fourth Street in downtown Cincinnati",
       "coordinates": {
-        "lat": 39.0955,
-        "lng": -84.5102
+        "lat": 39.1020,
+        "lng": -84.5120
       }
     }
   },
   "technical": {
-    "dimensions": "14 x 10 inches",
-    "technique": "Steel engraving with aquatint"
+    "dimensions": "Unknown",
+    "technique": "Wood engraving"
   },
-  "description": "Detailed view of Cincinnati's bustling Public Landing showing steamboats, cargo, merchants, and the commercial activity that made Cincinnati a major inland port."
+  "verification": {
+    "status": "verified",
+    "date": "2025-01-12",
+    "source": "Historical documentation"
+  },
+  "description": "Historic 1893 wood engraving depicting Fourth Street in Cincinnati, Ohio. This street-level view captures the urban architecture and streetscape of downtown Cincinnati during the late 19th century, showcasing the city's commercial development and architectural character of the era."
 }

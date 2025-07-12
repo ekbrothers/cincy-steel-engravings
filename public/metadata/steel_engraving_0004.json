@@ -1,28 +1,38 @@
 {
   "id": "steel_engraving_0004",
-  "title": "Cincinnati from Price Hill",
+  "title": "The Recent Inundation Of The Ohio At Cincinnati",
   "creator": {
-    "engraver": "Thomas Doney",
-    "publisher": "Graham's Magazine"
+    "artist": "Unknown",
+    "publisher": "Harper's Weekly"
   },
   "dates": {
-    "created": "1848",
-    "published": "1849"
+    "created": "1862",
+    "published": "1862"
+  },
+  "source": {
+    "publication": "Harper's Weekly",
+    "publicationDate": "February 22, 1862",
+    "type": "Magazine illustration"
   },
   "location": {
-    "subject": "Cincinnati from the western hills",
-    "neighborhood": "Price Hill",
+    "subject": "Cincinnati during Ohio River flood",
+    "neighborhood": "Cincinnati Riverfront",
     "viewpoint": {
-      "description": "Price Hill overlook facing northeast",
+      "description": "From the Ohio River looking at Cincinnati during the 1862 flood",
       "coordinates": {
-        "lat": 39.1245,
-        "lng": -84.5398
+        "lat": 39.0955,
+        "lng": -84.5102
       }
     }
   },
   "technical": {
-    "dimensions": "11 x 8 inches",
-    "technique": "Steel engraving on laid paper"
+    "dimensions": "9 x 7 inches",
+    "technique": "Wood engraving"
   },
-  "description": "Elevated view from Price Hill showing Cincinnati's expansion westward, with the Mill Creek valley and early industrial development visible."
+  "verification": {
+    "status": "verified",
+    "date": "2025-01-12",
+    "source": "Historical documentation"
+  },
+  "description": "Historic illustration from Harper's Weekly depicting the devastating Ohio River flood of 1862 in Cincinnati. This dramatic view from the river shows the city during one of its most significant natural disasters, capturing the extent of the flooding and its impact on the riverfront community during the Civil War era."
 }
