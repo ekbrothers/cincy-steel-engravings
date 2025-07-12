@@ -1,11 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cincinnati Steel Engravings - Historical Exploration</title>
-    <meta name="description" content="Explore 9 historical steel engravings of Cincinnati from the 1800s-1900s through an interactive map interface." />
+    <meta name="description" content="Explore 9 historical steel engravings of Cincinnati from the 1800s-1900s through an interactive map interface.">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,76 +15,622 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
           crossorigin="" />
-  </head>
-  <body>
-    <div id="app">
-      <div class="app-container">
+    
+    <style>
+        /* Modern CSS for Cincinnati Steel Engravings */
+        :root {
+            --color-primary: #c41e3a;
+            --color-secondary: #000000;
+            --color-accent: #ffd700;
+            --color-river: #4682b4;
+            --color-background: #fafafa;
+            --color-surface: #ffffff;
+            --color-surface-variant: #f5f5f5;
+            --color-text: #1a1a1a;
+            --color-text-secondary: #666666;
+            --color-border: #e0e0e0;
+            --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-family-display: 'Playfair Display', Georgia, serif;
+            --space-2: 0.5rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --header-height: 4rem;
+            --sidebar-width: 20rem;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-family-primary);
+            line-height: 1.6;
+            color: var(--color-text);
+            background-color: var(--color-background);
+        }
+
+        .app-container {
+            min-height: 100vh;
+            display: grid;
+            grid-template-rows: var(--header-height) 1fr;
+        }
+
+        .app-header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--space-6);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .app-header h1 {
+            font-family: var(--font-family-display);
+            color: var(--color-primary);
+            font-size: 1.5rem;
+        }
+
+        .app-main {
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr;
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .app-sidebar {
+            background: var(--color-surface-variant);
+            border-right: 1px solid var(--color-border);
+            padding: var(--space-6);
+            overflow-y: auto;
+        }
+
+        .app-content {
+            position: relative;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        .search-section, .filter-section {
+            margin-bottom: var(--space-6);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-4);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: var(--space-2);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--space-2);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: var(--color-surface);
+        }
+
+        .card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-primary);
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+            color: var(--color-primary);
+        }
+
+        .card-subtitle {
+            font-size: 0.75rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-2);
+        }
+
+        .custom-marker {
+            background: transparent;
+            border: none;
+        }
+
+        .marker-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .marker-dot {
+            width: 16px;
+            height: 16px;
+            background: var(--color-primary);
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: var(--shadow-md);
+        }
+
+        .marker-label {
+            background: var(--color-primary);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 4px;
+            white-space: nowrap;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+        }
+
+        .modal-content {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: var(--space-4);
+            right: var(--space-4);
+            background: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .engraving-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+            padding: var(--space-8);
+        }
+
+        .engraving-img {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: var(--radius-lg);
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+
+        .metadata-item {
+            padding: var(--space-2);
+            background: var(--color-surface-variant);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+        }
+
+        .metadata-item strong {
+            display: block;
+            color: var(--color-text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .app-main {
+                grid-template-columns: 1fr;
+            }
+            .app-sidebar {
+                display: none;
+            }
+            .engraving-details {
+                grid-template-columns: 1fr;
+                gap: var(--space-4);
+                padding: var(--space-4);
+            }
+            .metadata-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
         <header class="app-header">
-          <h1 class="font-display">Cincinnati Steel Engravings</h1>
-          <nav class="header-nav">
-            <button id="mobile-menu-toggle" class="btn btn-secondary" aria-label="Toggle menu">
-              ☰
-            </button>
-          </nav>
+            <h1>Cincinnati Steel Engravings</h1>
         </header>
         
         <main class="app-main">
-          <aside class="app-sidebar" id="sidebar">
-            <div class="sidebar-content">
-              <div class="search-section">
-                <div class="form-group">
-                  <label for="search-input" class="form-label">Search Engravings</label>
-                  <input type="text" id="search-input" class="form-input" placeholder="Search by title, artist, or location...">
-                </div>
-              </div>
-              
-              <div class="filter-section">
-                <h3>Filters</h3>
-                <div class="form-group">
-                  <label for="date-range" class="form-label">Date Range</label>
-                  <input type="range" id="date-range" min="1835" max="1879" value="1857" class="form-input">
-                  <div class="date-display">
-                    <span id="date-start">1835</span> - <span id="date-end">1879</span>
-                  </div>
+            <aside class="app-sidebar">
+                <div class="search-section">
+                    <div class="form-group">
+                        <label for="search-input" class="form-label">Search Engravings</label>
+                        <input type="text" id="search-input" class="form-input" placeholder="Search by title, artist, or location...">
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                  <label class="form-label">Map Layer</label>
-                  <div class="radio-group">
-                    <label>
-                      <input type="radio" name="map-layer" value="modern" checked> Modern Cincinnati
-                    </label>
-                    <label>
-                      <input type="radio" name="map-layer" value="historical"> Historical Map
-                    </label>
-                  </div>
+                <div class="filter-section">
+                    <h3>Map Layer</h3>
+                    <div class="form-group">
+                        <label>
+                            <input type="radio" name="map-layer" value="modern" checked> Modern Cincinnati
+                        </label>
+                        <label>
+                            <input type="radio" name="map-layer" value="historical"> Historical Map
+                        </label>
+                    </div>
                 </div>
-              </div>
-              
-              <div class="engravings-list" id="engravings-list">
-                <!-- Engraving cards will be populated here -->
-              </div>
-            </div>
-          </aside>
-          
-          <div class="app-content">
-            <div id="map-container" class="map-container">
-              <!-- Interactive map will be rendered here -->
-            </div>
+                
+                <div id="engravings-list">
+                    <!-- Engraving cards will be populated here -->
+                </div>
+            </aside>
             
-            <div id="engraving-modal" class="engraving-modal" style="display: none;">
-              <div class="modal-content">
-                <button class="modal-close" id="modal-close">&times;</button>
-                <div class="modal-body" id="modal-body">
-                  <!-- Selected engraving details will be shown here -->
-                </div>
-              </div>
+            <div class="app-content">
+                <div id="map"></div>
             </div>
-          </div>
         </main>
-      </div>
     </div>
-    
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+
+    <div id="engraving-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modal-body">
+                <!-- Selected engraving details will be shown here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+            crossorigin=""></script>
+
+    <script>
+        // Cincinnati Steel Engravings Application
+        let map;
+        let engravingsData = [];
+        let markersLayer;
+        let filteredEngravings = [];
+
+        // Load all engraving data from JSON files
+        async function loadEngravingData() {
+            const engravingIds = [
+                'steel_engraving_0001', 'steel_engraving_0002', 'steel_engraving_0003',
+                'steel_engraving_0004', 'steel_engraving_0005', 'steel_engraving_0006',
+                'steel_engraving_0007', 'steel_engraving_0008', 'steel_engraving_0009'
+            ];
+
+            try {
+                const promises = engravingIds.map(async (id) => {
+                    const response = await fetch(`/metadata/${id}.json`);
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    return null;
+                });
+
+                const results = await Promise.all(promises);
+                return results.filter(result => result !== null);
+            } catch (error) {
+                console.log('Using sample data due to fetch error:', error);
+                // Fallback to sample data
+                return [
+                    {
+                        id: "steel_engraving_0001",
+                        title: "Cincinnati from Mount Adams",
+                        creator: { engraver: "William Henry Bartlett", publisher: "N.P. Willis American Scenery" },
+                        dates: { created: "1838", published: "1840" },
+                        location: {
+                            subject: "Downtown Cincinnati and Ohio River",
+                            neighborhood: "Central Business District",
+                            viewpoint: {
+                                description: "Mount Adams overlook facing southwest",
+                                coordinates: { lat: 39.1031, lng: -84.5120 }
+                            }
+                        },
+                        technical: { dimensions: "10 x 7 inches", technique: "Steel engraving on paper" },
+                        description: "Panoramic view of Cincinnati's riverfront showing steamboats on the Ohio River, early commercial buildings, and the bustling activity of America's 'Queen City' in the 1830s."
+                    },
+                    {
+                        id: "steel_engraving_0002",
+                        title: "Cincinnati from Covington Heights",
+                        creator: { engraver: "John Caspar Wild", publisher: "Lewis & Thomas" },
+                        dates: { created: "1835", published: "1836" },
+                        location: {
+                            subject: "Cincinnati skyline from Kentucky",
+                            neighborhood: "Covington, Kentucky",
+                            viewpoint: {
+                                description: "Covington Heights overlooking the Ohio River",
+                                coordinates: { lat: 39.0831, lng: -84.5085 }
+                            }
+                        },
+                        technical: { dimensions: "12 x 8 inches", technique: "Steel engraving with hand coloring" },
+                        description: "View from the Kentucky side showing Cincinnati's early development along the riverbank, with numerous steamboats and the growing commercial district."
+                    },
+                    {
+                        id: "steel_engraving_0008",
+                        title: "The Suspension Bridge and Newport",
+                        creator: { engraver: "Robert Hinshelwood", publisher: "Harper's Weekly" },
+                        dates: { created: "1867", published: "1868" },
+                        location: {
+                            subject: "John A. Roebling Suspension Bridge",
+                            neighborhood: "Newport, Kentucky",
+                            viewpoint: {
+                                description: "From Newport riverfront looking northwest",
+                                coordinates: { lat: 39.0886, lng: -84.4921 }
+                            }
+                        },
+                        technical: { dimensions: "12 x 9 inches", technique: "Steel engraving with fine line work" },
+                        description: "Magnificent view of the newly completed Roebling Suspension Bridge connecting Cincinnati to Newport, a marvel of 19th-century engineering and precursor to the Brooklyn Bridge."
+                    }
+                ];
+            }
+        }
+
+        // Initialize the application
+        async function initApp() {
+            console.log('🚀 Initializing Cincinnati Steel Engravings app...');
+            
+            // Load engraving data
+            engravingsData = await loadEngravingData();
+            filteredEngravings = [...engravingsData];
+            
+            console.log(`📚 Loaded ${engravingsData.length} engravings`);
+            
+            // Initialize map
+            initMap();
+            
+            // Render components
+            renderEngravingsList();
+            renderMapMarkers();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            console.log('✅ App initialized successfully');
+        }
+
+        // Initialize Leaflet map
+        function initMap() {
+            const cincinnatiCenter = [39.1031, -84.5120];
+            
+            map = L.map('map', {
+                center: cincinnatiCenter,
+                zoom: 12,
+                zoomControl: true,
+                attributionControl: true
+            });
+
+            // Add modern map layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 18
+            }).addTo(map);
+            
+            // Create markers layer
+            markersLayer = L.layerGroup().addTo(map);
+            
+            console.log('🗺️ Map initialized');
+        }
+
+        // Render markers on map
+        function renderMapMarkers() {
+            markersLayer.clearLayers();
+            
+            filteredEngravings.forEach(engraving => {
+                const { lat, lng } = engraving.location.viewpoint.coordinates;
+                
+                const customIcon = L.divIcon({
+                    className: 'custom-marker',
+                    html: `
+                        <div class="marker-content">
+                            <div class="marker-dot"></div>
+                            <div class="marker-label">${engraving.dates.created}</div>
+                        </div>
+                    `,
+                    iconSize: [40, 40],
+                    iconAnchor: [20, 40]
+                });
+                
+                const marker = L.marker([lat, lng], { icon: customIcon })
+                    .bindPopup(`
+                        <div style="padding: 8px;">
+                            <h4 style="margin-bottom: 8px; color: var(--color-primary);">${engraving.title}</h4>
+                            <p><strong>Artist:</strong> ${engraving.creator.engraver}</p>
+                            <p><strong>Year:</strong> ${engraving.dates.created}</p>
+                            <button onclick="showEngravingDetails('${engraving.id}')" style="margin-top: 8px; padding: 4px 8px; background: var(--color-primary); color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                View Details
+                            </button>
+                        </div>
+                    `)
+                    .on('click', () => {
+                        showEngravingDetails(engraving.id);
+                    });
+                
+                markersLayer.addLayer(marker);
+            });
+            
+            console.log(`📍 Rendered ${filteredEngravings.length} markers`);
+        }
+
+        // Render engravings list
+        function renderEngravingsList() {
+            const listContainer = document.getElementById('engravings-list');
+            listContainer.innerHTML = '';
+            
+            filteredEngravings.forEach(engraving => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-title">${engraving.title}</div>
+                    <div class="card-subtitle">${engraving.dates.created} • ${engraving.creator.engraver}</div>
+                    <p><strong>Location:</strong> ${engraving.location.neighborhood}</p>
+                    <p>${engraving.description.substring(0, 100)}...</p>
+                `;
+                
+                card.addEventListener('click', () => {
+                    showEngravingDetails(engraving.id);
+                    const { lat, lng } = engraving.location.viewpoint.coordinates;
+                    map.setView([lat, lng], 15, { animate: true });
+                });
+                
+                listContainer.appendChild(card);
+            });
+        }
+
+        // Show engraving details in modal
+        function showEngravingDetails(id) {
+            const engraving = engravingsData.find(e => e.id === id);
+            if (!engraving) return;
+            
+            const modal = document.getElementById('engraving-modal');
+            const modalBody = document.getElementById('modal-body');
+            
+            modalBody.innerHTML = `
+                <div class="engraving-details">
+                    <div>
+                        <img src="/engravings/${engraving.id.replace('steel_engraving_', 'steel_engraving__')}.jpg" 
+                             alt="${engraving.title}" 
+                             class="engraving-img" 
+                             onerror="this.style.display='none'" />
+                    </div>
+                    <div>
+                        <h2 style="font-family: var(--font-family-display); color: var(--color-primary); margin-bottom: 1.5rem;">${engraving.title}</h2>
+                        <div class="metadata-grid">
+                            <div class="metadata-item">
+                                <strong>Artist:</strong> ${engraving.creator.engraver}
+                            </div>
+                            <div class="metadata-item">
+                                <strong>Publisher:</strong> ${engraving.creator.publisher}
+                            </div>
+                            <div class="metadata-item">
+                                <strong>Created:</strong> ${engraving.dates.created}
+                            </div>
+                            <div class="metadata-item">
+                                <strong>Published:</strong> ${engraving.dates.published}
+                            </div>
+                            <div class="metadata-item">
+                                <strong>Location:</strong> ${engraving.location.neighborhood}
+                            </div>
+                            <div class="metadata-item">
+                                <strong>Viewpoint:</strong> ${engraving.location.viewpoint.description}
+                            </div>
+                        </div>
+                        <div style="border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                            <h3 style="margin-bottom: 1rem;">Description</h3>
+                            <p style="line-height: 1.7;">${engraving.description}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('engraving-modal').style.display = 'none';
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Search input
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                if (query) {
+                    filteredEngravings = engravingsData.filter(engraving => 
+                        engraving.title.toLowerCase().includes(query) ||
+                        engraving.description.toLowerCase().includes(query) ||
+                        engraving.creator.engraver.toLowerCase().includes(query) ||
+                        engraving.location.neighborhood.toLowerCase().includes(query)
+                    );
+                } else {
+                    filteredEngravings = [...engravingsData];
+                }
+                renderEngravingsList();
+                renderMapMarkers();
+            });
+
+            // Map layer radio buttons
+            const mapLayerRadios = document.querySelectorAll('input[name="map-layer"]');
+            mapLayerRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    // Remove current layers
+                    map.eachLayer(layer => {
+                        if (layer instanceof L.TileLayer) {
+                            map.removeLayer(layer);
+                        }
+                    });
+                    
+                    // Add new layer
+                    if (e.target.value === 'modern') {
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '© OpenStreetMap contributors',
+                            maxZoom: 18
+                        }).addTo(map);
+                    } else {
+                        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/USA_Topo_Maps/MapServer/tile/{z}/{y}/{x}', {
+                            attribution: 'Tiles © Esri — Source: USGS, Esri, TANA, DeLorme, and NPS',
+                            maxZoom: 16
+                        }).addTo(map);
+                    }
+                });
+            });
+
+            // Close modal when clicking outside
+            document.getElementById('engraving-modal').addEventListener('click', (e) => {
+                if (e.target.id === 'engraving-modal') {
+                    closeModal();
+                }
+            });
+        }
+
+        // Initialize app when page loads
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
 </html>
