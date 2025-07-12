@@ -368,28 +368,7 @@
         }
 
         .image-modal-back {
-            position: absolute;
-            top: var(--space-4);
-            left: var(--space-4);
-            background: var(--color-surface-elevated);
-            border: 2px solid var(--color-border);
-            border-radius: 50%;
-            width: 56px;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--color-text);
-            transition: all 0.2s ease;
-            z-index: 10;
-        }
-
-        .image-modal-back:hover {
-            background: var(--color-primary);
-            color: white;
-            transform: scale(1.1);
+            display: none; /* Hide back button on mobile */
         }
 
         .image-modal-title {
@@ -590,6 +569,11 @@
                 background: rgba(0, 0, 0, 0.8);
                 padding: var(--space-4);
                 border-radius: var(--radius-md);
+            }
+
+            /* Hide zoom controls on mobile */
+            .zoom-controls {
+                display: none;
             }
         }
 

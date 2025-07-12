@@ -218,3 +218,34 @@ Interactive web application for exploring 9 historical steel engravings of Cinci
 - All 9 JSON metadata files will be properly served
 - Interactive map with markers should work perfectly
 - Professional production-ready deployment
+
+### 2025-01-12 18:12 - UI/UX Enhancements Complete
+**Status**: ✅ MAJOR UI UPGRADE DEPLOYED
+
+**New Features Added:**
+- ✅ **Full-Screen Image Viewing**: Click any engraving image to view in full-screen modal
+- ✅ **Dark Mode Material UI**: Complete dark theme with Material Design principles
+- ✅ **Green Markers**: Changed from red to green markers as requested
+- ✅ **Enhanced Styling**: Professional Material UI-inspired design system
+- ✅ **Better Interactions**: Hover effects, smooth transitions, and visual feedback
+- ✅ **Improved Typography**: Better font hierarchy and readability
+
+**UI Improvements:**
+- **Color Scheme**: Dark background (#121212) with green primary (#4caf50)
+- **Interactive Elements**: Enhanced buttons, inputs, and cards with Material Design
+- **Image Functionality**: Clickable images with full-screen viewing capability
+- **Visual Feedback**: Hover states, transitions, and micro-interactions
+- **Professional Layout**: Clean grid system with proper spacing and shadows
+
+**Technical Enhancements:**
+- **Full-Screen Modal**: Dedicated image modal with proper close functionality
+- **Responsive Design**: Mobile-friendly layout that adapts to screen size
+- **Accessibility**: Better contrast ratios and keyboard navigation
+- **Performance**: Optimized CSS with CSS custom properties for theming
+
+**User Experience:**
+- Users can now click any engraving image to view it in full-screen
+- Beautiful dark mode interface that's easy on the eyes
+- Green markers make locations more visible on the map
+- Smooth animations and transitions throughout the interface
+- Professional museum-quality presentation
