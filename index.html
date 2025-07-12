@@ -344,20 +344,21 @@
 
         .image-modal-close {
             position: absolute;
-            top: -60px;
-            right: 0;
+            top: var(--space-4);
+            right: var(--space-4);
             background: var(--color-surface-elevated);
             border: 2px solid var(--color-border);
             border-radius: 50%;
-            width: 48px;
-            height: 48px;
+            width: 56px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             cursor: pointer;
             color: var(--color-text);
             transition: all 0.2s ease;
+            z-index: 10;
         }
 
         .image-modal-close:hover {
@@ -366,15 +367,92 @@
             transform: scale(1.1);
         }
 
+        .image-modal-back {
+            position: absolute;
+            top: var(--space-4);
+            left: var(--space-4);
+            background: var(--color-surface-elevated);
+            border: 2px solid var(--color-border);
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--color-text);
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .image-modal-back:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
         .image-modal-title {
             position: absolute;
-            bottom: -60px;
-            left: 0;
-            right: 0;
+            bottom: var(--space-4);
+            left: var(--space-4);
+            right: var(--space-4);
             text-align: center;
             color: var(--color-text);
             font-size: 1.1rem;
             font-weight: 500;
+            background: rgba(0, 0, 0, 0.8);
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+        }
+
+        /* Zoomable image container */
+        .image-zoom-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            cursor: grab;
+        }
+
+        .image-zoom-container:active {
+            cursor: grabbing;
+        }
+
+        .image-zoom-container img {
+            transition: transform 0.2s ease;
+            transform-origin: center center;
+        }
+
+        .zoom-controls {
+            position: absolute;
+            bottom: 80px;
+            right: var(--space-4);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+            z-index: 10;
+        }
+
+        .zoom-btn {
+            background: var(--color-surface-elevated);
+            border: 2px solid var(--color-border);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            cursor: pointer;
+            color: var(--color-text);
+            transition: all 0.2s ease;
+        }
+
+        .zoom-btn:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: scale(1.1);
         }
 
         .metadata-grid {
@@ -586,8 +664,16 @@
     <!-- Full-screen image modal -->
     <div id="image-modal" class="image-modal">
         <div class="image-modal-content">
-            <button class="image-modal-close" onclick="closeImageModal()">&times;</button>
-            <img id="image-modal-img" src="" alt="">
+            <button class="image-modal-back" onclick="closeImageModal()" title="Back to details">←</button>
+            <button class="image-modal-close" onclick="closeImageModal()" title="Close">&times;</button>
+            <div class="image-zoom-container" id="image-zoom-container">
+                <img id="image-modal-img" src="" alt="">
+            </div>
+            <div class="zoom-controls">
+                <button class="zoom-btn" onclick="zoomIn()" title="Zoom In">+</button>
+                <button class="zoom-btn" onclick="zoomOut()" title="Zoom Out">−</button>
+                <button class="zoom-btn" onclick="resetZoom()" title="Reset Zoom">⌂</button>
+            </div>
             <div class="image-modal-title" id="image-modal-title"></div>
         </div>
     </div>
@@ -818,6 +904,11 @@
             imageModalTitle.textContent = title;
             
             imageModal.style.display = 'flex';
+            
+            // Setup image interaction after modal is shown
+            setTimeout(() => {
+                setupImageInteraction();
+            }, 100);
         }
 
         // Toggle mobile menu
@@ -836,9 +927,115 @@
             }
         }
 
+        // Zoom functionality
+        let currentZoom = 1;
+        let isDragging = false;
+        let startX, startY, translateX = 0, translateY = 0;
+
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom * 1.5, 5);
+            updateImageTransform();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom / 1.5, 1);
+            if (currentZoom === 1) {
+                translateX = 0;
+                translateY = 0;
+            }
+            updateImageTransform();
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            translateX = 0;
+            translateY = 0;
+            updateImageTransform();
+        }
+
+        function updateImageTransform() {
+            const img = document.getElementById('image-modal-img');
+            img.style.transform = `scale(${currentZoom}) translate(${translateX}px, ${translateY}px)`;
+        }
+
+        // Touch and drag support for zoomed images
+        function setupImageInteraction() {
+            const container = document.getElementById('image-zoom-container');
+            const img = document.getElementById('image-modal-img');
+
+            // Mouse events
+            container.addEventListener('mousedown', startDrag);
+            container.addEventListener('mousemove', drag);
+            container.addEventListener('mouseup', endDrag);
+            container.addEventListener('mouseleave', endDrag);
+
+            // Touch events
+            container.addEventListener('touchstart', handleTouchStart, { passive: false });
+            container.addEventListener('touchmove', handleTouchMove, { passive: false });
+            container.addEventListener('touchend', handleTouchEnd);
+
+            // Wheel zoom
+            container.addEventListener('wheel', handleWheel, { passive: false });
+
+            function startDrag(e) {
+                if (currentZoom > 1) {
+                    isDragging = true;
+                    startX = e.clientX - translateX;
+                    startY = e.clientY - translateY;
+                    container.style.cursor = 'grabbing';
+                }
+            }
+
+            function drag(e) {
+                if (isDragging && currentZoom > 1) {
+                    e.preventDefault();
+                    translateX = e.clientX - startX;
+                    translateY = e.clientY - startY;
+                    updateImageTransform();
+                }
+            }
+
+            function endDrag() {
+                isDragging = false;
+                container.style.cursor = currentZoom > 1 ? 'grab' : 'default';
+            }
+
+            function handleTouchStart(e) {
+                if (e.touches.length === 1 && currentZoom > 1) {
+                    const touch = e.touches[0];
+                    startDrag({ clientX: touch.clientX, clientY: touch.clientY });
+                }
+            }
+
+            function handleTouchMove(e) {
+                if (e.touches.length === 1 && isDragging) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    drag({ clientX: touch.clientX, clientY: touch.clientY, preventDefault: () => {} });
+                }
+            }
+
+            function handleTouchEnd() {
+                endDrag();
+            }
+
+            function handleWheel(e) {
+                e.preventDefault();
+                if (e.deltaY < 0) {
+                    zoomIn();
+                } else {
+                    zoomOut();
+                }
+            }
+        }
+
         // Close image modal
         function closeImageModal() {
             document.getElementById('image-modal').style.display = 'none';
+            // Reset zoom when closing
+            currentZoom = 1;
+            translateX = 0;
+            translateY = 0;
         }
 
         // Close modal
