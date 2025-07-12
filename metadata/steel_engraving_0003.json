@@ -1,0 +1,28 @@
+{
+  "id": "steel_engraving_0003",
+  "title": "The Public Landing, Cincinnati",
+  "creator": {
+    "engraver": "Charles Bodmer",
+    "publisher": "Ackermann & Co."
+  },
+  "dates": {
+    "created": "1842",
+    "published": "1843"
+  },
+  "location": {
+    "subject": "Cincinnati's Public Landing and riverfront",
+    "neighborhood": "Downtown Riverfront",
+    "viewpoint": {
+      "description": "From the Ohio River looking north at the landing",
+      "coordinates": {
+        "lat": 39.0955,
+        "lng": -84.5102
+      }
+    }
+  },
+  "technical": {
+    "dimensions": "14 x 10 inches",
+    "technique": "Steel engraving with aquatint"
+  },
+  "description": "Detailed view of Cincinnati's bustling Public Landing showing steamboats, cargo, merchants, and the commercial activity that made Cincinnati a major inland port."
+}

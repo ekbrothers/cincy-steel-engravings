@@ -1,0 +1,28 @@
+{
+  "id": "steel_engraving_0004",
+  "title": "Cincinnati from Price Hill",
+  "creator": {
+    "engraver": "Thomas Doney",
+    "publisher": "Graham's Magazine"
+  },
+  "dates": {
+    "created": "1848",
+    "published": "1849"
+  },
+  "location": {
+    "subject": "Cincinnati from the western hills",
+    "neighborhood": "Price Hill",
+    "viewpoint": {
+      "description": "Price Hill overlook facing northeast",
+      "coordinates": {
+        "lat": 39.1245,
+        "lng": -84.5398
+      }
+    }
+  },
+  "technical": {
+    "dimensions": "11 x 8 inches",
+    "technique": "Steel engraving on laid paper"
+  },
+  "description": "Elevated view from Price Hill showing Cincinnati's expansion westward, with the Mill Creek valley and early industrial development visible."
+}

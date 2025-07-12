@@ -1,0 +1,28 @@
+{
+  "id": "steel_engraving_0005",
+  "title": "Over-the-Rhine District",
+  "creator": {
+    "engraver": "Henry Lewis",
+    "publisher": "Arnz & Company"
+  },
+  "dates": {
+    "created": "1854",
+    "published": "1855"
+  },
+  "location": {
+    "subject": "German immigrant neighborhood north of downtown",
+    "neighborhood": "Over-the-Rhine",
+    "viewpoint": {
+      "description": "From Vine Street looking north into the district",
+      "coordinates": {
+        "lat": 39.1089,
+        "lng": -84.5155
+      }
+    }
+  },
+  "technical": {
+    "dimensions": "9 x 12 inches",
+    "technique": "Steel engraving with mezzotint"
+  },
+  "description": "Street scene showing the vibrant German-American community of Over-the-Rhine, with its distinctive architecture, breweries, and cultural institutions."
+}

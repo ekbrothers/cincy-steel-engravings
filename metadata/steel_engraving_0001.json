@@ -1,0 +1,28 @@
+{
+  "id": "steel_engraving_0001",
+  "title": "Cincinnati from Mount Adams",
+  "creator": {
+    "engraver": "William Henry Bartlett",
+    "publisher": "N.P. Willis American Scenery"
+  },
+  "dates": {
+    "created": "1838",
+    "published": "1840"
+  },
+  "location": {
+    "subject": "Downtown Cincinnati and Ohio River",
+    "neighborhood": "Central Business District",
+    "viewpoint": {
+      "description": "Mount Adams overlook facing southwest",
+      "coordinates": {
+        "lat": 39.1031,
+        "lng": -84.5120
+      }
+    }
+  },
+  "technical": {
+    "dimensions": "10 x 7 inches",
+    "technique": "Steel engraving on paper"
+  },
+  "description": "Panoramic view of Cincinnati's riverfront showing steamboats on the Ohio River, early commercial buildings, and the bustling activity of America's 'Queen City' in the 1830s."
+}

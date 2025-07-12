@@ -1,0 +1,28 @@
+{
+  "id": "steel_engraving_0008",
+  "title": "The Suspension Bridge and Newport",
+  "creator": {
+    "engraver": "Robert Hinshelwood",
+    "publisher": "Harper's Weekly"
+  },
+  "dates": {
+    "created": "1867",
+    "published": "1868"
+  },
+  "location": {
+    "subject": "John A. Roebling Suspension Bridge",
+    "neighborhood": "Newport, Kentucky",
+    "viewpoint": {
+      "description": "From Newport riverfront looking northwest",
+      "coordinates": {
+        "lat": 39.0886,
+        "lng": -84.4921
+      }
+    }
+  },
+  "technical": {
+    "dimensions": "12 x 9 inches",
+    "technique": "Steel engraving with fine line work"
+  },
+  "description": "Magnificent view of the newly completed Roebling Suspension Bridge connecting Cincinnati to Newport, a marvel of 19th-century engineering and precursor to the Brooklyn Bridge."
+}

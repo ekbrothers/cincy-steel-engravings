@@ -1,0 +1,28 @@
+{
+  "id": "steel_engraving_0007",
+  "title": "Cincinnati from the East End",
+  "creator": {
+    "engraver": "Alfred Jones",
+    "publisher": "Appleton's Journal"
+  },
+  "dates": {
+    "created": "1869",
+    "published": "1870"
+  },
+  "location": {
+    "subject": "Cincinnati's industrial east side",
+    "neighborhood": "East End",
+    "viewpoint": {
+      "description": "From Columbia Parkway looking west",
+      "coordinates": {
+        "lat": 39.1123,
+        "lng": -84.4756
+      }
+    }
+  },
+  "technical": {
+    "dimensions": "8 x 11 inches",
+    "technique": "Steel engraving with cross-hatching"
+  },
+  "description": "Post-Civil War view showing Cincinnati's industrial growth along the Ohio River, with factories, railroads, and the expanding urban landscape."
+}

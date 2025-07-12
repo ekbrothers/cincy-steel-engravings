@@ -1,0 +1,28 @@
+{
+  "id": "steel_engraving_0006",
+  "title": "Cincinnati Observatory and Walnut Hills",
+  "creator": {
+    "engraver": "William Wade",
+    "publisher": "Gleason's Pictorial"
+  },
+  "dates": {
+    "created": "1851",
+    "published": "1852"
+  },
+  "location": {
+    "subject": "Cincinnati Observatory and eastern hills",
+    "neighborhood": "Walnut Hills",
+    "viewpoint": {
+      "description": "From Mount Lookout facing west toward the observatory",
+      "coordinates": {
+        "lat": 39.1356,
+        "lng": -84.4789
+      }
+    }
+  },
+  "technical": {
+    "dimensions": "10 x 14 inches",
+    "technique": "Steel engraving with stipple work"
+  },
+  "description": "View of the famous Cincinnati Observatory on Mount Lookout, showing the scientific and educational aspirations of the growing city in the mid-19th century."
+}

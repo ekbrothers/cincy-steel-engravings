@@ -1,0 +1,28 @@
+{
+  "id": "steel_engraving_0009",
+  "title": "Cincinnati Music Hall and Washington Park",
+  "creator": {
+    "engraver": "Frederick Dielman",
+    "publisher": "Century Magazine"
+  },
+  "dates": {
+    "created": "1878",
+    "published": "1879"
+  },
+  "location": {
+    "subject": "Music Hall and cultural district",
+    "neighborhood": "Over-the-Rhine",
+    "viewpoint": {
+      "description": "From Elm Street looking northeast at Music Hall",
+      "coordinates": {
+        "lat": 39.1067,
+        "lng": -84.5189
+      }
+    }
+  },
+  "technical": {
+    "dimensions": "13 x 10 inches",
+    "technique": "Steel engraving with wash technique"
+  },
+  "description": "Grand view of Cincinnati's newly built Music Hall, showcasing the city's commitment to arts and culture during the Gilded Age, with Washington Park in the foreground."
+}

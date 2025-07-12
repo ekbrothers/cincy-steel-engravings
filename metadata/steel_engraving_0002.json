@@ -1,0 +1,28 @@
+{
+  "id": "steel_engraving_0002",
+  "title": "Cincinnati from Covington Heights",
+  "creator": {
+    "engraver": "John Caspar Wild",
+    "publisher": "Lewis & Thomas"
+  },
+  "dates": {
+    "created": "1835",
+    "published": "1836"
+  },
+  "location": {
+    "subject": "Cincinnati skyline from Kentucky",
+    "neighborhood": "Covington, Kentucky",
+    "viewpoint": {
+      "description": "Covington Heights overlooking the Ohio River",
+      "coordinates": {
+        "lat": 39.0831,
+        "lng": -84.5085
+      }
+    }
+  },
+  "technical": {
+    "dimensions": "12 x 8 inches",
+    "technique": "Steel engraving with hand coloring"
+  },
+  "description": "View from the Kentucky side showing Cincinnati's early development along the riverbank, with numerous steamboats and the growing commercial district."
+}
