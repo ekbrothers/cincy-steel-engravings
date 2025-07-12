@@ -17,18 +17,22 @@
           crossorigin="" />
     
     <style>
-        /* Modern CSS for Cincinnati Steel Engravings */
+        /* Modern Dark Mode CSS for Cincinnati Steel Engravings */
         :root {
-            --color-primary: #c41e3a;
-            --color-secondary: #000000;
-            --color-accent: #ffd700;
-            --color-river: #4682b4;
-            --color-background: #fafafa;
-            --color-surface: #ffffff;
-            --color-surface-variant: #f5f5f5;
-            --color-text: #1a1a1a;
-            --color-text-secondary: #666666;
-            --color-border: #e0e0e0;
+            --color-primary: #4caf50;
+            --color-primary-dark: #388e3c;
+            --color-secondary: #81c784;
+            --color-accent: #ffc107;
+            --color-river: #2196f3;
+            --color-background: #121212;
+            --color-surface: #1e1e1e;
+            --color-surface-variant: #2d2d2d;
+            --color-surface-elevated: #252525;
+            --color-text: #ffffff;
+            --color-text-secondary: #b0b0b0;
+            --color-text-disabled: #757575;
+            --color-border: #404040;
+            --color-border-light: #555555;
             --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             --font-family-display: 'Playfair Display', Georgia, serif;
             --space-2: 0.5rem;
@@ -115,27 +119,83 @@
 
         .form-input {
             width: 100%;
-            padding: var(--space-2);
+            padding: var(--space-4);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-md);
             background: var(--color-surface);
-        }
-
-        .card {
-            background: var(--color-surface);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-sm);
-            padding: var(--space-4);
-            margin-bottom: var(--space-4);
-            cursor: pointer;
+            color: var(--color-text);
+            font-size: 0.875rem;
             transition: all 0.2s ease;
         }
 
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+        .form-input:focus {
+            outline: none;
             border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: var(--color-text-disabled);
+        }
+
+        .filter-section h3 {
+            color: var(--color-text);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+        }
+
+        .filter-section label {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--space-2);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .filter-section label:hover {
+            color: var(--color-text);
+        }
+
+        .filter-section input[type="radio"] {
+            margin-right: var(--space-2);
+            accent-color: var(--color-primary);
+        }
+
+        .card {
+            background: var(--color-surface-elevated);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            padding: var(--space-6);
+            margin-bottom: var(--space-4);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            border-color: var(--color-primary);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
         }
 
         .card-title {
@@ -209,17 +269,25 @@
             position: absolute;
             top: var(--space-4);
             right: var(--space-4);
-            background: var(--color-surface);
+            background: var(--color-surface-elevated);
             border: 2px solid var(--color-border);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             cursor: pointer;
             z-index: 10;
+            color: var(--color-text);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: scale(1.1);
         }
 
         .engraving-details {
@@ -234,6 +302,79 @@
             max-height: 400px;
             object-fit: contain;
             border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .engraving-img:hover {
+            transform: scale(1.02);
+            border-color: var(--color-primary);
+            box-shadow: 0 8px 32px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Full-screen image modal */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+        }
+
+        .image-modal-content {
+            max-width: 95vw;
+            max-height: 95vh;
+            position: relative;
+        }
+
+        .image-modal img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .image-modal-close {
+            position: absolute;
+            top: -60px;
+            right: 0;
+            background: var(--color-surface-elevated);
+            border: 2px solid var(--color-border);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--color-text);
+            transition: all 0.2s ease;
+        }
+
+        .image-modal-close:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .image-modal-title {
+            position: absolute;
+            bottom: -60px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: var(--color-text);
+            font-size: 1.1rem;
+            font-weight: 500;
         }
 
         .metadata-grid {
@@ -320,6 +461,15 @@
             <div id="modal-body">
                 <!-- Selected engraving details will be shown here -->
             </div>
+        </div>
+    </div>
+
+    <!-- Full-screen image modal -->
+    <div id="image-modal" class="image-modal">
+        <div class="image-modal-content">
+            <button class="image-modal-close" onclick="closeImageModal()">&times;</button>
+            <img id="image-modal-img" src="" alt="">
+            <div class="image-modal-title" id="image-modal-title"></div>
         </div>
     </div>
 
@@ -490,13 +640,16 @@
             
             const modal = document.getElementById('engraving-modal');
             const modalBody = document.getElementById('modal-body');
+            const imageSrc = `./engravings/${engraving.id.replace('steel_engraving_', 'steel_engraving__')}.jpg`;
             
             modalBody.innerHTML = `
                 <div class="engraving-details">
                     <div>
-                        <img src="./engravings/${engraving.id.replace('steel_engraving_', 'steel_engraving__')}.jpg" 
+                        <img src="${imageSrc}" 
                              alt="${engraving.title}" 
                              class="engraving-img" 
+                             onclick="showFullScreenImage('${imageSrc}', '${engraving.title}')"
+                             title="Click to view full size"
                              onerror="this.style.display='none'" />
                     </div>
                     <div>
@@ -524,12 +677,33 @@
                         <div style="border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
                             <h3 style="margin-bottom: 1rem;">Description</h3>
                             <p style="line-height: 1.7;">${engraving.description}</p>
+                            <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-secondary); font-style: italic;">
+                                💡 Click the image above to view it in full size
+                            </p>
                         </div>
                     </div>
                 </div>
             `;
             
             modal.style.display = 'flex';
+        }
+
+        // Show full-screen image
+        function showFullScreenImage(imageSrc, title) {
+            const imageModal = document.getElementById('image-modal');
+            const imageModalImg = document.getElementById('image-modal-img');
+            const imageModalTitle = document.getElementById('image-modal-title');
+            
+            imageModalImg.src = imageSrc;
+            imageModalImg.alt = title;
+            imageModalTitle.textContent = title;
+            
+            imageModal.style.display = 'flex';
+        }
+
+        // Close image modal
+        function closeImageModal() {
+            document.getElementById('image-modal').style.display = 'none';
         }
 
         // Close modal
