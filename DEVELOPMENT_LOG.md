@@ -185,3 +185,36 @@ Interactive web application for exploring 9 historical steel engravings of Cinci
 - All interactive features functional
 - Fallback data ensures app works even if JSON files have issues
 - Professional presentation ready for public access
+
+### 2025-01-12 18:02 - Vercel Deployment Configuration
+**Status**: ✅ VERCEL DEPLOYMENT READY
+
+**Vercel Setup Completed:**
+- ✅ **Dependencies Added**: Added Leaflet and @types/leaflet to package.json
+- ✅ **Build Configuration**: Configured vercel.json for TypeScript/Vite build
+- ✅ **Framework Detection**: Set framework to "vite" for proper build process
+- ✅ **Output Directory**: Configured to use "dist" directory from Vite build
+- ✅ **Auto-deployment**: Connected to GitHub for automatic deployments
+
+**Vercel Configuration:**
+```json
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist", 
+  "installCommand": "npm install",
+  "framework": "vite"
+}
+```
+
+**Benefits of Vercel over GitHub Pages:**
+- ✅ **Better JSON Serving**: No issues with metadata files
+- ✅ **TypeScript Build**: Proper compilation and optimization
+- ✅ **Instant Deployments**: Automatic deployment on git push
+- ✅ **Edge CDN**: Better performance worldwide
+- ✅ **No Jekyll Issues**: Clean static file serving
+
+**Deployment Status:**
+- Vercel will automatically build and deploy the TypeScript project
+- All 9 JSON metadata files will be properly served
+- Interactive map with markers should work perfectly
+- Professional production-ready deployment
