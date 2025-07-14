@@ -51,7 +51,7 @@ const ModalComponent = {
      * Setup mobile gesture handling
      */
     setupMobileGestures() {
-        // Swipe down to close modal on mobile
+        // Swipe down to close modal on mobile (only for regular modals, not image zoom)
         let startY = 0;
         let currentY = 0;
         let isSwipeGesture = false;
@@ -59,9 +59,11 @@ const ModalComponent = {
         document.addEventListener('touchstart', (e) => {
             const modal = document.getElementById('engraving-modal');
             const imageModal = document.getElementById('image-modal');
+            const imageZoomContainer = document.getElementById('image-zoom-container');
             
-            if ((modal && modal.style.display === 'flex') || 
-                (imageModal && imageModal.style.display === 'flex')) {
+            // Only handle swipe-to-close for regular modal, not when zooming images
+            if ((modal && modal.style.display === 'flex' && !imageZoomContainer) || 
+                (imageModal && imageModal.style.display === 'flex' && AppState.currentZoom <= 1)) {
                 startY = e.touches[0].clientY;
                 isSwipeGesture = false;
             }
@@ -73,8 +75,8 @@ const ModalComponent = {
             currentY = e.touches[0].clientY;
             const diffY = currentY - startY;
             
-            // Check if it's a downward swipe
-            if (diffY > 50) {
+            // Check if it's a downward swipe and not in zoom mode
+            if (diffY > 50 && AppState.currentZoom <= 1) {
                 isSwipeGesture = true;
                 
                 // Add visual feedback for swipe gesture
@@ -89,7 +91,7 @@ const ModalComponent = {
         }, { passive: true });
 
         document.addEventListener('touchend', () => {
-            if (isSwipeGesture && currentY - startY > 100) {
+            if (isSwipeGesture && currentY - startY > 100 && AppState.currentZoom <= 1) {
                 this.closeImageModal();
                 this.close();
                 this.triggerHapticFeedback('medium');
