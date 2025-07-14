@@ -1,0 +1,90 @@
+/* Modern Dark Mode CSS for Cincinnati Steel Engravings */
+:root {
+    --color-primary: #4caf50;
+    --color-primary-dark: #388e3c;
+    --color-secondary: #81c784;
+    --color-accent: #ffc107;
+    --color-river: #2196f3;
+    --color-background: #121212;
+    --color-surface: #1e1e1e;
+    --color-surface-variant: #2d2d2d;
+    --color-surface-elevated: #252525;
+    --color-text: #ffffff;
+    --color-text-secondary: #b0b0b0;
+    --color-text-disabled: #757575;
+    --color-border: #404040;
+    --color-border-light: #555555;
+    --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-family-display: 'Playfair Display', Georgia, serif;
+    --space-2: 0.5rem;
+    --space-4: 1rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --header-height: 4rem;
+    --sidebar-width: 20rem;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: var(--font-family-primary);
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-background);
+}
+
+/* Layout Components */
+.app-container {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: var(--header-height) 1fr;
+}
+
+.app-header {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-6);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.app-header h1 {
+    font-family: var(--font-family-display);
+    color: var(--color-primary);
+    font-size: 1.5rem;
+}
+
+.app-main {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    min-height: calc(100vh - var(--header-height));
+}
+
+.app-sidebar {
+    background: var(--color-surface-variant);
+    border-right: 1px solid var(--color-border);
+    padding: var(--space-6);
+    overflow-y: auto;
+}
+
+.app-content {
+    position: relative;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+/* Hide mobile menu toggle on desktop */
+.mobile-menu-toggle {
+    display: none;
+}
