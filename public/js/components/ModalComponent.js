@@ -285,9 +285,6 @@ const ModalComponent = {
             <div class="description">
                 <h3>Description</h3>
                 <p>${this.escapeHtml(engraving.description)}</p>
-                <div class="interaction-hint">
-                    <p>💡 Tap the image to view it in full size</p>
-                </div>
                 <div class="share-section">
                     <button class="share-btn" onclick="ModalComponent.shareEngraving('${engraving.id}')" title="Share this engraving">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

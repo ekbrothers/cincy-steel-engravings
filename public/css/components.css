@@ -1,6 +1,6 @@
 /* Enhanced Search Components */
 .search-section {
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-5);
 }
 
 .search-container {
@@ -159,7 +159,7 @@
 
 /* Filter Chips */
 .filter-section {
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-5);
 }
 
 .filter-chips {
@@ -332,8 +332,8 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    padding: var(--space-6);
-    margin-bottom: var(--space-4);
+    padding: var(--space-5);
+    margin-bottom: var(--space-3);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
