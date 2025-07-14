@@ -287,12 +287,13 @@
 
 .toast-icon {
     font-size: 1.2rem;
+    color: #333; /* Ensure icon is dark and readable */
 }
 
 .toast-message {
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-text);
+    color: #333; /* Ensure text is dark and readable on white background */
 }
 
 /* Share Section */
