@@ -1,6 +1,6 @@
 /**
  * ModalComponent
- * Handles modal dialogs and image viewing functionality
+ * Sophisticated modal dialogs with smooth mobile interactions and polished animations
  */
 const ModalComponent = {
     /**
@@ -8,7 +8,9 @@ const ModalComponent = {
      */
     init() {
         this.setupModalEventListeners();
-        console.log('🖼️ Modal component initialized');
+        this.setupMobileGestures();
+        this.setupSmoothAnimations();
+        console.log('🖼️ Sophisticated modal component initialized');
     },
 
     /**
@@ -35,17 +37,147 @@ const ModalComponent = {
             });
         }
 
-        // Keyboard shortcuts
+        // Enhanced keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 this.closeImageModal();
                 this.close();
+                this.triggerHapticFeedback('light');
             }
         });
     },
 
     /**
-     * Show engraving details in modal
+     * Setup mobile gesture handling
+     */
+    setupMobileGestures() {
+        // Swipe down to close modal on mobile
+        let startY = 0;
+        let currentY = 0;
+        let isSwipeGesture = false;
+
+        document.addEventListener('touchstart', (e) => {
+            const modal = document.getElementById('engraving-modal');
+            const imageModal = document.getElementById('image-modal');
+            
+            if ((modal && modal.style.display === 'flex') || 
+                (imageModal && imageModal.style.display === 'flex')) {
+                startY = e.touches[0].clientY;
+                isSwipeGesture = false;
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!startY) return;
+            
+            currentY = e.touches[0].clientY;
+            const diffY = currentY - startY;
+            
+            // Check if it's a downward swipe
+            if (diffY > 50) {
+                isSwipeGesture = true;
+                
+                // Add visual feedback for swipe gesture
+                const modalContent = document.querySelector('.modal-content');
+                if (modalContent && diffY < 200) {
+                    const opacity = Math.max(0.3, 1 - (diffY / 300));
+                    const scale = Math.max(0.9, 1 - (diffY / 1000));
+                    modalContent.style.transform = `translateY(${diffY * 0.5}px) scale(${scale})`;
+                    modalContent.style.opacity = opacity;
+                }
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchend', () => {
+            if (isSwipeGesture && currentY - startY > 100) {
+                this.closeImageModal();
+                this.close();
+                this.triggerHapticFeedback('medium');
+            } else {
+                // Reset modal position if swipe wasn't enough
+                const modalContent = document.querySelector('.modal-content');
+                if (modalContent) {
+                    modalContent.style.transform = '';
+                    modalContent.style.opacity = '';
+                }
+            }
+            
+            startY = 0;
+            currentY = 0;
+            isSwipeGesture = false;
+        }, { passive: true });
+    },
+
+    /**
+     * Setup smooth animations
+     */
+    setupSmoothAnimations() {
+        // Add CSS for smooth modal animations if not already present
+        if (!document.querySelector('#modal-animations')) {
+            const style = document.createElement('style');
+            style.id = 'modal-animations';
+            style.textContent = `
+                .modal {
+                    transition: opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+                }
+                
+                .modal-content {
+                    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), 
+                               opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+                }
+                
+                .engraving-img {
+                    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+                    cursor: pointer;
+                }
+                
+                .engraving-img:hover {
+                    transform: scale(1.02);
+                }
+                
+                .engraving-img:active {
+                    transform: scale(0.98);
+                }
+                
+                .loading-spinner {
+                    animation: spin 1s linear infinite;
+                }
+                
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                
+                .image-placeholder {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 300px;
+                    background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+                    border-radius: var(--radius-xl);
+                    animation: shimmer 2s ease-in-out infinite;
+                }
+                
+                @keyframes shimmer {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.7; }
+                }
+                
+                .metadata-item {
+                    transition: background-color 0.2s ease, transform 0.2s ease;
+                }
+                
+                .metadata-item:hover {
+                    background-color: rgba(0, 0, 0, 0.04);
+                    transform: translateY(-1px);
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    },
+
+    /**
+     * Show engraving details in modal with enhanced animations
      * @param {string} engravingId - Engraving ID
      */
     showEngravingDetails(engravingId) {
@@ -65,16 +197,26 @@ const ModalComponent = {
 
         const imageSrc = DataLoader.getImageSrc(engraving.id);
         
-        // Show modal with loading state first
+        // Show modal with enhanced entrance animation
         modalBody.innerHTML = this.createLoadingState(engraving);
         modal.style.display = 'flex';
+        modal.classList.add('fade-in');
+        
+        // Trigger haptic feedback
+        this.triggerHapticFeedback('light');
         
         // Load image and replace placeholder
         this.loadImageAsync(imageSrc, engraving, modalBody);
+        
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+        
+        // Announce to screen readers
+        this.announceToScreenReader(`Viewing details for ${engraving.title}`);
     },
 
     /**
-     * Create loading state HTML
+     * Create enhanced loading state HTML
      * @param {Object} engraving - Engraving metadata object
      * @returns {string} Loading state HTML
      */
@@ -83,12 +225,12 @@ const ModalComponent = {
         
         return `
             <div class="engraving-details">
-                <div>
+                <div class="engraving-image">
                     <div class="image-placeholder">
                         <div class="loading-spinner"></div>
                     </div>
                 </div>
-                <div>
+                <div class="engraving-info">
                     ${this.createMetadataSection(engraving, artist)}
                 </div>
             </div>
@@ -96,48 +238,52 @@ const ModalComponent = {
     },
 
     /**
-     * Create metadata section HTML
+     * Create enhanced metadata section HTML
      * @param {Object} engraving - Engraving metadata object
      * @param {string} artist - Artist name
      * @returns {string} Metadata HTML
      */
     createMetadataSection(engraving, artist) {
         return `
-            <h2 style="font-family: var(--font-family-display); color: var(--color-primary); margin-bottom: 1.5rem;">
-                ${this.escapeHtml(engraving.title)}
-            </h2>
+            <h2>${this.escapeHtml(engraving.title)}</h2>
             <div class="metadata-grid">
                 <div class="metadata-item">
-                    <strong>Artist:</strong> ${this.escapeHtml(artist)}
+                    <strong>Artist</strong>
+                    <span>${this.escapeHtml(artist)}</span>
                 </div>
                 <div class="metadata-item">
-                    <strong>Publisher:</strong> ${this.escapeHtml(engraving.creator.publisher || 'Unknown')}
+                    <strong>Publisher</strong>
+                    <span>${this.escapeHtml(engraving.creator.publisher || 'Unknown')}</span>
                 </div>
                 <div class="metadata-item">
-                    <strong>Created:</strong> ${this.escapeHtml(engraving.dates.created)}
+                    <strong>Created</strong>
+                    <span>${this.escapeHtml(engraving.dates.created)}</span>
                 </div>
                 <div class="metadata-item">
-                    <strong>Published:</strong> ${this.escapeHtml(engraving.dates.published || engraving.dates.created)}
+                    <strong>Published</strong>
+                    <span>${this.escapeHtml(engraving.dates.published || engraving.dates.created)}</span>
                 </div>
                 <div class="metadata-item">
-                    <strong>Location:</strong> ${this.escapeHtml(engraving.location.neighborhood)}
+                    <strong>Location</strong>
+                    <span>${this.escapeHtml(engraving.location.neighborhood)}</span>
                 </div>
                 <div class="metadata-item">
-                    <strong>Viewpoint:</strong> ${this.escapeHtml(engraving.location.viewpoint.description)}
+                    <strong>Viewpoint</strong>
+                    <span>${this.escapeHtml(engraving.location.viewpoint.description)}</span>
                 </div>
             </div>
-            <div style="border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
-                <h3 style="margin-bottom: 1rem;">Description</h3>
-                <p style="line-height: 1.7;">${this.escapeHtml(engraving.description)}</p>
-                <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-secondary); font-style: italic;">
-                    💡 Click the image above to view it in full size
-                </p>
+            <div class="description">
+                <h3>Description</h3>
+                <p>${this.escapeHtml(engraving.description)}</p>
+                <div class="interaction-hint">
+                    <p>💡 Tap the image to view it in full size</p>
+                </div>
             </div>
         `;
     },
 
     /**
-     * Load image asynchronously and update modal
+     * Load image asynchronously with enhanced animations
      * @param {string} imageSrc - Image source URL
      * @param {Object} engraving - Engraving metadata object
      * @param {HTMLElement} modalBody - Modal body element
@@ -147,20 +293,32 @@ const ModalComponent = {
         
         img.onload = () => {
             const imageContainer = modalBody.querySelector('.image-placeholder').parentElement;
+            
+            // Create image with smooth fade-in
             imageContainer.innerHTML = `
                 <img src="${imageSrc}" 
                      alt="${this.escapeHtml(engraving.title)}" 
                      class="engraving-img" 
                      onclick="ModalComponent.showFullScreenImage('${imageSrc}', '${this.escapeHtml(engraving.title)}')"
-                     title="Click to view full size" />
+                     title="Tap to view full size"
+                     style="opacity: 0; transform: scale(0.95);" />
             `;
+            
+            // Animate image entrance
+            const newImg = imageContainer.querySelector('.engraving-img');
+            setTimeout(() => {
+                newImg.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                newImg.style.opacity = '1';
+                newImg.style.transform = 'scale(1)';
+            }, 100);
         };
         
         img.onerror = () => {
             const imageContainer = modalBody.querySelector('.image-placeholder').parentElement;
             imageContainer.innerHTML = `
-                <div style="padding: 2rem; text-align: center; color: var(--color-text-secondary);">
-                    <p>📷 Image not available</p>
+                <div class="image-error">
+                    <div class="error-icon">📷</div>
+                    <p>Image not available</p>
                 </div>
             `;
         };
@@ -169,7 +327,7 @@ const ModalComponent = {
     },
 
     /**
-     * Show full-screen image modal
+     * Show full-screen image modal with enhanced mobile experience
      * @param {string} imageSrc - Image source URL
      * @param {string} title - Image title
      */
@@ -183,6 +341,8 @@ const ModalComponent = {
             return;
         }
 
+        // Set image with loading state
+        imageModalImg.style.opacity = '0';
         imageModalImg.src = imageSrc;
         imageModalImg.alt = title;
         
@@ -192,52 +352,86 @@ const ModalComponent = {
         
         imageModal.style.display = 'flex';
         
+        // Trigger haptic feedback
+        this.triggerHapticFeedback('medium');
+        
         // Reset zoom state
         this.resetZoom();
         
-        // Setup image interaction after modal is shown
+        // Animate image entrance
+        imageModalImg.onload = () => {
+            imageModalImg.style.transition = 'opacity 0.3s ease';
+            imageModalImg.style.opacity = '1';
+        };
+        
+        // Setup enhanced image interaction
         setTimeout(() => {
             this.setupImageInteraction();
         }, 100);
+        
+        // Announce to screen readers
+        this.announceToScreenReader(`Viewing full size image: ${title}`);
     },
 
     /**
-     * Close engraving details modal
+     * Close engraving details modal with smooth animation
      */
     close() {
         const modal = document.getElementById('engraving-modal');
         if (modal) {
-            modal.style.display = 'none';
+            modal.classList.remove('fade-in');
+            modal.classList.add('fade-out');
+            
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.classList.remove('fade-out');
+            }, 300);
         }
         
-        // Close any open Leaflet popups to prevent the annoying info box
+        // Restore body scroll
+        document.body.style.overflow = '';
+        
+        // Close any open Leaflet popups
         if (AppState.map) {
             AppState.map.closePopup();
         }
+        
+        // Trigger haptic feedback
+        this.triggerHapticFeedback('light');
     },
 
     /**
-     * Close full-screen image modal
+     * Close full-screen image modal with smooth animation
      */
     closeImageModal() {
         const imageModal = document.getElementById('image-modal');
         if (imageModal) {
-            imageModal.style.display = 'none';
+            imageModal.style.opacity = '0';
+            
+            setTimeout(() => {
+                imageModal.style.display = 'none';
+                imageModal.style.opacity = '';
+            }, 300);
         }
+        
         // Reset zoom when closing
         this.resetZoom();
+        
+        // Trigger haptic feedback
+        this.triggerHapticFeedback('light');
     },
 
     /**
-     * Zoom in on image
+     * Enhanced zoom in with smooth animation
      */
     zoomIn() {
         AppState.currentZoom = Math.min(AppState.currentZoom * 1.5, 5);
         this.updateImageTransform();
+        this.triggerHapticFeedback('light');
     },
 
     /**
-     * Zoom out on image
+     * Enhanced zoom out with smooth animation
      */
     zoomOut() {
         AppState.currentZoom = Math.max(AppState.currentZoom / 1.5, 1);
@@ -246,10 +440,11 @@ const ModalComponent = {
             AppState.translateY = 0;
         }
         this.updateImageTransform();
+        this.triggerHapticFeedback('light');
     },
 
     /**
-     * Reset zoom to default
+     * Reset zoom with smooth animation
      */
     resetZoom() {
         AppState.currentZoom = 1;
@@ -259,17 +454,24 @@ const ModalComponent = {
     },
 
     /**
-     * Update image transform based on zoom and translation
+     * Update image transform with smooth animation
      */
     updateImageTransform() {
         const img = document.getElementById('image-modal-img');
         if (img) {
+            img.style.transition = 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
             img.style.transform = `scale(${AppState.currentZoom}) translate(${AppState.translateX}px, ${AppState.translateY}px)`;
+            
+            // Update cursor based on zoom level
+            const container = document.getElementById('image-zoom-container');
+            if (container) {
+                container.style.cursor = AppState.currentZoom > 1 ? 'grab' : 'zoom-in';
+            }
         }
     },
 
     /**
-     * Setup image interaction (drag and zoom)
+     * Setup enhanced image interaction with mobile gestures
      */
     setupImageInteraction() {
         const container = document.getElementById('image-zoom-container');
@@ -279,23 +481,99 @@ const ModalComponent = {
         container.replaceWith(container.cloneNode(true));
         const newContainer = document.getElementById('image-zoom-container');
 
-        // Mouse events
+        // Enhanced mouse events
         newContainer.addEventListener('mousedown', (e) => this.startDrag(e));
         newContainer.addEventListener('mousemove', (e) => this.drag(e));
         newContainer.addEventListener('mouseup', () => this.endDrag());
         newContainer.addEventListener('mouseleave', () => this.endDrag());
 
-        // Touch events
+        // Enhanced touch events with pinch-to-zoom
         newContainer.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
         newContainer.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: false });
         newContainer.addEventListener('touchend', () => this.handleTouchEnd());
 
-        // Wheel zoom
+        // Enhanced wheel zoom
         newContainer.addEventListener('wheel', (e) => this.handleWheel(e), { passive: false });
+
+        // Double-tap to zoom
+        let lastTap = 0;
+        newContainer.addEventListener('touchend', (e) => {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
+            
+            if (tapLength < 500 && tapLength > 0) {
+                e.preventDefault();
+                if (AppState.currentZoom === 1) {
+                    AppState.currentZoom = 2;
+                } else {
+                    this.resetZoom();
+                }
+                this.updateImageTransform();
+                this.triggerHapticFeedback('medium');
+            }
+            
+            lastTap = currentTime;
+        });
     },
 
     /**
-     * Start drag operation
+     * Enhanced touch start with pinch detection
+     * @param {Event} e - Touch event
+     */
+    handleTouchStart(e) {
+        if (e.touches.length === 1 && AppState.currentZoom > 1) {
+            const touch = e.touches[0];
+            this.startDrag({ clientX: touch.clientX, clientY: touch.clientY });
+        } else if (e.touches.length === 2) {
+            // Pinch-to-zoom start
+            const touch1 = e.touches[0];
+            const touch2 = e.touches[1];
+            AppState.initialPinchDistance = Math.hypot(
+                touch2.clientX - touch1.clientX,
+                touch2.clientY - touch1.clientY
+            );
+            AppState.initialZoom = AppState.currentZoom;
+        }
+    },
+
+    /**
+     * Enhanced touch move with pinch-to-zoom
+     * @param {Event} e - Touch event
+     */
+    handleTouchMove(e) {
+        if (e.touches.length === 1 && AppState.isDragging) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            this.drag({ clientX: touch.clientX, clientY: touch.clientY, preventDefault: () => {} });
+        } else if (e.touches.length === 2) {
+            e.preventDefault();
+            // Pinch-to-zoom
+            const touch1 = e.touches[0];
+            const touch2 = e.touches[1];
+            const currentDistance = Math.hypot(
+                touch2.clientX - touch1.clientX,
+                touch2.clientY - touch1.clientY
+            );
+            
+            if (AppState.initialPinchDistance > 0) {
+                const scale = currentDistance / AppState.initialPinchDistance;
+                AppState.currentZoom = Math.max(1, Math.min(5, AppState.initialZoom * scale));
+                this.updateImageTransform();
+            }
+        }
+    },
+
+    /**
+     * Enhanced touch end
+     */
+    handleTouchEnd() {
+        this.endDrag();
+        AppState.initialPinchDistance = 0;
+        AppState.initialZoom = 1;
+    },
+
+    /**
+     * Start drag operation with enhanced feedback
      * @param {Event} e - Mouse event
      */
     startDrag(e) {
@@ -312,7 +590,7 @@ const ModalComponent = {
     },
 
     /**
-     * Handle drag operation
+     * Handle drag operation with smooth movement
      * @param {Event} e - Mouse event
      */
     drag(e) {
@@ -320,53 +598,36 @@ const ModalComponent = {
             e.preventDefault();
             AppState.translateX = e.clientX - AppState.startX;
             AppState.translateY = e.clientY - AppState.startY;
+            
+            // Remove transition during drag for smooth movement
+            const img = document.getElementById('image-modal-img');
+            if (img) {
+                img.style.transition = 'none';
+            }
+            
             this.updateImageTransform();
         }
     },
 
     /**
-     * End drag operation
+     * End drag operation with smooth restoration
      */
     endDrag() {
         AppState.isDragging = false;
         const container = document.getElementById('image-zoom-container');
+        const img = document.getElementById('image-modal-img');
+        
         if (container) {
-            container.style.cursor = AppState.currentZoom > 1 ? 'grab' : 'default';
+            container.style.cursor = AppState.currentZoom > 1 ? 'grab' : 'zoom-in';
+        }
+        
+        if (img) {
+            img.style.transition = 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
         }
     },
 
     /**
-     * Handle touch start
-     * @param {Event} e - Touch event
-     */
-    handleTouchStart(e) {
-        if (e.touches.length === 1 && AppState.currentZoom > 1) {
-            const touch = e.touches[0];
-            this.startDrag({ clientX: touch.clientX, clientY: touch.clientY });
-        }
-    },
-
-    /**
-     * Handle touch move
-     * @param {Event} e - Touch event
-     */
-    handleTouchMove(e) {
-        if (e.touches.length === 1 && AppState.isDragging) {
-            e.preventDefault();
-            const touch = e.touches[0];
-            this.drag({ clientX: touch.clientX, clientY: touch.clientY, preventDefault: () => {} });
-        }
-    },
-
-    /**
-     * Handle touch end
-     */
-    handleTouchEnd() {
-        this.endDrag();
-    },
-
-    /**
-     * Handle wheel zoom
+     * Handle wheel zoom with smooth animation
      * @param {Event} e - Wheel event
      */
     handleWheel(e) {
@@ -376,6 +637,40 @@ const ModalComponent = {
         } else {
             this.zoomOut();
         }
+    },
+
+    /**
+     * Trigger haptic feedback
+     */
+    triggerHapticFeedback(intensity = 'light') {
+        if ('vibrate' in navigator) {
+            const patterns = {
+                light: [10],
+                medium: [20],
+                heavy: [30]
+            };
+            
+            if (patterns[intensity]) {
+                navigator.vibrate(patterns[intensity]);
+            }
+        }
+    },
+
+    /**
+     * Announce to screen readers for accessibility
+     */
+    announceToScreenReader(message) {
+        const announcement = document.createElement('div');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.setAttribute('aria-atomic', 'true');
+        announcement.className = 'sr-only';
+        announcement.textContent = message;
+        
+        document.body.appendChild(announcement);
+        
+        setTimeout(() => {
+            document.body.removeChild(announcement);
+        }, 1000);
     },
 
     /**
