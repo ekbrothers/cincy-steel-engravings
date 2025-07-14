@@ -257,5 +257,402 @@ function showError(message) {
     }, 5000);
 }
 
+// UI State Management
+const UIState = {
+    sidebarCollapsed: false,
+    currentView: 'grid',
+    recentlyViewed: JSON.parse(localStorage.getItem('recentlyViewed') || '[]'),
+    searchSuggestions: []
+};
+
+// Keyboard Shortcuts
+function initKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+        // Ignore if user is typing in an input
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            if (e.key === 'Escape') {
+                e.target.blur();
+                hideSearchSuggestions();
+            }
+            return;
+        }
+
+        switch (e.key) {
+            case '/':
+                e.preventDefault();
+                focusSearch();
+                break;
+            case '?':
+                e.preventDefault();
+                showKeyboardShortcuts();
+                break;
+            case 'Escape':
+                e.preventDefault();
+                hideKeyboardShortcuts();
+                ModalComponent.closeImageModal();
+                ModalComponent.close();
+                break;
+            case 'ArrowLeft':
+                if (e.ctrlKey || e.metaKey) {
+                    e.preventDefault();
+                    navigateEngravings('prev');
+                }
+                break;
+            case 'ArrowRight':
+                if (e.ctrlKey || e.metaKey) {
+                    e.preventDefault();
+                    navigateEngravings('next');
+                }
+                break;
+        }
+    });
+}
+
+// Sidebar Management
+function toggleSidebar() {
+    const sidebar = document.getElementById('app-sidebar');
+    const main = document.querySelector('.app-main');
+    
+    UIState.sidebarCollapsed = !UIState.sidebarCollapsed;
+    
+    if (UIState.sidebarCollapsed) {
+        main.classList.add('sidebar-collapsed');
+        sidebar.style.transform = 'translateX(-100%)';
+    } else {
+        main.classList.remove('sidebar-collapsed');
+        sidebar.style.transform = 'translateX(0)';
+    }
+    
+    // Save state
+    localStorage.setItem('sidebarCollapsed', UIState.sidebarCollapsed);
+}
+
+// View Mode Management
+function toggleViewMode() {
+    const engravingsList = document.getElementById('engravings-list');
+    const viewBtns = document.querySelectorAll('.view-btn');
+    
+    UIState.currentView = UIState.currentView === 'grid' ? 'list' : 'grid';
+    
+    // Update UI
+    engravingsList.className = `engravings-${UIState.currentView}`;
+    
+    viewBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.view === UIState.currentView);
+    });
+    
+    // Re-render list with new view
+    ListComponent.render();
+    
+    // Save state
+    localStorage.setItem('viewMode', UIState.currentView);
+}
+
+// Search Functionality
+function focusSearch() {
+    const searchInput = document.getElementById('search-input');
+    searchInput.focus();
+    searchInput.select();
+}
+
+function hideSearchSuggestions() {
+    const suggestions = document.getElementById('search-suggestions');
+    suggestions.classList.remove('show');
+}
+
+function showSearchSuggestions(query) {
+    if (!query || query.length < 2) {
+        hideSearchSuggestions();
+        return;
+    }
+    
+    const suggestions = generateSearchSuggestions(query);
+    const suggestionsEl = document.getElementById('search-suggestions');
+    
+    if (suggestions.length === 0) {
+        hideSearchSuggestions();
+        return;
+    }
+    
+    suggestionsEl.innerHTML = suggestions.map(suggestion => 
+        `<div class="suggestion-item" onclick="selectSuggestion('${suggestion}')">${suggestion}</div>`
+    ).join('');
+    
+    suggestionsEl.classList.add('show');
+}
+
+function generateSearchSuggestions(query) {
+    const suggestions = new Set();
+    const lowerQuery = query.toLowerCase();
+    
+    AppState.engravingsData.forEach(engraving => {
+        // Title suggestions
+        if (engraving.title.toLowerCase().includes(lowerQuery)) {
+            suggestions.add(engraving.title);
+        }
+        
+        // Artist suggestions
+        const artist = DataLoader.getArtistName(engraving.creator);
+        if (artist.toLowerCase().includes(lowerQuery)) {
+            suggestions.add(artist);
+        }
+        
+        // Location suggestions
+        if (engraving.location.neighborhood.toLowerCase().includes(lowerQuery)) {
+            suggestions.add(engraving.location.neighborhood);
+        }
+    });
+    
+    return Array.from(suggestions).slice(0, 5);
+}
+
+function selectSuggestion(suggestion) {
+    const searchInput = document.getElementById('search-input');
+    searchInput.value = suggestion;
+    hideSearchSuggestions();
+    SearchComponent.performSearch(suggestion);
+}
+
+// Recently Viewed Management
+function addToRecentlyViewed(engravingId) {
+    const engraving = AppState.engravingsData.find(e => e.id === engravingId);
+    if (!engraving) return;
+    
+    // Remove if already exists
+    UIState.recentlyViewed = UIState.recentlyViewed.filter(item => item.id !== engravingId);
+    
+    // Add to beginning
+    UIState.recentlyViewed.unshift({
+        id: engravingId,
+        title: engraving.title,
+        timestamp: Date.now()
+    });
+    
+    // Keep only last 5
+    UIState.recentlyViewed = UIState.recentlyViewed.slice(0, 5);
+    
+    // Save to localStorage
+    localStorage.setItem('recentlyViewed', JSON.stringify(UIState.recentlyViewed));
+    
+    // Update UI
+    updateRecentlyViewedUI();
+}
+
+function updateRecentlyViewedUI() {
+    const recentSection = document.getElementById('recently-viewed');
+    const recentItems = document.getElementById('recent-items');
+    
+    if (UIState.recentlyViewed.length === 0) {
+        recentSection.style.display = 'none';
+        return;
+    }
+    
+    recentSection.style.display = 'block';
+    
+    recentItems.innerHTML = UIState.recentlyViewed.map(item => {
+        const timeAgo = getTimeAgo(item.timestamp);
+        return `
+            <div class="recent-item" onclick="openRecentItem('${item.id}')">
+                <div class="recent-item-thumb">📷</div>
+                <div class="recent-item-info">
+                    <div class="recent-item-title">${toTitleCase(item.title)}</div>
+                    <div class="recent-item-time">${timeAgo}</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function openRecentItem(engravingId) {
+    ModalComponent.showEngravingDetails(engravingId);
+    const engraving = AppState.engravingsData.find(e => e.id === engravingId);
+    if (engraving) {
+        MapComponent.focusOnEngraving(engraving);
+    }
+}
+
+function clearRecentlyViewed() {
+    UIState.recentlyViewed = [];
+    localStorage.removeItem('recentlyViewed');
+    updateRecentlyViewedUI();
+    showToast('Recently viewed cleared', 'info');
+}
+
+function getTimeAgo(timestamp) {
+    const now = Date.now();
+    const diff = now - timestamp;
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
+    
+    if (minutes < 1) return 'Just now';
+    if (minutes < 60) return `${minutes}m ago`;
+    if (hours < 24) return `${hours}h ago`;
+    return `${days}d ago`;
+}
+
+// Keyboard Shortcuts Overlay
+function showKeyboardShortcuts() {
+    const overlay = document.getElementById('shortcuts-overlay');
+    overlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function hideKeyboardShortcuts() {
+    const overlay = document.getElementById('shortcuts-overlay');
+    overlay.classList.remove('show');
+    document.body.style.overflow = '';
+}
+
+// Navigation between engravings
+function navigateEngravings(direction) {
+    const currentModal = document.getElementById('engraving-modal');
+    if (currentModal.style.display !== 'flex') return;
+    
+    const currentId = getCurrentEngravingId();
+    if (!currentId) return;
+    
+    const currentIndex = AppState.filteredEngravings.findIndex(e => e.id === currentId);
+    if (currentIndex === -1) return;
+    
+    let nextIndex;
+    if (direction === 'next') {
+        nextIndex = (currentIndex + 1) % AppState.filteredEngravings.length;
+    } else {
+        nextIndex = currentIndex === 0 ? AppState.filteredEngravings.length - 1 : currentIndex - 1;
+    }
+    
+    const nextEngraving = AppState.filteredEngravings[nextIndex];
+    ModalComponent.showEngravingDetails(nextEngraving.id);
+    MapComponent.focusOnEngraving(nextEngraving);
+}
+
+function getCurrentEngravingId() {
+    // Extract from modal content or URL hash
+    const hash = window.location.hash;
+    if (hash.startsWith('#engraving/')) {
+        return hash.replace('#engraving/', '');
+    }
+    return null;
+}
+
+// Filter Chips Management
+function initFilterChips() {
+    const filterChips = document.querySelectorAll('.filter-chip');
+    filterChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            // Remove active from all chips
+            filterChips.forEach(c => c.classList.remove('active'));
+            // Add active to clicked chip
+            chip.classList.add('active');
+            
+            // Update map layer
+            const layer = chip.dataset.layer;
+            if (typeof MapComponent !== 'undefined' && MapComponent.switchLayer) {
+                MapComponent.switchLayer(layer);
+            }
+        });
+    });
+}
+
+// View Toggle Management
+function initViewToggle() {
+    const viewBtns = document.querySelectorAll('.view-btn');
+    viewBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            viewBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            UIState.currentView = btn.dataset.view;
+            const engravingsList = document.getElementById('engravings-list');
+            engravingsList.className = `engravings-${UIState.currentView}`;
+            
+            ListComponent.render();
+            localStorage.setItem('viewMode', UIState.currentView);
+        });
+    });
+}
+
+// Enhanced Search Input
+function initEnhancedSearch() {
+    const searchInput = document.getElementById('search-input');
+    const searchClear = document.getElementById('search-clear');
+    
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        
+        // Show/hide clear button
+        if (query) {
+            searchClear.style.display = 'flex';
+            showSearchSuggestions(query);
+        } else {
+            searchClear.style.display = 'none';
+            hideSearchSuggestions();
+        }
+        
+        // Perform search
+        SearchComponent.performSearch(query);
+    });
+    
+    searchInput.addEventListener('blur', () => {
+        // Delay hiding suggestions to allow clicks
+        setTimeout(hideSearchSuggestions, 200);
+    });
+    
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            searchInput.blur();
+            hideSearchSuggestions();
+        }
+    });
+}
+
+// Load UI State from localStorage
+function loadUIState() {
+    // Load sidebar state
+    const savedSidebarState = localStorage.getItem('sidebarCollapsed');
+    if (savedSidebarState === 'true') {
+        UIState.sidebarCollapsed = true;
+        toggleSidebar();
+    }
+    
+    // Load view mode
+    const savedViewMode = localStorage.getItem('viewMode');
+    if (savedViewMode) {
+        UIState.currentView = savedViewMode;
+        const engravingsList = document.getElementById('engravings-list');
+        engravingsList.className = `engravings-${UIState.currentView}`;
+        
+        const viewBtns = document.querySelectorAll('.view-btn');
+        viewBtns.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.view === UIState.currentView);
+        });
+    }
+    
+    // Load recently viewed
+    updateRecentlyViewedUI();
+}
+
+// Initialize all UI enhancements
+function initUIEnhancements() {
+    initKeyboardShortcuts();
+    initFilterChips();
+    initViewToggle();
+    initEnhancedSearch();
+    loadUIState();
+    
+    // Update total engravings count
+    const totalEl = document.getElementById('total-engravings');
+    if (totalEl) {
+        totalEl.textContent = AppState.engravingsData.length;
+    }
+    
+    console.log('🎨 UI enhancements initialized');
+}
+
 // Initialize app when DOM is loaded
-document.addEventListener('DOMContentLoaded', initApp);
+document.addEventListener('DOMContentLoaded', () => {
+    initApp().then(() => {
+        initUIEnhancements();
+    });
+});

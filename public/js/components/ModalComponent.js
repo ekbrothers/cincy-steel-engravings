@@ -204,6 +204,14 @@ const ModalComponent = {
         modal.style.display = 'flex';
         modal.classList.add('fade-in');
         
+        // Update URL hash for deep linking
+        window.history.pushState(null, null, `#engraving/${engravingId}`);
+        
+        // Add to recently viewed
+        if (typeof addToRecentlyViewed === 'function') {
+            addToRecentlyViewed(engravingId);
+        }
+        
         // Trigger haptic feedback
         this.triggerHapticFeedback('light');
         
