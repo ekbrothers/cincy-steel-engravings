@@ -91,18 +91,7 @@ const MapComponent = {
                 iconAnchor: [20, 40]
             });
             
-            const artist = DataLoader.getArtistName(engraving.creator);
             const marker = L.marker([lat, lng], { icon: customIcon })
-                .bindPopup(`
-                    <div style="padding: 8px;">
-                        <h4 style="margin-bottom: 8px; color: var(--color-primary);">${engraving.title}</h4>
-                        <p><strong>Artist:</strong> ${artist}</p>
-                        <p><strong>Year:</strong> ${engraving.dates.created}</p>
-                        <button onclick="ModalComponent.showEngravingDetails('${engraving.id}')" style="margin-top: 8px; padding: 4px 8px; background: var(--color-primary); color: white; border: none; border-radius: 4px; cursor: pointer;">
-                            View Details
-                        </button>
-                    </div>
-                `)
                 .on('click', () => {
                     ModalComponent.showEngravingDetails(engraving.id);
                 });
