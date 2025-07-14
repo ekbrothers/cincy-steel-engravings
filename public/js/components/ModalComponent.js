@@ -247,7 +247,7 @@ const ModalComponent = {
      */
     createMetadataSection(engraving, artist) {
         return `
-            <h2>${this.escapeHtml(engraving.title)}</h2>
+            <h2>${this.escapeHtml(toTitleCase(engraving.title))}</h2>
             <div class="metadata-grid">
                 <div class="metadata-item">
                     <strong>Artist</strong>
@@ -440,7 +440,7 @@ const ModalComponent = {
      */
     zoomIn() {
         AppState.currentZoom = Math.min(AppState.currentZoom * 1.5, 5);
-        this.updateImageTransform();
+        this.updateImageTransformSmooth();
         this.triggerHapticFeedback('light');
     },
 
@@ -453,7 +453,7 @@ const ModalComponent = {
             AppState.translateX = 0;
             AppState.translateY = 0;
         }
-        this.updateImageTransform();
+        this.updateImageTransformSmooth();
         this.triggerHapticFeedback('light');
     },
 
@@ -464,23 +464,40 @@ const ModalComponent = {
         AppState.currentZoom = 1;
         AppState.translateX = 0;
         AppState.translateY = 0;
-        this.updateImageTransform();
+        this.updateImageTransformSmooth();
     },
 
     /**
-     * Update image transform with smooth animation
+     * Update image transform with optimized performance
      */
     updateImageTransform() {
         const img = document.getElementById('image-modal-img');
         if (img) {
-            img.style.transition = 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
-            img.style.transform = `scale(${AppState.currentZoom}) translate(${AppState.translateX}px, ${AppState.translateY}px)`;
+            // Use transform3d for hardware acceleration and better performance
+            const transform = `translate3d(${AppState.translateX}px, ${AppState.translateY}px, 0) scale(${AppState.currentZoom})`;
+            img.style.transform = transform;
             
             // Update cursor based on zoom level
             const container = document.getElementById('image-zoom-container');
             if (container) {
                 container.style.cursor = AppState.currentZoom > 1 ? 'grab' : 'zoom-in';
             }
+        }
+    },
+
+    /**
+     * Update image transform with smooth transition (for zoom buttons)
+     */
+    updateImageTransformSmooth() {
+        const img = document.getElementById('image-modal-img');
+        if (img) {
+            img.style.transition = 'transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            this.updateImageTransform();
+            
+            // Remove transition after animation for better drag performance
+            setTimeout(() => {
+                if (img) img.style.transition = 'none';
+            }, 200);
         }
     },
 

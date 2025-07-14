@@ -149,6 +149,33 @@ function generateShareUrl(engravingId) {
 }
 
 /**
+ * Convert text to title case
+ * @param {string} text - Text to convert
+ * @returns {string} Title case text
+ */
+function toTitleCase(text) {
+    if (!text) return '';
+    
+    // Words that should remain lowercase (articles, prepositions, conjunctions)
+    const lowercaseWords = ['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'if', 'in', 'nor', 'of', 'on', 'or', 'so', 'the', 'to', 'up', 'yet'];
+    
+    return text.toLowerCase().split(' ').map((word, index) => {
+        // Always capitalize first and last word
+        if (index === 0 || index === text.split(' ').length - 1) {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+        }
+        
+        // Keep certain words lowercase unless they're the first/last word
+        if (lowercaseWords.includes(word)) {
+            return word;
+        }
+        
+        // Capitalize other words
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(' ');
+}
+
+/**
  * Copy text to clipboard with fallback
  * @param {string} text - Text to copy
  * @returns {Promise<boolean>} Success status

@@ -55,7 +55,7 @@ const ListComponent = {
         const description = this.truncateText(engraving.description, 100);
 
         card.innerHTML = `
-            <div class="card-title">${this.escapeHtml(engraving.title)}</div>
+            <div class="card-title">${this.escapeHtml(toTitleCase(engraving.title))}</div>
             <div class="card-subtitle">${this.escapeHtml(year)} • ${this.escapeHtml(artist)}</div>
             <p><strong>Location:</strong> ${this.escapeHtml(neighborhood)}</p>
             <p>${this.escapeHtml(description)}</p>
