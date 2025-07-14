@@ -447,6 +447,11 @@ function updateRecentlyViewedUI() {
     const recentSection = document.getElementById('recently-viewed');
     const recentItems = document.getElementById('recent-items');
     
+    // Check if elements exist (they might not be in all versions)
+    if (!recentSection || !recentItems) {
+        return;
+    }
+    
     if (UIState.recentlyViewed.length === 0) {
         recentSection.style.display = 'none';
         return;
