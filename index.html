@@ -766,11 +766,12 @@
                     iconAnchor: [20, 40]
                 });
                 
+                const artist = engraving.creator.artist || engraving.creator.engraver || 'Unknown';
                 const marker = L.marker([lat, lng], { icon: customIcon })
                     .bindPopup(`
                         <div style="padding: 8px;">
                             <h4 style="margin-bottom: 8px; color: var(--color-primary);">${engraving.title}</h4>
-                            <p><strong>Artist:</strong> ${engraving.creator.engraver}</p>
+                            <p><strong>Artist:</strong> ${artist}</p>
                             <p><strong>Year:</strong> ${engraving.dates.created}</p>
                             <button onclick="showEngravingDetails('${engraving.id}')" style="margin-top: 8px; padding: 4px 8px; background: var(--color-primary); color: white; border: none; border-radius: 4px; cursor: pointer;">
                                 View Details
@@ -793,11 +794,12 @@
             listContainer.innerHTML = '';
             
             filteredEngravings.forEach(engraving => {
+                const artist = engraving.creator.artist || engraving.creator.engraver || 'Unknown';
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `
                     <div class="card-title">${engraving.title}</div>
-                    <div class="card-subtitle">${engraving.dates.created} • ${engraving.creator.engraver}</div>
+                    <div class="card-subtitle">${engraving.dates.created} • ${artist}</div>
                     <p><strong>Location:</strong> ${engraving.location.neighborhood}</p>
                     <p>${engraving.description.substring(0, 100)}...</p>
                 `;
@@ -835,16 +837,16 @@
                         <h2 style="font-family: var(--font-family-display); color: var(--color-primary); margin-bottom: 1.5rem;">${engraving.title}</h2>
                         <div class="metadata-grid">
                             <div class="metadata-item">
-                                <strong>Artist:</strong> ${engraving.creator.engraver}
+                                <strong>Artist:</strong> ${engraving.creator.artist || engraving.creator.engraver || 'Unknown'}
                             </div>
                             <div class="metadata-item">
-                                <strong>Publisher:</strong> ${engraving.creator.publisher}
+                                <strong>Publisher:</strong> ${engraving.creator.publisher || 'Unknown'}
                             </div>
                             <div class="metadata-item">
                                 <strong>Created:</strong> ${engraving.dates.created}
                             </div>
                             <div class="metadata-item">
-                                <strong>Published:</strong> ${engraving.dates.published}
+                                <strong>Published:</strong> ${engraving.dates.published || engraving.dates.created}
                             </div>
                             <div class="metadata-item">
                                 <strong>Location:</strong> ${engraving.location.neighborhood}
