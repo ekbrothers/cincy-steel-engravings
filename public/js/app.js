@@ -14,7 +14,9 @@ const AppState = {
     translateX: 0,
     translateY: 0,
     startX: 0,
-    startY: 0
+    startY: 0,
+    initialPinchDistance: 0,
+    initialZoom: 1
 };
 
 // Configuration
@@ -69,9 +71,15 @@ async function initApp() {
         ModalComponent.init();
         NavigationComponent.init();
         
+        // Initialize URL routing
+        initRouting();
+        
         // Render initial content
         ListComponent.render();
         MapComponent.renderMarkers();
+        
+        // Handle deep linking
+        handleDeepLink();
         
         console.log('✅ App initialized successfully');
         
@@ -79,6 +87,126 @@ async function initApp() {
         console.error('❌ Failed to initialize app:', error);
         showError('Failed to load application. Please refresh the page.');
     }
+}
+
+/**
+ * Initialize URL routing system
+ */
+function initRouting() {
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange);
+    console.log('🔗 URL routing initialized');
+}
+
+/**
+ * Handle URL hash changes
+ */
+function handleHashChange() {
+    const hash = window.location.hash;
+    if (hash.startsWith('#engraving/')) {
+        const engravingId = hash.replace('#engraving/', '');
+        openEngravingFromUrl(engravingId);
+    }
+}
+
+/**
+ * Handle deep linking on initial page load
+ */
+function handleDeepLink() {
+    const hash = window.location.hash;
+    if (hash.startsWith('#engraving/')) {
+        const engravingId = hash.replace('#engraving/', '');
+        // Delay to ensure components are ready
+        setTimeout(() => {
+            openEngravingFromUrl(engravingId);
+        }, 500);
+    }
+}
+
+/**
+ * Open engraving from URL
+ * @param {string} engravingId - Engraving ID from URL
+ */
+function openEngravingFromUrl(engravingId) {
+    const engraving = AppState.engravingsData.find(e => e.id === engravingId);
+    if (engraving) {
+        ModalComponent.showEngravingDetails(engravingId);
+        MapComponent.focusOnEngraving(engraving);
+        console.log(`🔗 Opened engraving from URL: ${engravingId}`);
+    } else {
+        console.warn(`🔗 Engraving not found for URL: ${engravingId}`);
+    }
+}
+
+/**
+ * Generate shareable URL for engraving
+ * @param {string} engravingId - Engraving ID
+ * @returns {string} Shareable URL
+ */
+function generateShareUrl(engravingId) {
+    const baseUrl = window.location.origin + window.location.pathname;
+    return `${baseUrl}#engraving/${engravingId}`;
+}
+
+/**
+ * Copy text to clipboard with fallback
+ * @param {string} text - Text to copy
+ * @returns {Promise<boolean>} Success status
+ */
+async function copyToClipboard(text) {
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+            return true;
+        } else {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            const success = document.execCommand('copy');
+            document.body.removeChild(textArea);
+            return success;
+        }
+    } catch (error) {
+        console.error('Failed to copy to clipboard:', error);
+        return false;
+    }
+}
+
+/**
+ * Show toast notification
+ * @param {string} message - Message to show
+ * @param {string} type - Toast type ('success', 'error', 'info')
+ */
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+        <div class="toast-content">
+            <span class="toast-icon">${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
+            <span class="toast-message">${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Animate in
+    setTimeout(() => toast.classList.add('toast-show'), 100);
+    
+    // Remove after delay
+    setTimeout(() => {
+        toast.classList.remove('toast-show');
+        setTimeout(() => {
+            if (document.body.contains(toast)) {
+                document.body.removeChild(toast);
+            }
+        }, 300);
+    }, 3000);
 }
 
 /**

@@ -99,7 +99,34 @@ const MapComponent = {
             AppState.markersLayer.addLayer(marker);
         });
         
+        // Auto-zoom to fit all markers
+        this.fitMapToMarkers();
+        
         console.log(`📍 Rendered ${AppState.filteredEngravings.length} markers`);
+    },
+
+    /**
+     * Auto-zoom map to fit all markers with padding
+     */
+    fitMapToMarkers() {
+        if (AppState.filteredEngravings.length === 0) return;
+        
+        // Create array of coordinates
+        const coordinates = AppState.filteredEngravings.map(engraving => {
+            const { lat, lng } = engraving.location.viewpoint.coordinates;
+            return [lat, lng];
+        });
+        
+        // Create bounds from coordinates
+        const bounds = L.latLngBounds(coordinates);
+        
+        // Fit map to bounds with padding
+        AppState.map.fitBounds(bounds, {
+            padding: [20, 20], // 20px padding on all sides
+            maxZoom: 15 // Don't zoom in too close for single markers
+        });
+        
+        console.log('🎯 Map auto-zoomed to fit all markers');
     },
 
     /**

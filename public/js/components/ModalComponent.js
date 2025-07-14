@@ -247,7 +247,19 @@ const ModalComponent = {
      */
     createMetadataSection(engraving, artist) {
         return `
-            <h2>${this.escapeHtml(engraving.title)}</h2>
+            <div class="engraving-header">
+                <h2>${this.escapeHtml(engraving.title)}</h2>
+                <button class="share-btn" onclick="ModalComponent.shareEngraving('${engraving.id}')" title="Share this engraving">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="18" cy="5" r="3"/>
+                        <circle cx="6" cy="12" r="3"/>
+                        <circle cx="18" cy="19" r="3"/>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                    </svg>
+                    Share
+                </button>
+            </div>
             <div class="metadata-grid">
                 <div class="metadata-item">
                     <strong>Artist</strong>
@@ -497,24 +509,28 @@ const ModalComponent = {
         // Enhanced wheel zoom
         newContainer.addEventListener('wheel', (e) => this.handleWheel(e), { passive: false });
 
-        // Double-tap to zoom
-        let lastTap = 0;
+        // Instagram-style single-tap zoom
+        let tapTimeout = null;
         newContainer.addEventListener('touchend', (e) => {
-            const currentTime = new Date().getTime();
-            const tapLength = currentTime - lastTap;
+            // Only handle single finger taps
+            if (e.changedTouches.length !== 1) return;
             
-            if (tapLength < 500 && tapLength > 0) {
-                e.preventDefault();
-                if (AppState.currentZoom === 1) {
-                    AppState.currentZoom = 2;
-                } else {
-                    this.resetZoom();
-                }
-                this.updateImageTransform();
-                this.triggerHapticFeedback('medium');
+            const touch = e.changedTouches[0];
+            const rect = newContainer.getBoundingClientRect();
+            const tapX = touch.clientX - rect.left;
+            const tapY = touch.clientY - rect.top;
+            
+            // Clear any existing timeout
+            if (tapTimeout) {
+                clearTimeout(tapTimeout);
+                tapTimeout = null;
             }
             
-            lastTap = currentTime;
+            // Set timeout to handle tap
+            tapTimeout = setTimeout(() => {
+                this.handleSingleTap(tapX, tapY, rect);
+                tapTimeout = null;
+            }, 100);
         });
     },
 
@@ -642,6 +658,36 @@ const ModalComponent = {
     },
 
     /**
+     * Handle Instagram-style single tap zoom
+     * @param {number} tapX - X coordinate of tap
+     * @param {number} tapY - Y coordinate of tap
+     * @param {DOMRect} rect - Container bounding rect
+     */
+    handleSingleTap(tapX, tapY, rect) {
+        if (AppState.currentZoom === 1) {
+            // Zoom in to 2.5x centered on tap point
+            AppState.currentZoom = 2.5;
+            
+            // Calculate translation to center on tap point
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const offsetX = (centerX - tapX) * (AppState.currentZoom - 1);
+            const offsetY = (centerY - tapY) * (AppState.currentZoom - 1);
+            
+            AppState.translateX = offsetX;
+            AppState.translateY = offsetY;
+            
+            this.triggerHapticFeedback('medium');
+        } else {
+            // Zoom out to fit
+            this.resetZoom();
+            this.triggerHapticFeedback('light');
+        }
+        
+        this.updateImageTransform();
+    },
+
+    /**
      * Trigger haptic feedback
      */
     triggerHapticFeedback(intensity = 'light') {
@@ -673,6 +719,47 @@ const ModalComponent = {
         setTimeout(() => {
             document.body.removeChild(announcement);
         }, 1000);
+    },
+
+    /**
+     * Share engraving functionality
+     * @param {string} engravingId - Engraving ID to share
+     */
+    async shareEngraving(engravingId) {
+        const engraving = AppState.engravingsData.find(e => e.id === engravingId);
+        if (!engraving) {
+            showToast('Engraving not found', 'error');
+            return;
+        }
+
+        const shareUrl = generateShareUrl(engravingId);
+        const shareText = `Check out this historical engraving: "${engraving.title}" from ${engraving.dates.created}`;
+
+        // Try native Web Share API first (mobile)
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: `Cincinnati Steel Engraving: ${engraving.title}`,
+                    text: shareText,
+                    url: shareUrl
+                });
+                this.triggerHapticFeedback('success');
+                return;
+            } catch (error) {
+                // User cancelled or error occurred, fall back to clipboard
+                console.log('Native share cancelled or failed:', error);
+            }
+        }
+
+        // Fallback to clipboard copy
+        const success = await copyToClipboard(shareUrl);
+        if (success) {
+            showToast('Link copied to clipboard!', 'success');
+            this.triggerHapticFeedback('success');
+        } else {
+            showToast('Failed to copy link', 'error');
+            this.triggerHapticFeedback('error');
+        }
     },
 
     /**
