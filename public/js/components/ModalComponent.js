@@ -209,6 +209,11 @@ const ModalComponent = {
         if (modal) {
             modal.style.display = 'none';
         }
+        
+        // Close any open Leaflet popups to prevent the annoying info box
+        if (AppState.map) {
+            AppState.map.closePopup();
+        }
     },
 
     /**
