@@ -248,101 +248,174 @@ const ModalComponent = {
     },
 
     /**
-     * Create enhanced metadata section HTML
-     * @param {Object} engraving - Engraving metadata object
-     * @param {string} artist - Artist name
-     * @returns {string} Metadata HTML
+     * Show engraving details in modal
+     * @param {string} engravingId - Engraving ID to display
      */
-    createMetadataSection(engraving, artist) {
-        return `
-            <h2>${this.escapeHtml(toTitleCase(engraving.title))}</h2>
-            <div class="metadata-grid">
-                <div class="metadata-item">
-                    <strong>Artist</strong>
-                    <span>${this.escapeHtml(artist)}</span>
+    showEngravingDetails(engravingId) {
+        const engraving = AppState.engravingsData.find(e => e.id === engravingId);
+        if (!engraving) {
+            console.error('Engraving not found:', engravingId);
+            return;
+        }
+
+        console.log('📖 Showing engraving details:', engraving.title);
+
+        const modal = document.getElementById('engraving-modal');
+        const modalBody = document.getElementById('modal-body');
+        
+        // Get image sources
+        const thumbnailSrc = DataLoader.getThumbnailSrc(engraving.id);
+        const fullSrc = DataLoader.getImageSrc(engraving.id);
+        
+        modalBody.innerHTML = `
+            <div class="engraving-details">
+                <div class="engraving-image-container">
+                    <img src="${thumbnailSrc}" 
+                         alt="${engraving.title}" 
+                         class="engraving-img"
+                         data-full-src="${fullSrc}"
+                         onclick="ModalComponent.showFullImage('${fullSrc}', '${engraving.title}')"
+                         onload="ModalComponent.adjustModalSize(this)" />
+                    <div class="image-loading-overlay" style="display: none;">
+                        <div class="loading-spinner"></div>
+                    </div>
                 </div>
-                <div class="metadata-item">
-                    <strong>Publisher</strong>
-                    <span>${this.escapeHtml(engraving.creator.publisher || 'Unknown')}</span>
-                </div>
-                <div class="metadata-item">
-                    <strong>Created</strong>
-                    <span>${this.escapeHtml(engraving.dates.created)}</span>
-                </div>
-                <div class="metadata-item">
-                    <strong>Published</strong>
-                    <span>${this.escapeHtml(engraving.dates.published || engraving.dates.created)}</span>
-                </div>
-                <div class="metadata-item">
-                    <strong>Location</strong>
-                    <span>${this.escapeHtml(engraving.location.neighborhood)}</span>
-                </div>
-                <div class="metadata-item">
-                    <strong>Viewpoint</strong>
-                    <span>${this.escapeHtml(engraving.location.viewpoint.description)}</span>
-                </div>
-            </div>
-            <div class="description">
-                <h3>Description</h3>
-                <p>${this.escapeHtml(engraving.description)}</p>
-                <div class="share-section">
-                    <button class="share-btn" onclick="ModalComponent.shareEngraving('${engraving.id}')" title="Share this engraving">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="18" cy="5" r="3"/>
-                            <circle cx="6" cy="12" r="3"/>
-                            <circle cx="18" cy="19" r="3"/>
-                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-                        </svg>
-                        Share this engraving
-                    </button>
+                <div class="engraving-info">
+                    <h2 class="engraving-title">${engraving.title}</h2>
+                    
+                    <div class="metadata-grid">
+                        <div class="metadata-item">
+                            <strong>Artist:</strong>
+                            <span>${DataLoader.getArtistName(engraving.creator)}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <strong>Publisher:</strong>
+                            <span>${engraving.creator.publisher || 'Unknown'}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <strong>Created:</strong>
+                            <span>${engraving.dates.created}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <strong>Published:</strong>
+                            <span>${engraving.dates.published || 'Unknown'}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <strong>Location:</strong>
+                            <span>${engraving.location.neighborhood}</span>
+                        </div>
+                        <div class="metadata-item">
+                            <strong>Viewpoint:</strong>
+                            <span>${engraving.location.viewpoint.description}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="description-section">
+                        <h3>Description</h3>
+                        <p>${engraving.description}</p>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button class="action-btn primary" onclick="ModalComponent.showFullImage('${fullSrc}', '${engraving.title}')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
+                            </svg>
+                            View Full Size
+                        </button>
+                        <button class="action-btn secondary" onclick="ModalComponent.shareEngraving('${engraving.id}')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="18" cy="5" r="3"></circle>
+                                <circle cx="6" cy="12" r="3"></circle>
+                                <circle cx="18" cy="19" r="3"></circle>
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                            </svg>
+                            Share
+                        </button>
+                        <button class="action-btn secondary" onclick="ModalComponent.loadFullResolution('${engraving.id}')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7,10 12,15 17,10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Load HD
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
+        
+        // Update URL
+        window.history.pushState(null, '', `#engraving/${engraving.id}`);
+        
+        // Add to recently viewed
+        addToRecentlyViewed(engraving.id);
+        
+        // Show modal
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        
+        // Focus management
+        modal.focus();
     },
 
     /**
-     * Load image asynchronously with enhanced animations
-     * @param {string} imageSrc - Image source URL
-     * @param {Object} engraving - Engraving metadata object
-     * @param {HTMLElement} modalBody - Modal body element
+     * Adjust modal size based on image dimensions
+     * @param {HTMLImageElement} img - The loaded image element
      */
-    loadImageAsync(imageSrc, engraving, modalBody) {
-        const img = new Image();
+    adjustModalSize(img) {
+        const modal = document.querySelector('.modal-content');
+        const container = img.closest('.engraving-details');
         
-        img.onload = () => {
-            const imageContainer = modalBody.querySelector('.image-placeholder').parentElement;
-            
-            // Create image with smooth fade-in
-            imageContainer.innerHTML = `
-                <img src="${imageSrc}" 
-                     alt="${this.escapeHtml(engraving.title)}" 
-                     class="engraving-img" 
-                     onclick="ModalComponent.showFullScreenImage('${imageSrc}', '${this.escapeHtml(engraving.title)}')"
-                     title="Tap to view full size"
-                     style="opacity: 0; transform: scale(0.95);" />
-            `;
-            
-            // Animate image entrance
-            const newImg = imageContainer.querySelector('.engraving-img');
-            setTimeout(() => {
-                newImg.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                newImg.style.opacity = '1';
-                newImg.style.transform = 'scale(1)';
-            }, 100);
+        if (!modal || !container) return;
+        
+        // Get image natural dimensions
+        const aspectRatio = img.naturalWidth / img.naturalHeight;
+        const isWide = aspectRatio > 1.5;
+        const isTall = aspectRatio < 0.8;
+        
+        // Adjust modal layout based on image aspect ratio
+        if (isWide) {
+            container.style.gridTemplateColumns = '1fr';
+            container.style.maxWidth = '90vw';
+            modal.style.maxWidth = '95vw';
+        } else if (isTall) {
+            container.style.gridTemplateColumns = '400px 1fr';
+            container.style.maxWidth = '80vw';
+            modal.style.maxWidth = '85vw';
+        } else {
+            container.style.gridTemplateColumns = '1fr 1fr';
+            container.style.maxWidth = '85vw';
+            modal.style.maxWidth = '90vw';
+        }
+    },
+
+    /**
+     * Load full resolution image
+     * @param {string} engravingId - Engraving ID
+     */
+    loadFullResolution(engravingId) {
+        const img = document.querySelector('.engraving-img');
+        const overlay = document.querySelector('.image-loading-overlay');
+        const fullSrc = DataLoader.getImageSrc(engravingId);
+        
+        if (!img || !overlay) return;
+        
+        // Show loading overlay
+        overlay.style.display = 'flex';
+        
+        // Create new image to preload
+        const fullImg = new Image();
+        fullImg.onload = () => {
+            img.src = fullSrc;
+            overlay.style.display = 'none';
+            this.adjustModalSize(img);
         };
-        
-        img.onerror = () => {
-            const imageContainer = modalBody.querySelector('.image-placeholder').parentElement;
-            imageContainer.innerHTML = `
-                <div class="image-error">
-                    <div class="error-icon">📷</div>
-                    <p>Image not available</p>
-                </div>
-            `;
+        fullImg.onerror = () => {
+            overlay.style.display = 'none';
+            console.error('Failed to load full resolution image');
         };
-        
-        img.src = imageSrc;
+        fullImg.src = fullSrc;
     },
 
     /**
