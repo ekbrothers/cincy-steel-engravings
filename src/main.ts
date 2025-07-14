@@ -424,9 +424,6 @@ function showError(message: string): void {
 };
 
 // Initialize app when DOM is loaded
-document.addEventListener('DOMContentLoaded', initializeApp);
-
-// Also initialize if DOM is already loaded
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initializeApp);
 } else {
