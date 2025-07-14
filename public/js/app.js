@@ -313,14 +313,19 @@ function toggleSidebar() {
     const sidebar = document.getElementById('app-sidebar');
     const main = document.querySelector('.app-main');
     
+    // For mobile, just toggle the sidebar visibility
+    if (window.innerWidth <= 1024) {
+        sidebar.classList.toggle('open');
+        return;
+    }
+    
+    // For desktop, toggle collapsed state
     UIState.sidebarCollapsed = !UIState.sidebarCollapsed;
     
     if (UIState.sidebarCollapsed) {
         main.classList.add('sidebar-collapsed');
-        sidebar.style.transform = 'translateX(-100%)';
     } else {
         main.classList.remove('sidebar-collapsed');
-        sidebar.style.transform = 'translateX(0)';
     }
     
     // Save state
