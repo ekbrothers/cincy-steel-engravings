@@ -415,8 +415,9 @@ body {
     position: relative;
     border-radius: var(--radius-xl) var(--radius-xl) 0 0;
     overflow: hidden;
-    margin: var(--space-4) var(--space-6) 0;
+    margin: 0 var(--space-6) 0;
     box-shadow: var(--shadow-lg);
+    height: calc(100vh - var(--header-height) - 70px);
 }
 
 #map {
