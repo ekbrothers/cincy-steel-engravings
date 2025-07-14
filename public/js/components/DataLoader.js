@@ -64,6 +64,6 @@ const DataLoader = {
     getImageSrc(engravingId) {
         // Convert steel_engraving_0001 to steel_engraving__0001.jpg
         const imageFileName = engravingId.replace('steel_engraving_', 'steel_engraving__');
-        return `./engravings/${imageFileName}.jpg`;
+        return `/engravings/${imageFileName}.jpg`;
     }
 };
