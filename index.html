@@ -446,11 +446,54 @@
             margin-bottom: 4px;
         }
 
+        /* Image Loading States */
+        .image-placeholder {
+            background: var(--color-surface-variant);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--color-border);
+            border-top: 3px solid var(--color-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* Mobile-first responsive design */
         @media (max-width: 768px) {
             :root {
                 --sidebar-width: 100vw;
                 --header-height: 3.5rem;
+                --mobile-bottom-nav: 60px;
             }
 
             .app-header {
@@ -464,6 +507,7 @@
             .app-main {
                 grid-template-columns: 1fr;
                 position: relative;
+                padding-bottom: var(--mobile-bottom-nav);
             }
 
             .app-sidebar {
@@ -471,7 +515,7 @@
                 top: var(--header-height);
                 left: 0;
                 right: 0;
-                bottom: 0;
+                bottom: var(--mobile-bottom-nav);
                 z-index: 200;
                 background: var(--color-background);
                 transform: translateX(-100%);
@@ -484,33 +528,52 @@
                 transform: translateX(0);
             }
 
-            .mobile-menu-toggle {
-                display: block;
+            /* Mobile Bottom Navigation */
+            .mobile-bottom-nav {
                 position: fixed;
-                top: 50%;
-                left: var(--space-4);
-                transform: translateY(-50%);
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: var(--mobile-bottom-nav);
+                background: var(--color-surface);
+                border-top: 1px solid var(--color-border);
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
                 z-index: 300;
-                background: var(--color-primary);
-                color: white;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .mobile-nav-btn {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: var(--space-2);
+                background: none;
                 border: none;
-                border-radius: 50%;
-                width: 56px;
-                height: 56px;
-                font-size: 1.5rem;
+                color: var(--color-text-secondary);
+                font-size: 0.75rem;
                 cursor: pointer;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-                transition: all 0.3s ease;
+                transition: color 0.2s ease;
+                min-width: 60px;
             }
 
-            .mobile-menu-toggle:hover {
-                transform: translateY(-50%) scale(1.1);
-                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+            .mobile-nav-btn.active {
+                color: var(--color-primary);
             }
 
-            .mobile-menu-toggle.menu-open {
-                background: var(--color-surface-elevated);
-                color: var(--color-text);
+            .mobile-nav-btn:hover {
+                color: var(--color-primary);
+            }
+
+            .mobile-nav-icon {
+                font-size: 1.5rem;
+                margin-bottom: 2px;
+            }
+
+            .mobile-menu-toggle {
+                display: none; /* Hide old hamburger menu */
             }
 
             .engraving-details {
@@ -525,7 +588,8 @@
             }
 
             .metadata-item {
-                padding: var(--space-3);
+                padding: var(--space-4);
+                font-size: 1rem;
             }
 
             .modal-content {
@@ -535,31 +599,39 @@
             }
 
             .card {
-                padding: var(--space-4);
-                margin-bottom: var(--space-3);
+                padding: var(--space-5);
+                margin-bottom: var(--space-4);
+                border-radius: var(--radius-xl);
             }
 
             .card-title {
+                font-size: 1.1rem;
+                line-height: 1.3;
+            }
+
+            .card-subtitle {
                 font-size: 0.9rem;
+                margin-bottom: var(--space-3);
             }
 
             .form-input {
-                padding: var(--space-3);
+                padding: var(--space-4);
                 font-size: 1rem; /* Prevent zoom on iOS */
+                border-radius: var(--radius-lg);
             }
 
             /* Better touch targets */
             .card, .form-input, button {
-                min-height: 44px;
+                min-height: 48px;
             }
 
             /* Improved image modal for mobile */
             .image-modal-close {
                 top: var(--space-4);
                 right: var(--space-4);
-                width: 56px;
-                height: 56px;
-                font-size: 1.75rem;
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
             }
 
             .image-modal-title {
@@ -574,6 +646,20 @@
             /* Hide zoom controls on mobile */
             .zoom-controls {
                 display: none;
+            }
+
+            /* Mobile swipe indicators */
+            .swipe-indicator {
+                position: absolute;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                padding: var(--space-2) var(--space-4);
+                border-radius: var(--radius-lg);
+                font-size: 0.8rem;
+                z-index: 15;
             }
         }
 
@@ -620,6 +706,26 @@
             </div>
         </main>
     </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <button class="mobile-nav-btn active" onclick="showMap()">
+            <div class="mobile-nav-icon">🗺️</div>
+            <div>Map</div>
+        </button>
+        <button class="mobile-nav-btn" onclick="showList()">
+            <div class="mobile-nav-icon">📋</div>
+            <div>List</div>
+        </button>
+        <button class="mobile-nav-btn" onclick="showSearch()">
+            <div class="mobile-nav-icon">🔍</div>
+            <div>Search</div>
+        </button>
+        <button class="mobile-nav-btn" onclick="showLayers()">
+            <div class="mobile-nav-icon">🏛️</div>
+            <div>Layers</div>
+        </button>
+    </nav>
 
     <!-- Mobile menu toggle button -->
     <button id="mobile-menu-toggle" class="mobile-menu-toggle" onclick="toggleMobileMenu()">
@@ -814,7 +920,7 @@
             });
         }
 
-        // Show engraving details in modal
+        // Show engraving details in modal with loading state
         function showEngravingDetails(id) {
             const engraving = engravingsData.find(e => e.id === id);
             if (!engraving) return;
@@ -823,15 +929,13 @@
             const modalBody = document.getElementById('modal-body');
             const imageSrc = `./engravings/${engraving.id.replace('steel_engraving_', 'steel_engraving__')}.jpg`;
             
+            // Show modal with loading state first
             modalBody.innerHTML = `
                 <div class="engraving-details">
                     <div>
-                        <img src="${imageSrc}" 
-                             alt="${engraving.title}" 
-                             class="engraving-img" 
-                             onclick="showFullScreenImage('${imageSrc}', '${engraving.title}')"
-                             title="Click to view full size"
-                             onerror="this.style.display='none'" />
+                        <div class="image-placeholder">
+                            <div class="loading-spinner"></div>
+                        </div>
                     </div>
                     <div>
                         <h2 style="font-family: var(--font-family-display); color: var(--color-primary); margin-bottom: 1.5rem;">${engraving.title}</h2>
@@ -867,6 +971,28 @@
             `;
             
             modal.style.display = 'flex';
+            
+            // Load image and replace placeholder
+            const img = new Image();
+            img.onload = function() {
+                const imageContainer = modalBody.querySelector('.image-placeholder').parentElement;
+                imageContainer.innerHTML = `
+                    <img src="${imageSrc}" 
+                         alt="${engraving.title}" 
+                         class="engraving-img" 
+                         onclick="showFullScreenImage('${imageSrc}', '${engraving.title}')"
+                         title="Click to view full size" />
+                `;
+            };
+            img.onerror = function() {
+                const imageContainer = modalBody.querySelector('.image-placeholder').parentElement;
+                imageContainer.innerHTML = `
+                    <div style="padding: 2rem; text-align: center; color: var(--color-text-secondary);">
+                        <p>📷 Image not available</p>
+                    </div>
+                `;
+            };
+            img.src = imageSrc;
         }
 
         // Show full-screen image
@@ -1069,6 +1195,52 @@
             document.getElementById('engraving-modal').addEventListener('click', (e) => {
                 if (e.target.id === 'engraving-modal') {
                     closeModal();
+                }
+            });
+        }
+
+        // Mobile Navigation Functions
+        function showMap() {
+            updateMobileNavActive('map');
+            const sidebar = document.querySelector('.app-sidebar');
+            sidebar.classList.remove('mobile-open');
+        }
+
+        function showList() {
+            updateMobileNavActive('list');
+            const sidebar = document.querySelector('.app-sidebar');
+            sidebar.classList.add('mobile-open');
+        }
+
+        function showSearch() {
+            updateMobileNavActive('search');
+            const sidebar = document.querySelector('.app-sidebar');
+            sidebar.classList.add('mobile-open');
+            // Focus on search input
+            setTimeout(() => {
+                document.getElementById('search-input').focus();
+            }, 300);
+        }
+
+        function showLayers() {
+            updateMobileNavActive('layers');
+            const sidebar = document.querySelector('.app-sidebar');
+            sidebar.classList.add('mobile-open');
+            // Scroll to layers section
+            setTimeout(() => {
+                document.querySelector('.filter-section').scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+        }
+
+        function updateMobileNavActive(activeTab) {
+            const navButtons = document.querySelectorAll('.mobile-nav-btn');
+            navButtons.forEach((btn, index) => {
+                btn.classList.remove('active');
+                if ((activeTab === 'map' && index === 0) ||
+                    (activeTab === 'list' && index === 1) ||
+                    (activeTab === 'search' && index === 2) ||
+                    (activeTab === 'layers' && index === 3)) {
+                    btn.classList.add('active');
                 }
             });
         }
