@@ -1,28 +1,38 @@
 {
   "id": "steel_engraving_0007",
-  "title": "Cincinnati from the East End",
+  "title": "A Sunday Excursion on the Ohio River",
   "creator": {
-    "engraver": "Alfred Jones",
-    "publisher": "Appleton's Journal"
+    "artist": "Unknown",
+    "publisher": "Harper's Weekly"
   },
   "dates": {
-    "created": "1869",
-    "published": "1870"
+    "created": "1881",
+    "published": "1881"
+  },
+  "source": {
+    "publication": "Harper's Weekly",
+    "publicationDate": "June 1881",
+    "type": "Magazine engraving"
   },
   "location": {
-    "subject": "Cincinnati's industrial east side",
-    "neighborhood": "East End",
+    "subject": "Ohio River near Cincinnati",
+    "neighborhood": "Ohio River",
     "viewpoint": {
-      "description": "From Columbia Parkway looking west",
+      "description": "Sunday excursion scene on the Ohio River",
       "coordinates": {
-        "lat": 39.1123,
-        "lng": -84.4756
+        "lat": 39.0955,
+        "lng": -84.5102
       }
     }
   },
   "technical": {
-    "dimensions": "8 x 11 inches",
-    "technique": "Steel engraving with cross-hatching"
+    "dimensions": "7 x 9 inches (with wide margins)",
+    "technique": "Engraving"
   },
-  "description": "Post-Civil War view showing Cincinnati's industrial growth along the Ohio River, with factories, railroads, and the expanding urban landscape."
+  "verification": {
+    "status": "verified",
+    "date": "2025-01-12",
+    "source": "Historical documentation"
+  },
+  "description": "Historic 1881 engraving from Harper's Weekly depicting a Sunday excursion on the Ohio River. This scene captures the leisure activities and recreational river travel that were popular among Cincinnati residents during the late 19th century, showing the Ohio River as both a commercial waterway and a place of recreation."
 }

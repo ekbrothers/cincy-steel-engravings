@@ -1,28 +1,44 @@
 {
   "id": "steel_engraving_0009",
-  "title": "Cincinnati Music Hall and Washington Park",
+  "title": "Volunteers crossing the Ohio from Cincinnati to Covington",
+  "alternateTitle": "Civil War prints : includes Cincinnati and non-Cincinnati items. 13",
   "creator": {
-    "engraver": "Frederick Dielman",
-    "publisher": "Century Magazine"
+    "artist": "Henry Mosler",
+    "lifespan": "1841-1920"
   },
   "dates": {
-    "created": "1878",
-    "published": "1879"
+    "created": "1862-06",
+    "published": "1862-06"
+  },
+  "source": {
+    "publication": "Harper's History of the Great Rebellion",
+    "page": "p. 308",
+    "type": "Civil War print"
   },
   "location": {
-    "subject": "Music Hall and cultural district",
-    "neighborhood": "Over-the-Rhine",
+    "subject": "Ohio River crossing between Cincinnati and Covington during Civil War",
+    "neighborhood": "Cincinnati Riverfront to Covington",
     "viewpoint": {
-      "description": "From Elm Street looking northeast at Music Hall",
+      "description": "Panoramic view showing volunteers crossing on coal boat bridge with Suspension Bridge construction",
       "coordinates": {
-        "lat": 39.1067,
-        "lng": -84.5189
+        "lat": 39.0955,
+        "lng": -84.5102
       }
     }
   },
   "technical": {
-    "dimensions": "13 x 10 inches",
-    "technique": "Steel engraving with wash technique"
+    "dimensions": "Unknown",
+    "technique": "Engraving"
   },
-  "description": "Grand view of Cincinnati's newly built Music Hall, showcasing the city's commitment to arts and culture during the Gilded Age, with Washington Park in the foreground."
+  "historicalContext": {
+    "period": "1861-1870",
+    "event": "Civil War troop movement",
+    "significance": "Shows beginning stages of Suspension Bridge construction and wartime river crossing"
+  },
+  "verification": {
+    "status": "verified",
+    "date": "2025-01-12",
+    "source": "Historical documentation"
+  },
+  "description": "Historic June 1862 engraving by Henry Mosler depicting Union volunteers crossing the Ohio River from Cincinnati to Covington on a bridge of connected coal boats. This Civil War era illustration shows the panoramic view of Cincinnati during wartime, including the beginning stages of the Suspension Bridge construction, capturing a significant moment in the city's Civil War history."
 }

@@ -1,28 +1,44 @@
 {
   "id": "steel_engraving_0005",
-  "title": "Over-the-Rhine District",
+  "title": "Panoramic view of Cincinnati's Public Landing",
   "creator": {
-    "engraver": "Henry Lewis",
-    "publisher": "Arnz & Company"
+    "engraver": "William Wellstood",
+    "publisher": "The Family Circle and Parlor Annual"
   },
   "dates": {
-    "created": "1854",
-    "published": "1855"
+    "created": "1848",
+    "published": "1848"
+  },
+  "source": {
+    "publication": "The Family Circle and Parlor Annual",
+    "volume": "Volume VII, Number 10",
+    "publicationDate": "June 1848",
+    "type": "Magazine illustration"
   },
   "location": {
-    "subject": "German immigrant neighborhood north of downtown",
-    "neighborhood": "Over-the-Rhine",
+    "subject": "Cincinnati's Public Landing during mid-nineteenth century",
+    "neighborhood": "Downtown Riverfront",
     "viewpoint": {
-      "description": "From Vine Street looking north into the district",
+      "description": "Panoramic view of the Public Landing and riverfront",
       "coordinates": {
-        "lat": 39.1089,
-        "lng": -84.5155
+        "lat": 39.0955,
+        "lng": -84.5102
       }
     }
   },
   "technical": {
-    "dimensions": "9 x 12 inches",
-    "technique": "Steel engraving with mezzotint"
+    "dimensions": "8.25 x 5 inches (including border)",
+    "technique": "Steel engraving"
   },
-  "description": "Street scene showing the vibrant German-American community of Over-the-Rhine, with its distinctive architecture, breweries, and cultural institutions."
+  "artistBiography": {
+    "name": "William Wellstood",
+    "lifespan": "1819-1900",
+    "background": "Born in Scotland, came to the United States with his family in 1830. Devoted himself to engraving portraits, landscapes and historical subjects, gaining notable reputation in his profession."
+  },
+  "verification": {
+    "status": "verified",
+    "date": "2025-01-12",
+    "source": "Historical documentation"
+  },
+  "description": "Steel engraving by William Wellstood showing a panoramic view of Cincinnati's Public Landing during the mid-nineteenth century. This detailed riverfront scene captures the bustling commercial activity and steamboat traffic that made Cincinnati a major inland port during the 1840s."
 }

@@ -1,28 +1,41 @@
 {
   "id": "steel_engraving_0006",
-  "title": "Cincinnati Observatory and Walnut Hills",
+  "title": "Cincinnati",
   "creator": {
-    "engraver": "William Wade",
-    "publisher": "Gleason's Pictorial"
+    "engraver": "W. Wellstood",
+    "artist": "A.C. Warren",
+    "publisher": "D. Appleton & Company"
   },
   "dates": {
-    "created": "1851",
-    "published": "1852"
+    "created": "1873",
+    "published": "1873"
+  },
+  "source": {
+    "publication": "Picturesque America or The land we live in",
+    "editor": "William Cullen Bryant",
+    "publisher": "D. Appleton & Company, New York",
+    "type": "Antique wood-engraved print"
   },
   "location": {
-    "subject": "Cincinnati Observatory and eastern hills",
-    "neighborhood": "Walnut Hills",
+    "subject": "Cincinnati cityscape",
+    "neighborhood": "Cincinnati",
     "viewpoint": {
-      "description": "From Mount Lookout facing west toward the observatory",
+      "description": "View of Cincinnati from elevated perspective",
       "coordinates": {
-        "lat": 39.1356,
-        "lng": -84.4789
+        "lat": 39.1031,
+        "lng": -84.5120
       }
     }
   },
   "technical": {
-    "dimensions": "10 x 14 inches",
-    "technique": "Steel engraving with stipple work"
+    "dimensions": "12.4 x 8.8 inches",
+    "resolution": "150dpi",
+    "technique": "Wood engraving"
   },
-  "description": "View of the famous Cincinnati Observatory on Mount Lookout, showing the scientific and educational aspirations of the growing city in the mid-19th century."
+  "verification": {
+    "status": "verified",
+    "date": "2025-01-12",
+    "source": "Historical documentation"
+  },
+  "description": "Antique wood-engraved print from William Cullen Bryant's classic 1872 work 'Picturesque America.' Engraved by W. Wellstood and drawn by A.C. Warren, this 1873 illustration captures Cincinnati's urban landscape during the post-Civil War period of American expansion and development."
 }
