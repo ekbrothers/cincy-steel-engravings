@@ -817,6 +817,16 @@
             
             console.log(`📚 Loaded ${engravingsData.length} engravings`);
             
+            // Debug: Log each engraving's data
+            engravingsData.forEach((engraving, index) => {
+                console.log(`📍 Engraving ${index + 1}:`, {
+                    id: engraving.id,
+                    title: engraving.title,
+                    coordinates: engraving.location?.viewpoint?.coordinates,
+                    hasCoordinates: !!(engraving.location?.viewpoint?.coordinates?.lat && engraving.location?.viewpoint?.coordinates?.lng)
+                });
+            });
+            
             // Initialize map
             initMap();
             
@@ -1152,12 +1162,17 @@
             searchInput.addEventListener('input', (e) => {
                 const query = e.target.value.toLowerCase();
                 if (query) {
-                    filteredEngravings = engravingsData.filter(engraving => 
-                        engraving.title.toLowerCase().includes(query) ||
-                        engraving.description.toLowerCase().includes(query) ||
-                        engraving.creator.engraver.toLowerCase().includes(query) ||
-                        engraving.location.neighborhood.toLowerCase().includes(query)
-                    );
+                    filteredEngravings = engravingsData.filter(engraving => {
+                        const title = engraving.title?.toLowerCase() || '';
+                        const description = engraving.description?.toLowerCase() || '';
+                        const artist = (engraving.creator?.artist || engraving.creator?.engraver || '').toLowerCase();
+                        const neighborhood = engraving.location?.neighborhood?.toLowerCase() || '';
+                        
+                        return title.includes(query) ||
+                               description.includes(query) ||
+                               artist.includes(query) ||
+                               neighborhood.includes(query);
+                    });
                 } else {
                     filteredEngravings = [...engravingsData];
                 }
