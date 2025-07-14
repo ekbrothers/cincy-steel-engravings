@@ -112,9 +112,9 @@
         </header>
         
         <main class="app-main">
-            <aside class="app-sidebar" id="app-sidebar">
-                <div class="sidebar-header">
-                    <div class="search-section">
+            <div class="app-content">
+                <div class="content-header">
+                    <div class="content-actions">
                         <div class="search-container">
                             <div class="search-input-wrapper">
                                 <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -131,14 +131,7 @@
                             </div>
                             <div class="search-suggestions" id="search-suggestions"></div>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="sidebar-content">
-                    <div class="filter-section">
-                        <div class="section-header">
-                            <h3>Map Layer</h3>
-                        </div>
+                        
                         <div class="filter-chips">
                             <button class="filter-chip active" data-layer="modern">
                                 <span>Modern</span>
@@ -147,23 +140,7 @@
                                 <span>Historical</span>
                             </button>
                         </div>
-                    </div>
-                    
-                    <div class="engravings-section">
-                        <div class="section-header">
-                            <h3>Engravings</h3>
-                        </div>
                         
-                        <div id="engravings-list" class="engravings-list">
-                            <!-- Engraving cards will be populated here -->
-                        </div>
-                    </div>
-                </div>
-            </aside>
-            
-            <div class="app-content">
-                <div class="content-header">
-                    <div class="content-actions">
                         <button class="action-btn secondary" onclick="MapComponent.fitMapToMarkers()" title="Fit all markers">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>

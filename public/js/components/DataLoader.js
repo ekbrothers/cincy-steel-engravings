@@ -57,9 +57,20 @@ const DataLoader = {
     },
 
     /**
-     * Get image source path for engraving
+     * Get thumbnail image source path for engraving (for faster loading)
      * @param {string} engravingId - Engraving ID
-     * @returns {string} Image source path
+     * @returns {string} Thumbnail image source path
+     */
+    getThumbnailSrc(engravingId) {
+        // Convert steel_engraving_0001 to steel_engraving__0001_thumb.jpg
+        const imageFileName = engravingId.replace('steel_engraving_', 'steel_engraving__');
+        return `/engravings/thumbs/${imageFileName}_thumb.jpg`;
+    },
+
+    /**
+     * Get full-size image source path for engraving
+     * @param {string} engravingId - Engraving ID
+     * @returns {string} Full-size image source path
      */
     getImageSrc(engravingId) {
         // Convert steel_engraving_0001 to steel_engraving__0001.jpg
