@@ -66,7 +66,6 @@ async function initApp() {
         
         // Initialize components
         MapComponent.init();
-        SearchComponent.init();
         ModalComponent.init();
         NavigationComponent.init();
         
@@ -259,8 +258,7 @@ function showError(message) {
 const UIState = {
     sidebarCollapsed: false,
     currentView: 'grid',
-    recentlyViewed: JSON.parse(localStorage.getItem('recentlyViewed') || '[]'),
-    searchSuggestions: []
+    recentlyViewed: JSON.parse(localStorage.getItem('recentlyViewed') || '[]')
 };
 
 // Keyboard Shortcuts
@@ -268,18 +266,10 @@ function initKeyboardShortcuts() {
     document.addEventListener('keydown', (e) => {
         // Ignore if user is typing in an input
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-            if (e.key === 'Escape') {
-                e.target.blur();
-                hideSearchSuggestions();
-            }
             return;
         }
 
         switch (e.key) {
-            case '/':
-                e.preventDefault();
-                focusSearch();
-                break;
             case '?':
                 e.preventDefault();
                 showKeyboardShortcuts();
@@ -349,71 +339,6 @@ function toggleViewMode() {
     
     // Save state
     localStorage.setItem('viewMode', UIState.currentView);
-}
-
-// Search Functionality
-function focusSearch() {
-    const searchInput = document.getElementById('search-input');
-    searchInput.focus();
-    searchInput.select();
-}
-
-function hideSearchSuggestions() {
-    const suggestions = document.getElementById('search-suggestions');
-    suggestions.classList.remove('show');
-}
-
-function showSearchSuggestions(query) {
-    if (!query || query.length < 2) {
-        hideSearchSuggestions();
-        return;
-    }
-    
-    const suggestions = generateSearchSuggestions(query);
-    const suggestionsEl = document.getElementById('search-suggestions');
-    
-    if (suggestions.length === 0) {
-        hideSearchSuggestions();
-        return;
-    }
-    
-    suggestionsEl.innerHTML = suggestions.map(suggestion => 
-        `<div class="suggestion-item" onclick="selectSuggestion('${suggestion}')">${suggestion}</div>`
-    ).join('');
-    
-    suggestionsEl.classList.add('show');
-}
-
-function generateSearchSuggestions(query) {
-    const suggestions = new Set();
-    const lowerQuery = query.toLowerCase();
-    
-    AppState.engravingsData.forEach(engraving => {
-        // Title suggestions
-        if (engraving.title.toLowerCase().includes(lowerQuery)) {
-            suggestions.add(engraving.title);
-        }
-        
-        // Artist suggestions
-        const artist = DataLoader.getArtistName(engraving.creator);
-        if (artist.toLowerCase().includes(lowerQuery)) {
-            suggestions.add(artist);
-        }
-        
-        // Location suggestions
-        if (engraving.location.neighborhood.toLowerCase().includes(lowerQuery)) {
-            suggestions.add(engraving.location.neighborhood);
-        }
-    });
-    
-    return Array.from(suggestions).slice(0, 5);
-}
-
-function selectSuggestion(suggestion) {
-    const searchInput = document.getElementById('search-input');
-    searchInput.value = suggestion;
-    hideSearchSuggestions();
-    SearchComponent.performSearch(suggestion);
 }
 
 // Recently Viewed Management
@@ -581,40 +506,6 @@ function initViewToggle() {
     });
 }
 
-// Enhanced Search Input
-function initEnhancedSearch() {
-    const searchInput = document.getElementById('search-input');
-    const searchClear = document.getElementById('search-clear');
-    
-    searchInput.addEventListener('input', (e) => {
-        const query = e.target.value;
-        
-        // Show/hide clear button
-        if (query) {
-            searchClear.style.display = 'flex';
-            showSearchSuggestions(query);
-        } else {
-            searchClear.style.display = 'none';
-            hideSearchSuggestions();
-        }
-        
-        // Perform search
-        SearchComponent.performSearch(query);
-    });
-    
-    searchInput.addEventListener('blur', () => {
-        // Delay hiding suggestions to allow clicks
-        setTimeout(hideSearchSuggestions, 200);
-    });
-    
-    searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            searchInput.blur();
-            hideSearchSuggestions();
-        }
-    });
-}
-
 // Load UI State from localStorage
 function loadUIState() {
     // Load recently viewed
@@ -626,7 +517,6 @@ function initUIEnhancements() {
     initKeyboardShortcuts();
     initFilterChips();
     initViewToggle();
-    initEnhancedSearch();
     loadUIState();
     
     // Update total engravings count
