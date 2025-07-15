@@ -73,10 +73,7 @@ const SearchComponent = {
             ListComponent.render();
         }
 
-        // Update map markers
-        if (typeof MapComponent !== 'undefined' && MapComponent.renderMarkers) {
-            MapComponent.renderMarkers();
-        }
+        // Removed map marker update functionality
 
         console.log(`🔍 Search results: ${AppState.filteredEngravings.length} engravings`);
     },

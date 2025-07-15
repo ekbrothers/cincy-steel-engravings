@@ -79,10 +79,7 @@ const ListComponent = {
             ModalComponent.showEngravingDetails(engraving.id);
         }
 
-        // Focus map on engraving location
-        if (typeof MapComponent !== 'undefined' && MapComponent.focusOnEngraving) {
-            MapComponent.focusOnEngraving(engraving);
-        }
+        // Removed map focus functionality
 
         // Close mobile sidebar if open
         if (typeof NavigationComponent !== 'undefined' && NavigationComponent.closeMobileSidebar) {

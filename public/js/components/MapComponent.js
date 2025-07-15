@@ -32,8 +32,7 @@ const MapComponent = {
         // Create markers layer group
         AppState.markersLayer = L.layerGroup().addTo(AppState.map);
         
-        // Set up layer switching
-        this.setupLayerSwitching();
+        // Removed layer switching setup
         
         console.log('🗺️ Static map initialized');
     },
@@ -63,18 +62,7 @@ const MapComponent = {
         });
     },
 
-    /**
-     * Setup layer switching functionality
-     */
-    setupLayerSwitching() {
-        const mapLayerRadios = document.querySelectorAll('input[name="map-layer"]');
-        mapLayerRadios.forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                this.removeAllLayers();
-                this.addLayer(e.target.value);
-            });
-        });
-    },
+    // Removed setupLayerSwitching method
 
     /**
      * Render markers on map
