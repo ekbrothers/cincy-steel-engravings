@@ -494,3 +494,16 @@ body {
         color-scheme: dark;
     }
 }
+
+/* Hide sidebar and related elements */
+.app-sidebar,
+.sidebar-toggle,
+#engravings-list {
+    display: none !important;
+}
+
+/* Adjust app-content to take full width */
+.app-content {
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+}

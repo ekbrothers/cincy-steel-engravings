@@ -67,7 +67,6 @@ async function initApp() {
         // Initialize components
         MapComponent.init();
         SearchComponent.init();
-        ListComponent.init();
         ModalComponent.init();
         NavigationComponent.init();
         
@@ -75,7 +74,6 @@ async function initApp() {
         initRouting();
         
         // Render initial content
-        ListComponent.render();
         MapComponent.renderMarkers();
         
         // Handle deep linking
@@ -619,26 +617,6 @@ function initEnhancedSearch() {
 
 // Load UI State from localStorage
 function loadUIState() {
-    // Load sidebar state
-    const savedSidebarState = localStorage.getItem('sidebarCollapsed');
-    if (savedSidebarState === 'true') {
-        UIState.sidebarCollapsed = true;
-        toggleSidebar();
-    }
-    
-    // Load view mode
-    const savedViewMode = localStorage.getItem('viewMode');
-    if (savedViewMode) {
-        UIState.currentView = savedViewMode;
-        const engravingsList = document.getElementById('engravings-list');
-        engravingsList.className = `engravings-${UIState.currentView}`;
-        
-        const viewBtns = document.querySelectorAll('.view-btn');
-        viewBtns.forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.view === UIState.currentView);
-        });
-    }
-    
     // Load recently viewed
     updateRecentlyViewedUI();
 }

@@ -13,7 +13,7 @@ const DataLoader = {
         const promises = Config.ENGRAVING_IDS.map(async (id) => {
             try {
                 console.log(`📄 Fetching ${id}.json...`);
-                const response = await fetch(`./metadata/${id}.json`);
+                const response = await fetch(`/public/metadata/${id}.json`);
                 console.log(`📄 Response for ${id}:`, response.status, response.ok);
                 
                 if (response.ok) {
@@ -64,7 +64,7 @@ const DataLoader = {
     getThumbnailSrc(engravingId) {
         // Convert steel_engraving_0001 to steel_engraving__0001_thumb.jpg
         const imageFileName = engravingId.replace('steel_engraving_', 'steel_engraving__');
-        return `/engravings/thumbs/${imageFileName}_thumb.jpg`;
+        return `/public/engravings/thumbs/${imageFileName}_thumb.jpg`;
     },
 
     /**
@@ -75,6 +75,6 @@ const DataLoader = {
     getImageSrc(engravingId) {
         // Convert steel_engraving_0001 to steel_engraving__0001.jpg
         const imageFileName = engravingId.replace('steel_engraving_', 'steel_engraving__');
-        return `/engravings/${imageFileName}.jpg`;
+        return `/public/engravings/${imageFileName}.jpg`;
     }
 };

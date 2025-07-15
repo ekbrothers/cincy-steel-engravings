@@ -12,11 +12,17 @@ const MapComponent = {
             throw new Error('Map container not found');
         }
 
-        // Create map
+        // Create static map with no zoom controls
         AppState.map = L.map(mapContainer, {
             center: Config.CINCINNATI_CENTER,
             zoom: 12,
-            zoomControl: true,
+            zoomControl: false,           // Remove zoom buttons
+            scrollWheelZoom: false,       // Disable scroll wheel zoom
+            doubleClickZoom: false,       // Disable double-click zoom
+            touchZoom: false,             // Disable touch zoom
+            boxZoom: false,               // Disable box zoom
+            keyboard: false,              // Disable keyboard navigation
+            dragging: true,               // Keep dragging enabled for panning
             attributionControl: true
         });
 
@@ -29,7 +35,7 @@ const MapComponent = {
         // Set up layer switching
         this.setupLayerSwitching();
         
-        console.log('🗺️ Map initialized');
+        console.log('🗺️ Static map initialized');
     },
 
     /**
@@ -120,13 +126,14 @@ const MapComponent = {
         // Create bounds from coordinates
         const bounds = L.latLngBounds(coordinates);
         
-        // Fit map to bounds with padding
+        // Fit map to bounds with tighter framing
         AppState.map.fitBounds(bounds, {
-            padding: [20, 20], // 20px padding on all sides
-            maxZoom: 15 // Don't zoom in too close for single markers
+            padding: [80, 80], // More padding to ensure markers aren't cut off
+            maxZoom: 14,       // Allow closer zoom to better frame the markers
+            animate: false     // No animation for static feel
         });
         
-        console.log('🎯 Map auto-zoomed to fit all markers');
+        console.log('🎯 Map fitted to show all markers');
     },
 
     /**
@@ -135,6 +142,7 @@ const MapComponent = {
      */
     focusOnEngraving(engraving) {
         const { lat, lng } = engraving.location.viewpoint.coordinates;
-        AppState.map.setView([lat, lng], 15, { animate: true });
+        // For static map, just pan to the location without changing zoom
+        AppState.map.panTo([lat, lng], { animate: true });
     }
 };
