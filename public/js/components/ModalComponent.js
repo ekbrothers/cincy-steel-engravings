@@ -279,8 +279,28 @@ const ModalComponent = {
         // Add landmark overlay after image loads
         setTimeout(async () => {
             const imageContainer = document.querySelector('.engraving-image-container');
+            console.log('🏛️ MODAL: Found image container:', imageContainer);
+            
             if (imageContainer) {
+                console.log('🏛️ MODAL: Creating overlay for engraving:', engraving.id);
                 await LandmarkOverlay.createOverlay(engraving, imageContainer);
+                
+                // FORCE TEST: Add a visible test button to make sure we can add elements
+                const testButton = document.createElement('button');
+                testButton.textContent = 'TEST LANDMARK BUTTON';
+                testButton.style.cssText = `
+                    position: absolute;
+                    top: 50px;
+                    right: 10px;
+                    background: red;
+                    color: white;
+                    padding: 10px;
+                    border: none;
+                    z-index: 999;
+                    font-size: 16px;
+                `;
+                imageContainer.appendChild(testButton);
+                console.log('🏛️ MODAL: Added test button to container');
             }
         }, 100);
         
