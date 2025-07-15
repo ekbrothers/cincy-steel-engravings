@@ -216,7 +216,21 @@ const ModalComponent = {
         this.triggerHapticFeedback('light');
         
         // Load image and replace placeholder
-        this.loadImageAsync(imageSrc, engraving, modalBody);
+        this.loadImageAsync(imageSrc, engraving, modalBody).catch(() => {
+            modalBody.innerHTML = `
+                <div class="engraving-details">
+                    <div class="engraving-image">
+                        <div class="image-placeholder">
+                            <p>⚠️ Image failed to load</p>
+                        </div>
+                    </div>
+                    <div class="engraving-info">
+                        ${this.createMetadataSection(engraving, DataLoader.getArtistName(engraving.creator))}
+                    </div>
+                </div>
+            `;
+            console.error('Failed to load image:', imageSrc);
+        });
         
         // Prevent body scroll
         document.body.style.overflow = 'hidden';

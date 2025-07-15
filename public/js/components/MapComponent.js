@@ -26,7 +26,7 @@ const MapComponent = {
             attributionControl: true
         });
 
-        // Add initial layer (modern)
+        // Add default modern layer
         this.addLayer('modern');
         
         // Create markers layer group
@@ -68,7 +68,7 @@ const MapComponent = {
         });
     },
 
-    // Removed setupLayerSwitching method
+    // Removed setupLayerSwitching method and layer switching functionality
 
     /**
      * Render markers on map
