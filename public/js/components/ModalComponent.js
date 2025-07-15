@@ -604,6 +604,14 @@ const ModalComponent = {
         // Enhanced wheel zoom
         newContainer.addEventListener('wheel', (e) => this.handleWheel(e), { passive: false });
 
+        // Double-click to zoom
+        newContainer.addEventListener('dblclick', (e) => {
+            const rect = newContainer.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
+            this.handleDoubleClick(clickX, clickY, rect);
+        });
+
         // Instagram-style single-tap zoom
         let tapTimeout = null;
         newContainer.addEventListener('touchend', (e) => {
@@ -745,11 +753,65 @@ const ModalComponent = {
      */
     handleWheel(e) {
         e.preventDefault();
-        if (e.deltaY < 0) {
-            this.zoomIn();
-        } else {
-            this.zoomOut();
+        
+        // Get mouse position relative to container
+        const container = document.getElementById('image-zoom-container');
+        const rect = container.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        
+        // Calculate zoom factor
+        const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+        const newZoom = Math.max(1, Math.min(5, AppState.currentZoom * zoomFactor));
+        
+        if (newZoom !== AppState.currentZoom) {
+            // Calculate new translation to zoom towards mouse position
+            const zoomRatio = newZoom / AppState.currentZoom;
+            
+            // Adjust translation to keep the point under the mouse cursor fixed
+            AppState.translateX = mouseX - (mouseX - AppState.translateX) * zoomRatio;
+            AppState.translateY = mouseY - (mouseY - AppState.translateY) * zoomRatio;
+            
+            AppState.currentZoom = newZoom;
+            
+            // Reset translation if zooming out to 1x
+            if (AppState.currentZoom === 1) {
+                AppState.translateX = 0;
+                AppState.translateY = 0;
+            }
+            
+            this.updateImageTransformSmooth();
         }
+    },
+
+    /**
+     * Handle double-click zoom
+     * @param {number} clickX - X coordinate of click
+     * @param {number} clickY - Y coordinate of click
+     * @param {DOMRect} rect - Container bounding rect
+     */
+    handleDoubleClick(clickX, clickY, rect) {
+        if (AppState.currentZoom === 1) {
+            // Zoom in to 2.5x centered on click point
+            AppState.currentZoom = 2.5;
+            
+            // Calculate translation to center on click point
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const offsetX = (centerX - clickX) * (AppState.currentZoom - 1);
+            const offsetY = (centerY - clickY) * (AppState.currentZoom - 1);
+            
+            AppState.translateX = offsetX;
+            AppState.translateY = offsetY;
+            
+            this.triggerHapticFeedback('medium');
+        } else {
+            // Zoom out to fit
+            this.resetZoom();
+            this.triggerHapticFeedback('light');
+        }
+        
+        this.updateImageTransformSmooth();
     },
 
     /**
