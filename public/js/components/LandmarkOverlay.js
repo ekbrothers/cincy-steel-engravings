@@ -420,7 +420,7 @@ const LandmarkOverlay = {
         console.log('🏛️ TOGGLE: toggleOverlay called with engravingId:', engravingId);
         
         const overlay = document.getElementById(`landmark-overlay-${engravingId}`);
-        const toggleButton = document.querySelector(`[onclick="LandmarkOverlay.toggleOverlay('${engravingId}')"]`);
+        const toggleButton = overlay ? overlay.previousElementSibling : null;
         
         console.log('🏛️ TOGGLE: Found overlay:', overlay);
         console.log('🏛️ TOGGLE: Found button:', toggleButton);
