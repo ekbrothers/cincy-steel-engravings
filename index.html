@@ -116,14 +116,7 @@
                             <div class="search-suggestions" id="search-suggestions"></div>
                         </div>
                         
-                        <div class="filter-chips">
-                            <button class="filter-chip active" data-layer="modern">
-                                <span>Modern</span>
-                            </button>
-                            <button class="filter-chip" data-layer="historical">
-                                <span>Historical</span>
-                            </button>
-                        </div>
+                        <!-- Removed filter chips -->
                     </div>
                 </div>
                 <div id="map" class="map-container"></div>
@@ -136,25 +129,7 @@
         </main>
     </div>
 
-    <!-- Mobile Bottom Navigation -->
-    <nav class="mobile-bottom-nav">
-        <button class="mobile-nav-btn active" onclick="NavigationComponent.showMap()">
-            <div class="mobile-nav-icon">🗺️</div>
-            <div>Map</div>
-        </button>
-        <button class="mobile-nav-btn" onclick="NavigationComponent.showList()">
-            <div class="mobile-nav-icon">📋</div>
-            <div>List</div>
-        </button>
-        <button class="mobile-nav-btn" onclick="NavigationComponent.showSearch()">
-            <div class="mobile-nav-icon">🔍</div>
-            <div>Search</div>
-        </button>
-        <button class="mobile-nav-btn" onclick="NavigationComponent.showLayers()">
-            <div class="mobile-nav-icon">🏛️</div>
-            <div>Layers</div>
-        </button>
-    </nav>
+    <!-- Removed mobile bottom navigation -->
 
     <!-- Mobile menu toggle button -->
     <button id="mobile-menu-toggle" class="mobile-menu-toggle" onclick="NavigationComponent.toggleMobileMenu()">
