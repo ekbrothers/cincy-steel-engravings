@@ -631,7 +631,9 @@ function loadUIState() {
     if (savedViewMode) {
         UIState.currentView = savedViewMode;
         const engravingsList = document.getElementById('engravings-list');
-        engravingsList.className = `engravings-${UIState.currentView}`;
+        if (engravingsList) {
+            engravingsList.className = `engravings-${UIState.currentView}`;
+        }
         
         const viewBtns = document.querySelectorAll('.view-btn');
         viewBtns.forEach(btn => {
