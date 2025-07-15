@@ -126,14 +126,22 @@ const MapComponent = {
         // Create bounds from coordinates
         const bounds = L.latLngBounds(coordinates);
         
-        // Fit map to bounds with tighter framing
+        // Fit map to bounds with much tighter framing
         AppState.map.fitBounds(bounds, {
-            padding: [80, 80], // More padding to ensure markers aren't cut off
-            maxZoom: 14,       // Allow closer zoom to better frame the markers
+            padding: [40, 40], // Reduced padding for tighter view
+            maxZoom: 15,       // Allow even closer zoom
             animate: false     // No animation for static feel
         });
         
-        console.log('🎯 Map fitted to show all markers');
+        // After fitting bounds, zoom in one more level for tighter framing
+        setTimeout(() => {
+            const currentZoom = AppState.map.getZoom();
+            if (currentZoom < 15) {
+                AppState.map.setZoom(currentZoom + 1, { animate: false });
+            }
+        }, 100);
+        
+        console.log('🎯 Map fitted to show all markers with tight framing');
     },
 
     /**

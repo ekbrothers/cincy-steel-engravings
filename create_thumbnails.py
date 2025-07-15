@@ -4,13 +4,35 @@ Create thumbnail versions of steel engraving images for faster loading
 """
 
 import os
-from PIL import Image
+from PIL import Image, ExifTags
 import sys
 
 def create_thumbnail(input_path, output_path, max_size=(400, 300)):
-    """Create a thumbnail version of an image"""
+    """Create a thumbnail version of an image while preserving orientation"""
     try:
         with Image.open(input_path) as img:
+            # Handle EXIF orientation
+            try:
+                # Get EXIF data
+                exif = img._getexif()
+                if exif:
+                    # Find the orientation tag
+                    for orientation in ExifTags.TAGS.keys():
+                        if ExifTags.TAGS[orientation] == 'Orientation':
+                            break
+                    
+                    # Apply rotation based on EXIF orientation
+                    if orientation in exif:
+                        if exif[orientation] == 3:
+                            img = img.rotate(180, expand=True)
+                        elif exif[orientation] == 6:
+                            img = img.rotate(270, expand=True)
+                        elif exif[orientation] == 8:
+                            img = img.rotate(90, expand=True)
+            except (AttributeError, KeyError, IndexError):
+                # No EXIF data or orientation tag
+                pass
+            
             # Convert to RGB if necessary (for JPEG output)
             if img.mode in ('RGBA', 'LA', 'P'):
                 img = img.convert('RGB')

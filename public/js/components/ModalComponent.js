@@ -419,11 +419,11 @@ const ModalComponent = {
     },
 
     /**
-     * Show full-screen image modal with enhanced mobile experience
+     * Show full image in modal (called from thumbnail click)
      * @param {string} imageSrc - Image source URL
      * @param {string} title - Image title
      */
-    showFullScreenImage(imageSrc, title) {
+    showFullImage(imageSrc, title) {
         const imageModal = document.getElementById('image-modal');
         const imageModalImg = document.getElementById('image-modal-img');
         const imageModalTitle = document.getElementById('image-modal-title');
