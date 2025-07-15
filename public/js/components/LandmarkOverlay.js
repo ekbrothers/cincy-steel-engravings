@@ -115,27 +115,28 @@ const LandmarkOverlay = {
                     position: absolute;
                     top: 10px;
                     right: 10px;
-                    background: #3b82f6;
+                    background: rgba(59, 130, 246, 0.8);
                     color: white;
-                    border: 2px solid white;
-                    padding: 10px 16px;
-                    border-radius: 8px;
+                    border: 2px solid rgba(255, 255, 255, 0.8);
+                    padding: 8px 12px;
+                    border-radius: 6px;
                     cursor: pointer;
-                    font-size: 14px;
-                    font-weight: bold;
+                    font-size: 12px;
+                    font-weight: 500;
                     transition: all 0.2s ease;
                     z-index: 13;
                     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                    backdrop-filter: blur(10px);
                 }
                 
                 .landmark-toggle:hover {
-                    background: #1d4ed8;
+                    background: rgba(29, 78, 216, 0.9);
                     transform: scale(1.05);
                 }
                 
                 .landmark-toggle.active {
-                    background: #10b981;
-                    border-color: #10b981;
+                    background: rgba(16, 185, 129, 0.8);
+                    border-color: rgba(16, 185, 129, 0.8);
                 }
                 
                 .landmark-overlay.hidden {
