@@ -224,12 +224,8 @@ const ModalComponent = {
                             <span>${engraving.creator.publisher || 'Unknown'}</span>
                         </div>
                         <div class="metadata-item">
-                            <strong>Created:</strong>
-                            <span>${engraving.dates.created}</span>
-                        </div>
-                        <div class="metadata-item">
                             <strong>Published:</strong>
-                            <span>${engraving.dates.published || 'Unknown'}</span>
+                            <span>${engraving.dates.published || engraving.dates.created || 'Unknown'}</span>
                         </div>
                         <div class="metadata-item">
                             <strong>Location:</strong>

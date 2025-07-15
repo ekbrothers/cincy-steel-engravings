@@ -43,7 +43,7 @@ const DataLoader = {
      * @returns {string} Artist name
      */
     getArtistName(creator) {
-        return creator?.artist || creator?.engraver || 'Unknown';
+        return creator?.artist || creator?.engraver || creator?.publisher || 'Unknown';
     },
 
     /**
