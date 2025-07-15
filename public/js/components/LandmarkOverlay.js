@@ -69,6 +69,10 @@ const LandmarkOverlay = {
                     background: #ef4444;
                 }
                 
+                .landmark-marker.category-religious {
+                    background: #ef4444;
+                }
+                
                 .landmark-tooltip {
                     position: absolute;
                     background: rgba(0, 0, 0, 0.9);
@@ -312,7 +316,11 @@ const LandmarkOverlay = {
      * @returns {HTMLElement} Overlay element
      */
     async createOverlay(engraving, imageContainer) {
+        console.log('🏛️ Creating landmark overlay for:', engraving.id);
+        console.log('🏛️ Engraving landmarks:', engraving.landmarks);
+        
         if (!engraving.landmarks || engraving.landmarks.length === 0) {
+            console.log('🏛️ No landmarks found for engraving:', engraving.id);
             return null;
         }
 
@@ -326,12 +334,16 @@ const LandmarkOverlay = {
         toggleButton.textContent = 'Show Landmarks';
         toggleButton.onclick = () => this.toggleOverlay(engraving.id);
 
+        console.log('🏛️ Creating markers for', engraving.landmarks.length, 'landmarks');
+
         // Create markers for each landmark (async)
         const markerPromises = engraving.landmarks.map(landmark => 
             this.createMarker(landmark, engraving.id)
         );
         
         const markers = await Promise.all(markerPromises);
+        console.log('🏛️ Created markers:', markers.filter(m => m).length, 'successful');
+        
         markers.forEach(marker => {
             if (marker) {
                 overlay.appendChild(marker);
@@ -343,6 +355,7 @@ const LandmarkOverlay = {
         imageContainer.appendChild(toggleButton);
         imageContainer.appendChild(overlay);
 
+        console.log('🏛️ Landmark overlay created successfully');
         return overlay;
     },
 
