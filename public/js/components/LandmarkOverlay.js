@@ -417,18 +417,33 @@ const LandmarkOverlay = {
      * @param {string} engravingId - ID of the engraving
      */
     toggleOverlay(engravingId) {
+        console.log('🏛️ TOGGLE: toggleOverlay called with engravingId:', engravingId);
+        
         const overlay = document.getElementById(`landmark-overlay-${engravingId}`);
         const toggleButton = document.querySelector(`[onclick="LandmarkOverlay.toggleOverlay('${engravingId}')"]`);
         
-        if (!overlay || !toggleButton) return;
+        console.log('🏛️ TOGGLE: Found overlay:', overlay);
+        console.log('🏛️ TOGGLE: Found button:', toggleButton);
+        
+        if (!overlay || !toggleButton) {
+            console.log('🏛️ TOGGLE: Missing overlay or button, returning');
+            return;
+        }
 
         const isHidden = overlay.classList.contains('hidden');
+        console.log('🏛️ TOGGLE: Overlay is hidden:', isHidden);
+        console.log('🏛️ TOGGLE: Overlay classes:', overlay.classList.toString());
         
         if (isHidden) {
+            console.log('🏛️ TOGGLE: Showing overlay');
             overlay.classList.remove('hidden');
             toggleButton.textContent = 'Hide Landmarks';
             toggleButton.classList.add('active');
+            console.log('🏛️ TOGGLE: Overlay classes after show:', overlay.classList.toString());
+            console.log('🏛️ TOGGLE: Overlay display style:', overlay.style.display);
+            console.log('🏛️ TOGGLE: Number of markers in overlay:', overlay.children.length);
         } else {
+            console.log('🏛️ TOGGLE: Hiding overlay');
             overlay.classList.add('hidden');
             toggleButton.textContent = 'Show Landmarks';
             toggleButton.classList.remove('active');
