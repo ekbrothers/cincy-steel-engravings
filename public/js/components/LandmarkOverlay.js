@@ -355,6 +355,13 @@ const LandmarkOverlay = {
         imageContainer.appendChild(toggleButton);
         imageContainer.appendChild(overlay);
 
+        console.log('🏛️ Toggle button added to container:', toggleButton);
+        console.log('🏛️ Overlay added to container:', overlay);
+        console.log('🏛️ Container position set to:', imageContainer.style.position);
+        console.log('🏛️ Container children count:', imageContainer.children.length);
+        console.log('🏛️ Looking for toggle button in DOM:', document.querySelector('.landmark-toggle'));
+        console.log('🏛️ Looking for overlay in DOM:', document.querySelector('.landmark-overlay'));
+        
         console.log('🏛️ Landmark overlay created successfully');
         return overlay;
     },
