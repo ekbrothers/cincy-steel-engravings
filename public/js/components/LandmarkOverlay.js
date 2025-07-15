@@ -366,9 +366,13 @@ const LandmarkOverlay = {
      * @returns {HTMLElement} Marker element
      */
     async createMarker(landmarkRef, engravingId) {
+        console.log('🏛️ Creating marker for landmark:', landmarkRef.landmarkId);
+        
         const landmarkData = await DataLoader.getLandmark(landmarkRef.landmarkId);
+        console.log('🏛️ Landmark data loaded:', landmarkData);
+        
         if (!landmarkData) {
-            console.warn(`Landmark not found: ${landmarkRef.landmarkId}`);
+            console.warn(`🚨 Landmark not found: ${landmarkRef.landmarkId}`);
             return null;
         }
 
@@ -378,6 +382,12 @@ const LandmarkOverlay = {
         marker.style.top = `${landmarkRef.y}%`;
         marker.setAttribute('data-landmark-id', landmarkRef.landmarkId);
         marker.setAttribute('data-engraving-id', engravingId);
+
+        console.log('🏛️ Marker created with styles:', {
+            left: `${landmarkRef.x}%`,
+            top: `${landmarkRef.y}%`,
+            className: marker.className
+        });
 
         // Add hover events for desktop
         marker.addEventListener('mouseenter', (e) => {

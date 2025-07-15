@@ -110,7 +110,15 @@ const DataLoader = {
      * @returns {Promise<Object>} Landmark details object
      */
     async getLandmark(landmarkId) {
+        console.log('🏛️ DataLoader.getLandmark called with:', landmarkId);
+        
         const landmarksData = await this.loadLandmarks();
-        return landmarksData.landmarks[landmarkId] || null;
+        console.log('🏛️ Landmarks data loaded:', landmarksData);
+        console.log('🏛️ Available landmark IDs:', Object.keys(landmarksData.landmarks));
+        
+        const landmark = landmarksData.landmarks[landmarkId];
+        console.log('🏛️ Found landmark:', landmark);
+        
+        return landmark || null;
     }
 };
