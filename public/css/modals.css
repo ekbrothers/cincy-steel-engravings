@@ -225,14 +225,26 @@
 /* Responsive Design */
 @media (max-width: 768px) {
     .engraving-details {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         gap: var(--space-4);
         padding: var(--space-4);
         padding-top: calc(var(--space-4) + 60px);
     }
     
+    .engraving-image-container {
+        order: 1;
+        width: 100%;
+        margin-bottom: var(--space-4);
+    }
+    
+    .engraving-info {
+        order: 2;
+        width: 100%;
+    }
+    
     .engraving-img {
         max-height: 300px;
+        width: 100%;
     }
     
     .modal-content {
@@ -257,10 +269,23 @@
         padding: var(--space-3);
         padding-top: calc(var(--space-3) + 50px);
         gap: var(--space-3);
+        grid-template-columns: 1fr !important;
+    }
+    
+    .engraving-image-container {
+        order: 1;
+        width: 100%;
+        margin-bottom: var(--space-3);
+    }
+    
+    .engraving-info {
+        order: 2;
+        width: 100%;
     }
     
     .engraving-img {
         max-height: 250px;
+        width: 100%;
     }
     
     .modal-close {

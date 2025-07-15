@@ -178,88 +178,6 @@ const ModalComponent = {
         }
     },
 
-    /**
-     * Show engraving details in modal with enhanced animations
-     * @param {string} engravingId - Engraving ID
-     */
-    showEngravingDetails(engravingId) {
-        const engraving = AppState.engravingsData.find(e => e.id === engravingId);
-        if (!engraving) {
-            console.warn(`Engraving not found: ${engravingId}`);
-            return;
-        }
-
-        const modal = document.getElementById('engraving-modal');
-        const modalBody = document.getElementById('modal-body');
-        
-        if (!modal || !modalBody) {
-            console.warn('Modal elements not found');
-            return;
-        }
-
-        const imageSrc = DataLoader.getImageSrc(engraving.id);
-        
-        // Show modal with enhanced entrance animation
-        modalBody.innerHTML = this.createLoadingState(engraving);
-        modal.style.display = 'flex';
-        modal.classList.add('fade-in');
-        
-        // Update URL hash for deep linking
-        window.history.pushState(null, null, `#engraving/${engravingId}`);
-        
-        // Add to recently viewed
-        if (typeof addToRecentlyViewed === 'function') {
-            addToRecentlyViewed(engravingId);
-        }
-        
-        // Trigger haptic feedback
-        this.triggerHapticFeedback('light');
-        
-        // Load image and replace placeholder
-        this.loadImageAsync(imageSrc, engraving, modalBody).catch(() => {
-            modalBody.innerHTML = `
-                <div class="engraving-details">
-                    <div class="engraving-image">
-                        <div class="image-placeholder">
-                            <p>⚠️ Image failed to load</p>
-                        </div>
-                    </div>
-                    <div class="engraving-info">
-                        ${this.createMetadataSection(engraving, DataLoader.getArtistName(engraving.creator))}
-                    </div>
-                </div>
-            `;
-            console.error('Failed to load image:', imageSrc);
-        });
-        
-        // Prevent body scroll
-        document.body.style.overflow = 'hidden';
-        
-        // Announce to screen readers
-        this.announceToScreenReader(`Viewing details for ${engraving.title}`);
-    },
-
-    /**
-     * Create enhanced loading state HTML
-     * @param {Object} engraving - Engraving metadata object
-     * @returns {string} Loading state HTML
-     */
-    createLoadingState(engraving) {
-        const artist = DataLoader.getArtistName(engraving.creator);
-        
-        return `
-            <div class="engraving-details">
-                <div class="engraving-image">
-                    <div class="image-placeholder">
-                        <div class="loading-spinner"></div>
-                    </div>
-                </div>
-                <div class="engraving-info">
-                    ${this.createMetadataSection(engraving, artist)}
-                </div>
-            </div>
-        `;
-    },
 
     /**
      * Show engraving details in modal
@@ -354,7 +272,9 @@ const ModalComponent = {
         window.history.pushState(null, '', `#engraving/${engraving.id}`);
         
         // Add to recently viewed
-        addToRecentlyViewed(engraving.id);
+        if (typeof addToRecentlyViewed === 'function') {
+            addToRecentlyViewed(engraving.id);
+        }
         
         // Show modal
         modal.style.display = 'flex';
@@ -382,12 +302,17 @@ const ModalComponent = {
         
         if (!modal || !container) return;
         
+        // Skip adjustment on mobile - let CSS handle it
+        if (window.innerWidth <= 768) {
+            return;
+        }
+        
         // Get image natural dimensions
         const aspectRatio = img.naturalWidth / img.naturalHeight;
         const isWide = aspectRatio > 1.5;
         const isTall = aspectRatio < 0.8;
         
-        // Adjust modal layout based on image aspect ratio
+        // Adjust modal layout based on image aspect ratio on desktop only
         if (isWide) {
             container.style.gridTemplateColumns = '1fr';
             container.style.maxWidth = '90vw';
