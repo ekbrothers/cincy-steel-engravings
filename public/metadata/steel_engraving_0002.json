@@ -39,5 +39,22 @@
     "date": "2025-01-12",
     "source": "Historical documentation"
   },
-  "description": "Historic 1874 view of Cincinnati from the Carlisle Hotel, showcasing the city's buildings, landmarks, and street scenes. This illustration captures Cincinnati's urban development during the post-Civil War era, with prominent spires and architectural features visible from this elevated downtown vantage point."
+  "description": "Historic 1874 view of Cincinnati from the Carlisle Hotel, showcasing the city's buildings, landmarks, and street scenes. This illustration captures Cincinnati's urban development during the post-Civil War era, with prominent spires and architectural features visible from this elevated downtown vantage point.",
+  "landmarks": [
+    {
+      "landmarkId": "roebling_suspension_bridge",
+      "x": 75.3,
+      "y": 45.1
+    },
+    {
+      "landmarkId": "fountain_square",
+      "x": 40.8,
+      "y": 55.2
+    },
+    {
+      "landmarkId": "st_peter_cathedral",
+      "x": 25.4,
+      "y": 35.9
+    }
+  ]
 }

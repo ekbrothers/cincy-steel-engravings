@@ -361,10 +361,10 @@ const ModalComponent = {
         document.body.style.overflow = 'hidden';
         
         // Add landmark overlay after image loads
-        setTimeout(() => {
+        setTimeout(async () => {
             const imageContainer = document.querySelector('.engraving-image-container');
             if (imageContainer) {
-                LandmarkOverlay.createOverlay(engraving, imageContainer);
+                await LandmarkOverlay.createOverlay(engraving, imageContainer);
             }
         }, 100);
         

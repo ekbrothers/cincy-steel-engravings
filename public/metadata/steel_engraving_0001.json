@@ -36,31 +36,24 @@
   "description": "Authentic 1872 steel engraving by A. C. Warren from the renowned 'Picturesque America' series published by D. Appleton. This panoramic view captures Cincinnati from Mt. Adams, showcasing the city's riverfront, commercial district, and the bustling Ohio River during the post-Civil War era of American expansion.",
   "landmarks": [
     {
-      "id": "landmark_001",
-      "name": "City Hall",
-      "description": "The original Cincinnati City Hall building.",
-      "category": "government",
+      "landmarkId": "cincinnati_city_hall",
       "x": 45.2,
-      "y": 32.8,
-      "historicalContext": "Built in 1888, demolished in 1960"
+      "y": 32.8
     },
     {
-      "id": "landmark_002",
-      "name": "Suspension Bridge",
-      "description": "The John A. Roebling Suspension Bridge.",
-      "category": "bridge",
+      "landmarkId": "roebling_suspension_bridge",
       "x": 60.5,
-      "y": 40.3,
-      "historicalContext": "Opened in 1867, connecting Cincinnati to Covington."
+      "y": 40.3
     },
     {
-      "id": "landmark_003",
-      "name": "Public Landing",
-      "description": "Cincinnati's main riverfront loading area.",
-      "category": "transportation",
+      "landmarkId": "public_landing",
       "x": 55.8,
-      "y": 65.2,
-      "historicalContext": "The heart of Cincinnati's river commerce in the 1800s."
+      "y": 65.2
+    },
+    {
+      "landmarkId": "isaac_m_wise_temple",
+      "x": 38.5,
+      "y": 28.7
     }
   ]
 }

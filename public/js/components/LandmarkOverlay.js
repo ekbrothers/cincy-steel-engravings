@@ -133,6 +133,173 @@ const LandmarkOverlay = {
                 .landmark-overlay.hidden {
                     display: none;
                 }
+                
+                /* Mobile-optimized landmark detail modal */
+                .landmark-detail-modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.9);
+                    display: none;
+                    z-index: 1000;
+                    overflow-y: auto;
+                }
+                
+                .landmark-detail-content {
+                    background: white;
+                    margin: 20px;
+                    border-radius: 12px;
+                    padding: 24px;
+                    max-width: 600px;
+                    margin: 40px auto;
+                    position: relative;
+                }
+                
+                @media (max-width: 768px) {
+                    .landmark-detail-content {
+                        margin: 0;
+                        border-radius: 0;
+                        height: 100%;
+                        padding: 20px;
+                        display: flex;
+                        flex-direction: column;
+                    }
+                }
+                
+                .landmark-detail-close {
+                    position: absolute;
+                    top: 16px;
+                    right: 16px;
+                    background: none;
+                    border: none;
+                    font-size: 24px;
+                    cursor: pointer;
+                    color: #666;
+                    padding: 8px;
+                    line-height: 1;
+                }
+                
+                .landmark-detail-close:hover {
+                    color: #000;
+                }
+                
+                .landmark-detail-header {
+                    margin-bottom: 20px;
+                }
+                
+                .landmark-detail-title {
+                    font-size: 24px;
+                    font-weight: 600;
+                    margin: 0 0 8px 0;
+                    color: #333;
+                }
+                
+                .landmark-detail-category {
+                    display: inline-block;
+                    padding: 4px 12px;
+                    border-radius: 16px;
+                    font-size: 12px;
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+                
+                .landmark-detail-category.government {
+                    background: #3b82f6;
+                    color: white;
+                }
+                
+                .landmark-detail-category.bridge {
+                    background: #10b981;
+                    color: white;
+                }
+                
+                .landmark-detail-category.transportation {
+                    background: #f59e0b;
+                    color: white;
+                }
+                
+                .landmark-detail-category.public_space {
+                    background: #8b5cf6;
+                    color: white;
+                }
+                
+                .landmark-detail-category.religious {
+                    background: #ef4444;
+                    color: white;
+                }
+                
+                .landmark-detail-description {
+                    font-size: 16px;
+                    line-height: 1.6;
+                    color: #555;
+                    margin-bottom: 20px;
+                }
+                
+                .landmark-detail-blip {
+                    font-size: 15px;
+                    line-height: 1.7;
+                    color: #333;
+                    margin-bottom: 20px;
+                }
+                
+                .landmark-detail-context {
+                    background: #f8f9fa;
+                    padding: 16px;
+                    border-radius: 8px;
+                    font-style: italic;
+                    color: #666;
+                    margin-bottom: 20px;
+                }
+                
+                .landmark-detail-links {
+                    margin-top: 20px;
+                }
+                
+                .landmark-detail-links h4 {
+                    margin: 0 0 12px 0;
+                    font-size: 16px;
+                    color: #333;
+                }
+                
+                .landmark-detail-link {
+                    display: block;
+                    color: #3b82f6;
+                    text-decoration: none;
+                    padding: 8px 0;
+                    border-bottom: 1px solid #e5e7eb;
+                }
+                
+                .landmark-detail-link:hover {
+                    color: #1d4ed8;
+                }
+                
+                .landmark-detail-link:last-child {
+                    border-bottom: none;
+                }
+                
+                .landmark-appears-in {
+                    margin-top: 20px;
+                    padding-top: 20px;
+                    border-top: 1px solid #e5e7eb;
+                }
+                
+                .landmark-appears-in h4 {
+                    margin: 0 0 12px 0;
+                    font-size: 16px;
+                    color: #333;
+                }
+                
+                .landmark-appears-in-item {
+                    background: #f3f4f6;
+                    padding: 8px 12px;
+                    border-radius: 6px;
+                    margin-bottom: 8px;
+                    font-size: 14px;
+                    color: #555;
+                }
             `;
             document.head.appendChild(style);
         }
@@ -144,7 +311,7 @@ const LandmarkOverlay = {
      * @param {HTMLElement} imageContainer - Container element for the image
      * @returns {HTMLElement} Overlay element
      */
-    createOverlay(engraving, imageContainer) {
+    async createOverlay(engraving, imageContainer) {
         if (!engraving.landmarks || engraving.landmarks.length === 0) {
             return null;
         }
@@ -159,10 +326,16 @@ const LandmarkOverlay = {
         toggleButton.textContent = 'Show Landmarks';
         toggleButton.onclick = () => this.toggleOverlay(engraving.id);
 
-        // Create markers for each landmark
-        engraving.landmarks.forEach(landmark => {
-            const marker = this.createMarker(landmark, engraving.id);
-            overlay.appendChild(marker);
+        // Create markers for each landmark (async)
+        const markerPromises = engraving.landmarks.map(landmark => 
+            this.createMarker(landmark, engraving.id)
+        );
+        
+        const markers = await Promise.all(markerPromises);
+        markers.forEach(marker => {
+            if (marker) {
+                overlay.appendChild(marker);
+            }
         });
 
         // Add toggle button to container
@@ -175,31 +348,37 @@ const LandmarkOverlay = {
 
     /**
      * Create a landmark marker
-     * @param {Object} landmark - Landmark data
+     * @param {Object} landmarkRef - Landmark reference with landmarkId and coordinates
      * @param {string} engravingId - ID of the engraving
      * @returns {HTMLElement} Marker element
      */
-    createMarker(landmark, engravingId) {
+    async createMarker(landmarkRef, engravingId) {
+        const landmarkData = await DataLoader.getLandmark(landmarkRef.landmarkId);
+        if (!landmarkData) {
+            console.warn(`Landmark not found: ${landmarkRef.landmarkId}`);
+            return null;
+        }
+
         const marker = document.createElement('div');
-        marker.className = `landmark-marker category-${landmark.category}`;
-        marker.style.left = `${landmark.x}%`;
-        marker.style.top = `${landmark.y}%`;
-        marker.setAttribute('data-landmark-id', landmark.id);
+        marker.className = `landmark-marker category-${landmarkData.category}`;
+        marker.style.left = `${landmarkRef.x}%`;
+        marker.style.top = `${landmarkRef.y}%`;
+        marker.setAttribute('data-landmark-id', landmarkRef.landmarkId);
         marker.setAttribute('data-engraving-id', engravingId);
 
-        // Add hover events
+        // Add hover events for desktop
         marker.addEventListener('mouseenter', (e) => {
-            this.showTooltip(e, landmark);
+            this.showTooltip(e, landmarkData);
         });
 
         marker.addEventListener('mouseleave', () => {
             this.hideTooltip();
         });
 
-        // Add click event for mobile
+        // Add click event for mobile detail modal
         marker.addEventListener('click', (e) => {
             e.stopPropagation();
-            this.toggleTooltip(e, landmark);
+            this.showLandmarkDetail(landmarkData);
         });
 
         return marker;
@@ -311,6 +490,104 @@ const LandmarkOverlay = {
     getLandmarks(engravingId) {
         const engraving = AppState.engravingsData.find(e => e.id === engravingId);
         return engraving && engraving.landmarks ? engraving.landmarks : [];
+    },
+
+    /**
+     * Show landmark detail modal (mobile-optimized)
+     * @param {Object} landmark - Landmark data
+     */
+    showLandmarkDetail(landmark) {
+        // Create modal if it doesn't exist
+        let modal = document.getElementById('landmark-detail-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'landmark-detail-modal';
+            modal.className = 'landmark-detail-modal';
+            document.body.appendChild(modal);
+        }
+
+        // Build modal content
+        const appearsInList = landmark.appearsIn.map(engravingId => {
+            const engraving = AppState.engravingsData.find(e => e.id === engravingId);
+            return engraving ? engraving.title : engravingId;
+        }).join(', ');
+
+        modal.innerHTML = `
+            <div class="landmark-detail-content">
+                <button class="landmark-detail-close" onclick="LandmarkOverlay.closeLandmarkDetail()">&times;</button>
+                
+                <div class="landmark-detail-header">
+                    <h2 class="landmark-detail-title">${landmark.name}</h2>
+                    <span class="landmark-detail-category ${landmark.category}">${landmark.category}</span>
+                </div>
+                
+                <div class="landmark-detail-description">
+                    ${landmark.description}
+                </div>
+                
+                <div class="landmark-detail-blip">
+                    ${landmark.blip}
+                </div>
+                
+                <div class="landmark-detail-context">
+                    ${landmark.historicalContext}
+                </div>
+                
+                ${landmark.links && landmark.links.length > 0 ? `
+                    <div class="landmark-detail-links">
+                        <h4>Learn More</h4>
+                        ${landmark.links.map(link => `
+                            <a href="${link}" target="_blank" rel="noopener noreferrer" class="landmark-detail-link">
+                                ${this.getDomainFromUrl(link)}
+                            </a>
+                        `).join('')}
+                    </div>
+                ` : ''}
+                
+                <div class="landmark-appears-in">
+                    <h4>Appears in Engravings</h4>
+                    <div class="landmark-appears-in-item">
+                        ${appearsInList}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Show modal
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+
+        // Add click outside to close
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                this.closeLandmarkDetail();
+            }
+        });
+    },
+
+    /**
+     * Close landmark detail modal
+     */
+    closeLandmarkDetail() {
+        const modal = document.getElementById('landmark-detail-modal');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    },
+
+    /**
+     * Get domain from URL for display
+     * @param {string} url - URL to extract domain from
+     * @returns {string} Domain name
+     */
+    getDomainFromUrl(url) {
+        try {
+            const domain = new URL(url).hostname;
+            return domain.replace('www.', '');
+        } catch (e) {
+            return url;
+        }
     },
 
     /**

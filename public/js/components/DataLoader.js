@@ -76,5 +76,41 @@ const DataLoader = {
         // Convert steel_engraving_0001 to steel_engraving__0001.jpg
         const imageFileName = engravingId.replace('steel_engraving_', 'steel_engraving__');
         return `/engravings/${imageFileName}.jpg`;
+    },
+
+    /**
+     * Load landmarks database
+     * @returns {Promise<Object>} Landmarks database object
+     */
+    async loadLandmarks() {
+        if (this.landmarksCache) {
+            return this.landmarksCache;
+        }
+
+        try {
+            console.log('🏛️ Loading landmarks database...');
+            const response = await fetch('/data/landmarks.json');
+            if (response.ok) {
+                this.landmarksCache = await response.json();
+                console.log(`✅ Loaded ${Object.keys(this.landmarksCache.landmarks).length} landmarks`);
+                return this.landmarksCache;
+            } else {
+                console.error('❌ Failed to load landmarks database');
+                return { landmarks: {} };
+            }
+        } catch (error) {
+            console.error('❌ Error loading landmarks:', error);
+            return { landmarks: {} };
+        }
+    },
+
+    /**
+     * Get landmark details by ID
+     * @param {string} landmarkId - Landmark ID
+     * @returns {Promise<Object>} Landmark details object
+     */
+    async getLandmark(landmarkId) {
+        const landmarksData = await this.loadLandmarks();
+        return landmarksData.landmarks[landmarkId] || null;
     }
 };
