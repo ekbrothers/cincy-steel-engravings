@@ -284,10 +284,9 @@ const ModalComponent = {
         modalBody.innerHTML = `
             <div class="engraving-details">
                 <div class="engraving-image-container">
-                    <img src="${thumbnailSrc}" 
+                    <img src="${fullSrc}" 
                          alt="${engraving.title}" 
                          class="engraving-img"
-                         data-full-src="${fullSrc}"
                          onclick="ModalComponent.showFullImage('${fullSrc}', '${engraving.title}')"
                          onload="ModalComponent.adjustModalSize(this)" />
                     <div class="image-loading-overlay" style="display: none;">
