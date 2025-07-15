@@ -7,29 +7,50 @@ const MapComponent = {
      * Initialize the Leaflet map
      */
     init() {
+        console.log('Initializing map...');
         const mapContainer = document.getElementById('map');
         if (!mapContainer) {
+            console.error('Map container not found!');
             throw new Error('Map container not found');
         }
 
-        // Create map
-        AppState.map = L.map(mapContainer, {
-            center: Config.CINCINNATI_CENTER,
-            zoom: 12,
-            zoomControl: true,
-            attributionControl: true
-        });
+        console.log('Map container found, dimensions:', mapContainer.offsetWidth, 'x', mapContainer.offsetHeight);
+        
+        try {
+            // Create map with explicit dimensions
+            mapContainer.style.height = '100%';
+            mapContainer.style.width = '100%';
+            
+            // Create map
+            AppState.map = L.map(mapContainer, {
+                center: Config.CINCINNATI_CENTER,
+                zoom: 12,
+                zoomControl: true,
+                attributionControl: true
+            });
+            
+            console.log('Map object created:', AppState.map);
 
-        // Add initial layer (modern)
-        this.addLayer('modern');
-        
-        // Create markers layer group
-        AppState.markersLayer = L.layerGroup().addTo(AppState.map);
-        
-        // Set up layer switching
-        this.setupLayerSwitching();
-        
-        console.log('🗺️ Map initialized');
+            // Add initial layer (modern)
+            this.addLayer('modern');
+            
+            // Create markers layer group
+            AppState.markersLayer = L.layerGroup().addTo(AppState.map);
+            
+            // Set up layer switching
+            this.setupLayerSwitching();
+            
+            // Force a resize event to ensure map renders correctly
+            setTimeout(() => {
+                console.log('Triggering map resize event');
+                AppState.map.invalidateSize();
+            }, 100);
+            
+            console.log('🗺️ Map initialized successfully');
+        } catch (error) {
+            console.error('Error initializing map:', error);
+            throw error;
+        }
     },
 
     /**
@@ -37,13 +58,24 @@ const MapComponent = {
      * @param {string} layerType - 'modern' or 'historical'
      */
     addLayer(layerType) {
+        console.log(`Adding map layer: ${layerType}`);
         const layerConfig = Config.MAP_LAYERS[layerType];
-        if (!layerConfig) return;
+        if (!layerConfig) {
+            console.error(`Layer config not found for: ${layerType}`);
+            return;
+        }
 
-        L.tileLayer(layerConfig.url, {
-            attribution: layerConfig.attribution,
-            maxZoom: layerConfig.maxZoom
-        }).addTo(AppState.map);
+        try {
+            const tileLayer = L.tileLayer(layerConfig.url, {
+                attribution: layerConfig.attribution,
+                maxZoom: layerConfig.maxZoom
+            });
+            
+            tileLayer.addTo(AppState.map);
+            console.log(`✅ Added ${layerType} layer successfully`);
+        } catch (error) {
+            console.error(`Error adding ${layerType} layer:`, error);
+        }
     },
 
     /**
@@ -61,13 +93,18 @@ const MapComponent = {
      * Setup layer switching functionality
      */
     setupLayerSwitching() {
-        const mapLayerRadios = document.querySelectorAll('input[name="map-layer"]');
-        mapLayerRadios.forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                this.removeAllLayers();
-                this.addLayer(e.target.value);
-            });
-        });
+        // This is now handled by the filter chips in initFilterChips() in app.js
+        console.log('🔄 Layer switching setup - using filter chips');
+    },
+    
+    /**
+     * Switch map layer
+     * @param {string} layerType - 'modern' or 'historical'
+     */
+    switchLayer(layerType) {
+        console.log(`🔄 Switching map layer to: ${layerType}`);
+        this.removeAllLayers();
+        this.addLayer(layerType);
     },
 
     /**

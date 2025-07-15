@@ -313,7 +313,8 @@ body {
 
 /* Main Layout */
 .app-main {
-    display: block;
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
     min-height: calc(100vh - var(--header-height));
 }
 
@@ -326,6 +327,9 @@ body {
     overflow: hidden;
     transition: all var(--duration-normal) var(--ease-out);
     position: relative;
+    width: var(--sidebar-width);
+    height: 100%;
+    overflow-y: auto;
 }
 
 .app-sidebar::before {
@@ -418,12 +422,15 @@ body {
     margin: 0 var(--space-6) 0;
     box-shadow: var(--shadow-lg);
     height: calc(100vh - var(--header-height) - 70px);
+    background-color: var(--color-surface); /* Add background color */
+    width: 100%; /* Ensure full width */
 }
 
 #map {
     height: 100%;
     width: 100%;
     border-radius: inherit;
+    z-index: 1; /* Ensure map is above background */
 }
 
 /* Hide mobile elements on desktop */
