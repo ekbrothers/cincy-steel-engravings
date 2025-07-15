@@ -506,18 +506,6 @@
         .modal-content {
             background: rgba(30, 30, 30, 0.98);
         }
-        
-        #map {
-            filter: brightness(0.9) contrast(1.1);
-        }
-        
-        .mobile-nav-btn {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .mobile-nav-btn.active {
-            color: white;
-        }
     }
 }
 
