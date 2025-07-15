@@ -360,6 +360,14 @@ const ModalComponent = {
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
         
+        // Add landmark overlay after image loads
+        setTimeout(() => {
+            const imageContainer = document.querySelector('.engraving-image-container');
+            if (imageContainer) {
+                LandmarkOverlay.createOverlay(engraving, imageContainer);
+            }
+        }, 100);
+        
         // Focus management
         modal.focus();
     },

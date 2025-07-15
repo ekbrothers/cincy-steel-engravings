@@ -66,6 +66,7 @@ async function initApp() {
         
         // Initialize components
         MapComponent.init();
+        LandmarkOverlay.init();
         ModalComponent.init();
         NavigationComponent.init();
         
