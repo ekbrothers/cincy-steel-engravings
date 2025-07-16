@@ -279,21 +279,24 @@ const LandmarkOverlay = {
                 }
                 
                 .landmark-detail-status.extant {
-                    background: rgba(34, 197, 94, 0.8);
+                    background: var(--color-extant);
                     color: white;
-                    border: 1px solid rgba(34, 197, 94, 0.4);
+                    border: 1px solid var(--color-extant);
+                    box-shadow: 0 2px 8px rgba(79, 121, 66, 0.3);
                 }
                 
                 .landmark-detail-status.razed {
-                    background: rgba(239, 68, 68, 0.8);
+                    background: var(--color-razed);
                     color: white;
-                    border: 1px solid rgba(239, 68, 68, 0.4);
+                    border: 1px solid var(--color-razed);
+                    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.3);
                 }
                 
                 .landmark-detail-status.altered {
-                    background: rgba(245, 158, 11, 0.8);
+                    background: var(--color-altered);
                     color: white;
-                    border: 1px solid rgba(245, 158, 11, 0.4);
+                    border: 1px solid var(--color-altered);
+                    box-shadow: 0 2px 8px rgba(205, 133, 63, 0.3);
                 }
                 
                 .landmark-detail-body {

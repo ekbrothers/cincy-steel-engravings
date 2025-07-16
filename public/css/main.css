@@ -1,15 +1,20 @@
 /* Enhanced Modern CSS for Cincinnati Steel Engravings */
 :root {
-    /* Enhanced Color System */
-    --color-primary: #4caf50;
-    --color-primary-dark: #388e3c;
-    --color-primary-light: #81c784;
-    --color-secondary: #2196f3;
-    --color-accent: #ffc107;
-    --color-success: #4caf50;
-    --color-warning: #ff9800;
-    --color-error: #f44336;
-    --color-info: #2196f3;
+    /* Joy & Curiosity Color System - Historical Elegance */
+    --color-primary: #D4AF37; /* Warm gold - historical elegance */
+    --color-primary-dark: #B8941F;
+    --color-primary-light: #E8C865;
+    --color-secondary: #8B4513; /* Warm brown - aged leather */
+    --color-accent: #CD853F; /* Warm amber - aged brass */
+    --color-success: #4F7942; /* Deep forest green - "extant" */
+    --color-warning: #CD853F; /* Warm amber - "altered" */
+    --color-error: #8B4513; /* Warm brown - "razed" */
+    --color-info: #5F7A8A; /* Muted blue-gray */
+    
+    /* Historical Status Colors */
+    --color-extant: #4F7942; /* Deep forest green */
+    --color-razed: #8B4513; /* Warm brown */
+    --color-altered: #CD853F; /* Warm amber */
     
     /* Background System */
     --color-background: #0a0a0a;
