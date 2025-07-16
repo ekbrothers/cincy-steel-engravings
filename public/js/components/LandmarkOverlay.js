@@ -152,76 +152,80 @@ const LandmarkOverlay = {
                     display: none;
                 }
                 
-                /* Mobile-optimized landmark detail modal */
+                /* Mobile-optimized landmark detail modal - DARK MODE */
                 .landmark-detail-modal {
                     position: fixed;
                     top: 0;
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background: rgba(0, 0, 0, 0.9);
+                    background: rgba(0, 0, 0, 0.95);
                     display: none;
-                    z-index: 1000;
-                    overflow-y: auto;
+                    z-index: 2000;
+                    overflow: hidden;
                 }
                 
                 .landmark-detail-content {
-                    background: white;
-                    margin: 20px;
-                    border-radius: 12px;
-                    padding: 24px;
-                    max-width: 600px;
-                    margin: 40px auto;
+                    background: #1a1a1a;
+                    color: #e5e5e5;
+                    margin: 0;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
                     position: relative;
                 }
                 
-                @media (max-width: 768px) {
-                    .landmark-detail-content {
-                        margin: 0;
-                        border-radius: 0;
-                        height: 100%;
-                        padding: 20px;
-                        display: flex;
-                        flex-direction: column;
-                    }
+                .landmark-detail-header {
+                    background: #2d2d2d;
+                    padding: 16px 20px;
+                    border-bottom: 1px solid #404040;
+                    flex-shrink: 0;
+                    position: sticky;
+                    top: 0;
+                    z-index: 10;
                 }
                 
                 .landmark-detail-close {
                     position: absolute;
                     top: 16px;
-                    right: 16px;
-                    background: none;
-                    border: none;
-                    font-size: 24px;
+                    right: 20px;
+                    background: rgba(255, 255, 255, 0.1);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 18px;
                     cursor: pointer;
-                    color: #666;
-                    padding: 8px;
-                    line-height: 1;
+                    color: #e5e5e5;
+                    transition: all 0.2s ease;
                 }
                 
                 .landmark-detail-close:hover {
-                    color: #000;
-                }
-                
-                .landmark-detail-header {
-                    margin-bottom: 20px;
+                    background: rgba(255, 255, 255, 0.2);
+                    color: #ffffff;
+                    transform: scale(1.1);
                 }
                 
                 .landmark-detail-title {
-                    font-size: 24px;
+                    font-size: 20px;
                     font-weight: 600;
-                    margin: 0 0 8px 0;
-                    color: #333;
+                    margin: 0 50px 8px 0;
+                    color: #ffffff;
+                    line-height: 1.3;
                 }
                 
                 .landmark-detail-category {
                     display: inline-block;
-                    padding: 4px 12px;
-                    border-radius: 16px;
-                    font-size: 12px;
+                    padding: 4px 10px;
+                    border-radius: 12px;
+                    font-size: 11px;
                     font-weight: 500;
                     text-transform: uppercase;
                     letter-spacing: 0.5px;
+                    opacity: 0.9;
                 }
                 
                 .landmark-detail-category.government {
@@ -249,27 +253,35 @@ const LandmarkOverlay = {
                     color: white;
                 }
                 
+                .landmark-detail-body {
+                    flex: 1;
+                    overflow-y: auto;
+                    -webkit-overflow-scrolling: touch;
+                    padding: 20px;
+                }
+                
                 .landmark-detail-description {
                     font-size: 16px;
                     line-height: 1.6;
-                    color: #555;
+                    color: #d1d5db;
                     margin-bottom: 20px;
                 }
                 
                 .landmark-detail-blip {
                     font-size: 15px;
                     line-height: 1.7;
-                    color: #333;
+                    color: #e5e5e5;
                     margin-bottom: 20px;
                 }
                 
                 .landmark-detail-context {
-                    background: #f8f9fa;
+                    background: #2d2d2d;
                     padding: 16px;
                     border-radius: 8px;
                     font-style: italic;
-                    color: #666;
+                    color: #a1a1a1;
                     margin-bottom: 20px;
+                    border-left: 3px solid #3b82f6;
                 }
                 
                 .landmark-detail-links {
@@ -279,19 +291,20 @@ const LandmarkOverlay = {
                 .landmark-detail-links h4 {
                     margin: 0 0 12px 0;
                     font-size: 16px;
-                    color: #333;
+                    color: #ffffff;
                 }
                 
                 .landmark-detail-link {
                     display: block;
-                    color: #3b82f6;
+                    color: #60a5fa;
                     text-decoration: none;
-                    padding: 8px 0;
-                    border-bottom: 1px solid #e5e7eb;
+                    padding: 12px 0;
+                    border-bottom: 1px solid #404040;
+                    transition: color 0.2s ease;
                 }
                 
                 .landmark-detail-link:hover {
-                    color: #1d4ed8;
+                    color: #93c5fd;
                 }
                 
                 .landmark-detail-link:last-child {
@@ -301,22 +314,50 @@ const LandmarkOverlay = {
                 .landmark-appears-in {
                     margin-top: 20px;
                     padding-top: 20px;
-                    border-top: 1px solid #e5e7eb;
+                    border-top: 1px solid #404040;
                 }
                 
                 .landmark-appears-in h4 {
                     margin: 0 0 12px 0;
                     font-size: 16px;
-                    color: #333;
+                    color: #ffffff;
                 }
                 
                 .landmark-appears-in-item {
-                    background: #f3f4f6;
-                    padding: 8px 12px;
-                    border-radius: 6px;
+                    background: #2d2d2d;
+                    padding: 12px 16px;
+                    border-radius: 8px;
                     margin-bottom: 8px;
                     font-size: 14px;
-                    color: #555;
+                    color: #d1d5db;
+                    border-left: 3px solid #10b981;
+                }
+                
+                /* Desktop styles */
+                @media (min-width: 769px) {
+                    .landmark-detail-content {
+                        background: #1a1a1a;
+                        margin: 40px auto;
+                        max-width: 600px;
+                        border-radius: 12px;
+                        height: auto;
+                        max-height: 80vh;
+                        border: 1px solid #404040;
+                    }
+                    
+                    .landmark-detail-header {
+                        border-radius: 12px 12px 0 0;
+                        position: relative;
+                    }
+                    
+                    .landmark-detail-title {
+                        font-size: 24px;
+                    }
+                    
+                    .landmark-detail-close {
+                        top: 16px;
+                        right: 16px;
+                    }
                 }
             `;
             document.head.appendChild(style);
@@ -566,40 +607,41 @@ const LandmarkOverlay = {
 
         modal.innerHTML = `
             <div class="landmark-detail-content">
-                <button class="landmark-detail-close" onclick="LandmarkOverlay.closeLandmarkDetail()">&times;</button>
-                
                 <div class="landmark-detail-header">
+                    <button class="landmark-detail-close" onclick="LandmarkOverlay.closeLandmarkDetail()">&times;</button>
                     <h2 class="landmark-detail-title">${landmark.name}</h2>
                     <span class="landmark-detail-category ${landmark.category}">${landmark.category}</span>
                 </div>
                 
-                <div class="landmark-detail-description">
-                    ${landmark.description}
-                </div>
-                
-                <div class="landmark-detail-blip">
-                    ${landmark.blip}
-                </div>
-                
-                <div class="landmark-detail-context">
-                    ${landmark.historicalContext}
-                </div>
-                
-                ${landmark.links && landmark.links.length > 0 ? `
-                    <div class="landmark-detail-links">
-                        <h4>Learn More</h4>
-                        ${landmark.links.map(link => `
-                            <a href="${link}" target="_blank" rel="noopener noreferrer" class="landmark-detail-link">
-                                ${this.getDomainFromUrl(link)}
-                            </a>
-                        `).join('')}
+                <div class="landmark-detail-body">
+                    <div class="landmark-detail-description">
+                        ${landmark.description}
                     </div>
-                ` : ''}
-                
-                <div class="landmark-appears-in">
-                    <h4>Appears in Engravings</h4>
-                    <div class="landmark-appears-in-item">
-                        ${appearsInList}
+                    
+                    <div class="landmark-detail-blip">
+                        ${landmark.blip}
+                    </div>
+                    
+                    <div class="landmark-detail-context">
+                        ${landmark.historicalContext}
+                    </div>
+                    
+                    ${landmark.links && landmark.links.length > 0 ? `
+                        <div class="landmark-detail-links">
+                            <h4>Learn More</h4>
+                            ${landmark.links.map(link => `
+                                <a href="${link}" target="_blank" rel="noopener noreferrer" class="landmark-detail-link">
+                                    ${this.getDomainFromUrl(link)}
+                                </a>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                    
+                    <div class="landmark-appears-in">
+                        <h4>Appears in Engravings</h4>
+                        <div class="landmark-appears-in-item">
+                            ${appearsInList}
+                        </div>
                     </div>
                 </div>
             </div>
