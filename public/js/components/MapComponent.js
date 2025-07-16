@@ -26,8 +26,8 @@ const MapComponent = {
             attributionControl: true
         });
 
-        // Add default modern layer
-        this.addLayer('modern');
+        // Add default dark layer for dark mode
+        this.addLayer('night');
         
         // Create markers layer group
         AppState.markersLayer = L.layerGroup().addTo(AppState.map);
