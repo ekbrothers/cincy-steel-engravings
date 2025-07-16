@@ -432,12 +432,94 @@ body {
     background: #000;
 }
 
-/* Leaflet Dark Mode */
+/* Leaflet Dark Mode - Comprehensive */
 .leaflet-layer,
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out,
 .leaflet-control-attribution {
     filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
+
+/* Additional Leaflet Dark Mode Components */
+.leaflet-container {
+    background: #000;
+}
+
+.leaflet-tile-pane {
+    filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
+
+.leaflet-control-container .leaflet-control {
+    background: var(--color-surface-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+.leaflet-control-zoom a {
+    background: var(--color-surface-elevated);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.leaflet-control-zoom a:hover {
+    background: var(--color-surface-hover);
+    color: var(--color-primary);
+}
+
+.leaflet-control-attribution {
+    background: var(--color-surface-elevated);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+}
+
+.leaflet-control-attribution a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.leaflet-control-attribution a:hover {
+    color: var(--color-primary-light);
+}
+
+.leaflet-popup-content-wrapper {
+    background: var(--color-surface-elevated);
+    color: var(--color-text);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border);
+}
+
+.leaflet-popup-tip {
+    background: var(--color-surface-elevated);
+    border: 1px solid var(--color-border);
+}
+
+.leaflet-popup-close-button {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+    padding: var(--space-1);
+}
+
+.leaflet-popup-close-button:hover {
+    color: var(--color-text);
+    background: var(--color-surface-hover);
+}
+
+/* Override tile layer inversion for markers and overlays */
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-popup,
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip,
+.leaflet-control-zoom,
+.leaflet-control-attribution {
+    filter: none !important;
 }
 
 /* Hide mobile elements on desktop */
