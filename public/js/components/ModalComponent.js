@@ -516,7 +516,7 @@ const ModalComponent = {
     },
 
     /**
-     * Setup enhanced image interaction with mobile gestures
+     * Setup simple, intuitive image interaction
      */
     setupImageInteraction() {
         const container = document.getElementById('image-zoom-container');
@@ -526,50 +526,37 @@ const ModalComponent = {
         container.replaceWith(container.cloneNode(true));
         const newContainer = document.getElementById('image-zoom-container');
 
-        // Enhanced mouse events
+        // Mouse events for desktop
         newContainer.addEventListener('mousedown', (e) => this.startDrag(e));
         newContainer.addEventListener('mousemove', (e) => this.drag(e));
         newContainer.addEventListener('mouseup', () => this.endDrag());
         newContainer.addEventListener('mouseleave', () => this.endDrag());
 
-        // Enhanced touch events with pinch-to-zoom
+        // Touch events for mobile
         newContainer.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
         newContainer.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: false });
-        newContainer.addEventListener('touchend', () => this.handleTouchEnd());
+        newContainer.addEventListener('touchend', (e) => this.handleTouchEnd(e));
 
-        // Enhanced wheel zoom
+        // Wheel zoom for desktop
         newContainer.addEventListener('wheel', (e) => this.handleWheel(e), { passive: false });
 
-        // Double-click to zoom
-        newContainer.addEventListener('dblclick', (e) => {
-            const rect = newContainer.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            const clickY = e.clientY - rect.top;
-            this.handleDoubleClick(clickX, clickY, rect);
-        });
-
-        // Instagram-style single-tap zoom
-        let tapTimeout = null;
+        // Double-tap zoom - simple approach
+        let lastTapTime = 0;
         newContainer.addEventListener('touchend', (e) => {
-            // Only handle single finger taps
-            if (e.changedTouches.length !== 1) return;
-            
-            const touch = e.changedTouches[0];
-            const rect = newContainer.getBoundingClientRect();
-            const tapX = touch.clientX - rect.left;
-            const tapY = touch.clientY - rect.top;
-            
-            // Clear any existing timeout
-            if (tapTimeout) {
-                clearTimeout(tapTimeout);
-                tapTimeout = null;
+            if (e.changedTouches.length === 1 && !AppState.wasPinching) {
+                const now = Date.now();
+                const timeDiff = now - lastTapTime;
+                
+                if (timeDiff < 300) { // Double tap detected
+                    e.preventDefault();
+                    const touch = e.changedTouches[0];
+                    const rect = newContainer.getBoundingClientRect();
+                    const tapX = touch.clientX - rect.left;
+                    const tapY = touch.clientY - rect.top;
+                    this.handleDoubleTap(tapX, tapY, rect);
+                }
+                lastTapTime = now;
             }
-            
-            // Set timeout to handle tap
-            tapTimeout = setTimeout(() => {
-                this.handleSingleTap(tapX, tapY, rect);
-                tapTimeout = null;
-            }, 100);
         });
     },
 
