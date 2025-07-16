@@ -5,6 +5,7 @@
       "description": "The original Cincinnati City Hall building, a grand example of 19th-century municipal architecture.",
       "blip": "Cincinnati's original City Hall stood as a symbol of the city's growing prosperity and civic pride during the late 1800s. The building featured elaborate stonework and housed the mayor's office, city council chambers, and various municipal departments. Its imposing presence dominated the downtown skyline until its demolition in 1960 to make way for modern development.",
       "category": "government",
+      "status": "Razed",
       "photos": [
         "city_hall_front.jpg",
         "city_hall_interior.jpg"
@@ -21,6 +22,7 @@
       "description": "The iconic suspension bridge connecting Cincinnati to Covington, Kentucky.",
       "blip": "Designed by John Augustus Roebling, this suspension bridge was a marvel of 19th-century engineering. Completed in 1867, it served as a prototype for Roebling's later masterpiece, the Brooklyn Bridge. The bridge's distinctive towers and cable system made it one of the most recognizable landmarks in Cincinnati, facilitating commerce and travel between Ohio and Kentucky.",
       "category": "bridge",
+      "status": "Extant",
       "photos": [
         "roebling_bridge_1870.jpg",
         "roebling_bridge_construction.jpg",
@@ -38,6 +40,7 @@
       "description": "The bustling riverfront area that served as Cincinnati's main commercial gateway.",
       "blip": "The Public Landing was the heart of Cincinnati's river commerce, where steamboats loaded and unloaded cargo bound for destinations throughout the Ohio and Mississippi river systems. During the 1800s, this area buzzed with activity as merchants, travelers, and workers conducted business. The landing's strategic location made Cincinnati a major inland port, earning it the nickname 'Queen City of the West.'",
       "category": "transportation",
+      "status": "Altered",
       "photos": [
         "public_landing_steamboats.jpg",
         "public_landing_busy.jpg"
@@ -54,6 +57,7 @@
       "description": "Cincinnati's central public square and gathering place.",
       "blip": "Fountain Square served as Cincinnati's town square and social center, where citizens gathered for public events, markets, and celebrations. The square's central fountain became an iconic symbol of the city, surrounded by important commercial and civic buildings. It was the beating heart of Cincinnati's social and economic life throughout the 19th century.",
       "category": "public_space",
+      "status": "Extant",
       "photos": [
         "fountain_square_1870.jpg",
         "fountain_square_crowd.jpg"
@@ -70,6 +74,7 @@
       "description": "Cincinnati's grand Catholic cathedral with its distinctive spires.",
       "blip": "St. Peter in Chains Cathedral stood as a testament to Cincinnati's growing Catholic population and their architectural ambitions. The cathedral's twin spires were visible from across the city and river, serving as both a spiritual beacon and architectural landmark. The building represented the religious diversity and cultural richness of 19th-century Cincinnati.",
       "category": "religious",
+      "status": "Extant",
       "photos": [
         "st_peter_cathedral_exterior.jpg",
         "st_peter_cathedral_interior.jpg"
@@ -86,6 +91,7 @@
       "description": "Cincinnati's prominent Reform Jewish temple, designed in the Moorish Revival style.",
       "blip": "The Isaac M. Wise Temple, also known as the Plum Street Temple, was a magnificent example of Moorish Revival architecture and a cornerstone of American Reform Judaism. Built in 1866 for Congregation K.K. Bene Yeshurun, it was named after Rabbi Isaac Mayer Wise, who led the Reform movement in America from Cincinnati. The temple's distinctive twin towers and ornate facade made it one of the most recognizable religious buildings in the city, symbolizing the thriving Jewish community's integration into Cincinnati's cultural landscape.",
       "category": "religious",
+      "status": "Extant",
       "photos": [
         "isaac_wise_temple_exterior.jpg",
         "isaac_wise_temple_interior.jpg"

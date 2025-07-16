@@ -266,6 +266,36 @@ const LandmarkOverlay = {
                     border: 1px solid rgba(239, 68, 68, 0.4);
                 }
                 
+                .landmark-detail-status {
+                    display: inline-block;
+                    padding: 4px 10px;
+                    border-radius: 12px;
+                    font-size: 11px;
+                    font-weight: 400;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    margin-left: 8px;
+                    opacity: 0.8;
+                }
+                
+                .landmark-detail-status.extant {
+                    background: rgba(34, 197, 94, 0.8);
+                    color: white;
+                    border: 1px solid rgba(34, 197, 94, 0.4);
+                }
+                
+                .landmark-detail-status.razed {
+                    background: rgba(239, 68, 68, 0.8);
+                    color: white;
+                    border: 1px solid rgba(239, 68, 68, 0.4);
+                }
+                
+                .landmark-detail-status.altered {
+                    background: rgba(245, 158, 11, 0.8);
+                    color: white;
+                    border: 1px solid rgba(245, 158, 11, 0.4);
+                }
+                
                 .landmark-detail-body {
                     flex: 1;
                     overflow-y: auto;
@@ -644,12 +674,16 @@ const LandmarkOverlay = {
             };
         });
 
+        // Generate status CSS class
+        const statusClass = landmark.status ? landmark.status.toLowerCase().replace(' ', '-') : '';
+        
         modal.innerHTML = `
             <div class="landmark-detail-content">
                 <div class="landmark-detail-header">
                     <button class="landmark-detail-close" onclick="LandmarkOverlay.closeLandmarkDetail()">&times;</button>
                     <h2 class="landmark-detail-title">${landmark.name}</h2>
                     <span class="landmark-detail-category ${landmark.category}">${landmark.category}</span>
+                    ${landmark.status ? `<span class="landmark-detail-status ${statusClass}">${landmark.status}</span>` : ''}
                 </div>
                 
                 <div class="landmark-detail-body">
