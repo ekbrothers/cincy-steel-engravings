@@ -1,9 +1,9 @@
 {
   "id": "steel_engraving_0006",
-  "title": "Cincinnati",
+  "title": "View on the Rhine, Cincinnati",
   "creator": {
-    "engraver": "W. Wellstood",
-    "artist": "A.C. Warren",
+    "engraver": "Alfred Rudolph Waud",
+    "artist": "Alfred Rudolph Waud",
     "publisher": "D. Appleton & Company"
   },
   "dates": {
@@ -20,7 +20,7 @@
     "subject": "Cincinnati cityscape",
     "neighborhood": "Cincinnati",
     "viewpoint": {
-      "description": "View of Cincinnati from elevated perspective",
+      "description": "View of Rhine, Cincinnati",
       "coordinates": {
         "lat": 39.1045,
         "lng": -84.5110
@@ -37,5 +37,5 @@
     "date": "2025-01-12",
     "source": "Historical documentation"
   },
-  "description": "Antique wood-engraved print from William Cullen Bryant's classic 1872 work 'Picturesque America.' Engraved by W. Wellstood and drawn by A.C. Warren, this 1873 illustration captures Cincinnati's urban landscape during the post-Civil War period of American expansion and development."
+  "description": "Antique wood-engraved print from William Cullen Bryant's classic 1872 work 'Picturesque America.'"
 }
