@@ -229,35 +229,40 @@ const LandmarkOverlay = {
                     padding: 4px 10px;
                     border-radius: 12px;
                     font-size: 11px;
-                    font-weight: 500;
+                    font-weight: 400;
                     text-transform: uppercase;
                     letter-spacing: 0.5px;
-                    opacity: 0.9;
+                    opacity: 0.6;
                 }
                 
                 .landmark-detail-category.government {
-                    background: #3b82f6;
-                    color: white;
+                    background: rgba(59, 130, 246, 0.3);
+                    color: rgba(59, 130, 246, 0.9);
+                    border: 1px solid rgba(59, 130, 246, 0.4);
                 }
                 
                 .landmark-detail-category.bridge {
-                    background: #10b981;
-                    color: white;
+                    background: rgba(16, 185, 129, 0.3);
+                    color: rgba(16, 185, 129, 0.9);
+                    border: 1px solid rgba(16, 185, 129, 0.4);
                 }
                 
                 .landmark-detail-category.transportation {
-                    background: #f59e0b;
-                    color: white;
+                    background: rgba(245, 158, 11, 0.3);
+                    color: rgba(245, 158, 11, 0.9);
+                    border: 1px solid rgba(245, 158, 11, 0.4);
                 }
                 
                 .landmark-detail-category.public_space {
-                    background: #8b5cf6;
-                    color: white;
+                    background: rgba(139, 92, 246, 0.3);
+                    color: rgba(139, 92, 246, 0.9);
+                    border: 1px solid rgba(139, 92, 246, 0.4);
                 }
                 
                 .landmark-detail-category.religious {
-                    background: #ef4444;
-                    color: white;
+                    background: rgba(239, 68, 68, 0.3);
+                    color: rgba(239, 68, 68, 0.9);
+                    border: 1px solid rgba(239, 68, 68, 0.4);
                 }
                 
                 .landmark-detail-body {
