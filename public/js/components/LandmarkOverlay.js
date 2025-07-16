@@ -31,46 +31,52 @@ const LandmarkOverlay = {
                 
                 .landmark-marker {
                     position: absolute;
-                    width: 24px;
-                    height: 24px;
-                    background: #ff4444;
-                    border: 2px solid white;
+                    width: 20px;
+                    height: 20px;
+                    background: rgba(255, 68, 68, 0.6);
+                    border: 1px solid rgba(255, 255, 255, 0.8);
                     border-radius: 50%;
                     cursor: pointer;
                     pointer-events: auto;
                     transform: translate(-50%, -50%);
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
                     transition: all 0.2s ease;
                     z-index: 11;
+                    opacity: 0.8;
                 }
                 
                 .landmark-marker:hover {
-                    transform: translate(-50%, -50%) scale(1.2);
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+                    transform: translate(-50%, -50%) scale(1.15);
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                    opacity: 1;
                 }
                 
                 .landmark-marker.category-government {
-                    background: #3b82f6;
+                    background: rgba(59, 130, 246, 0.6);
                 }
                 
                 .landmark-marker.category-bridge {
-                    background: #10b981;
+                    background: rgba(16, 185, 129, 0.6);
                 }
                 
                 .landmark-marker.category-transportation {
-                    background: #f59e0b;
+                    background: rgba(245, 158, 11, 0.6);
                 }
                 
                 .landmark-marker.category-building {
-                    background: #8b5cf6;
+                    background: rgba(139, 92, 246, 0.6);
                 }
                 
                 .landmark-marker.category-church {
-                    background: #ef4444;
+                    background: rgba(239, 68, 68, 0.6);
                 }
                 
                 .landmark-marker.category-religious {
-                    background: #ef4444;
+                    background: rgba(239, 68, 68, 0.6);
+                }
+                
+                .landmark-marker.category-public_space {
+                    background: rgba(139, 92, 246, 0.6);
                 }
                 
                 .landmark-tooltip {
@@ -115,28 +121,31 @@ const LandmarkOverlay = {
                     position: absolute;
                     top: 10px;
                     right: 10px;
-                    background: rgba(59, 130, 246, 0.8);
-                    color: white;
-                    border: 2px solid rgba(255, 255, 255, 0.8);
-                    padding: 8px 12px;
-                    border-radius: 6px;
+                    background: rgba(59, 130, 246, 0.4);
+                    color: rgba(255, 255, 255, 0.9);
+                    border: 1px solid rgba(255, 255, 255, 0.5);
+                    padding: 6px 10px;
+                    border-radius: 4px;
                     cursor: pointer;
-                    font-size: 12px;
-                    font-weight: 500;
+                    font-size: 11px;
+                    font-weight: 400;
                     transition: all 0.2s ease;
                     z-index: 13;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-                    backdrop-filter: blur(10px);
+                    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+                    backdrop-filter: blur(8px);
+                    opacity: 0.7;
                 }
                 
                 .landmark-toggle:hover {
-                    background: rgba(29, 78, 216, 0.9);
-                    transform: scale(1.05);
+                    background: rgba(29, 78, 216, 0.6);
+                    opacity: 1;
+                    transform: scale(1.02);
                 }
                 
                 .landmark-toggle.active {
-                    background: rgba(16, 185, 129, 0.8);
-                    border-color: rgba(16, 185, 129, 0.8);
+                    background: rgba(16, 185, 129, 0.5);
+                    border-color: rgba(16, 185, 129, 0.5);
+                    opacity: 0.8;
                 }
                 
                 .landmark-overlay.hidden {
