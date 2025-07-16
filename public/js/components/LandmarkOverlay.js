@@ -1,6 +1,6 @@
 /**
  * LandmarkOverlay Component
- * Displays interactive landmark markers on steel engravings
+ * Clean, container-based approach for landmark positioning
  */
 const LandmarkOverlay = {
     /**
@@ -8,7 +8,7 @@ const LandmarkOverlay = {
      */
     init() {
         this.setupStyles();
-        console.log('🏛️ Landmark overlay component initialized');
+        console.log('🏛️ Clean landmark overlay component initialized');
     },
 
     /**
@@ -19,6 +19,7 @@ const LandmarkOverlay = {
             const style = document.createElement('style');
             style.id = 'landmark-styles';
             style.textContent = `
+                /* Clean container-based landmark overlay */
                 .landmark-overlay {
                     position: absolute;
                     top: 0;
@@ -377,18 +378,32 @@ const LandmarkOverlay = {
     },
 
     /**
-     * Create landmark overlay for an image
+     * Create landmark overlay for an image using clean container approach
      * @param {Object} engraving - Engraving data with landmarks
      * @param {HTMLElement} imageContainer - Container element for the image
      * @returns {HTMLElement} Overlay element
      */
     async createOverlay(engraving, imageContainer) {
-        console.log('🏛️ Creating landmark overlay for:', engraving.id);
-        console.log('🏛️ Engraving landmarks:', engraving.landmarks);
+        console.log('🏛️ Creating clean landmark overlay for:', engraving.id);
         
         if (!engraving.landmarks || engraving.landmarks.length === 0) {
             console.log('🏛️ No landmarks found for engraving:', engraving.id);
             return null;
+        }
+
+        // Wait for image to load to get accurate dimensions
+        const img = imageContainer.querySelector('img');
+        if (!img) {
+            console.warn('🏛️ No image found in container');
+            return null;
+        }
+
+        // Wait for image to load if it hasn't already
+        if (!img.complete) {
+            await new Promise(resolve => {
+                img.onload = resolve;
+                img.onerror = resolve; // Resolve anyway to avoid hanging
+            });
         }
 
         const overlay = document.createElement('div');
@@ -403,51 +418,32 @@ const LandmarkOverlay = {
 
         console.log('🏛️ Creating markers for', engraving.landmarks.length, 'landmarks');
 
-        // Create markers for each landmark (async)
+        // Create markers for each landmark
         const markerPromises = engraving.landmarks.map(landmark => 
             this.createMarker(landmark, engraving.id)
         );
         
         const markers = await Promise.all(markerPromises);
-        console.log('🏛️ Created markers:', markers.filter(m => m).length, 'successful');
+        const validMarkers = markers.filter(m => m);
         
-        markers.forEach(marker => {
-            if (marker) {
-                overlay.appendChild(marker);
-            }
-        });
+        console.log('🏛️ Created', validMarkers.length, 'valid markers');
+        
+        validMarkers.forEach(marker => overlay.appendChild(marker));
 
-        // Add toggle button to container
-        imageContainer.style.position = 'relative';
+        // Add components to container
         imageContainer.appendChild(toggleButton);
         imageContainer.appendChild(overlay);
 
-        // Adjust overlay to match image dimensions
-        const img = imageContainer.querySelector('img');
-        if (img) {
-            const containerWidth = imageContainer.offsetWidth;
-            const containerHeight = imageContainer.offsetHeight;
-            const imgWidth = img.offsetWidth;
-            const imgHeight = img.offsetHeight;
-            
-            // Calculate centering offsets
-            const leftOffset = (containerWidth - imgWidth) / 2;
-            const topOffset = (containerHeight - imgHeight) / 2;
-            
-            // Adjust overlay to match image position and size
-            overlay.style.left = `${leftOffset}px`;
-            overlay.style.top = `${topOffset}px`;
-            overlay.style.width = `${imgWidth}px`;
-            overlay.style.height = `${imgHeight}px`;
-            
-            console.log('🏛️ Overlay adjusted to image dimensions:', {
-                containerSize: `${containerWidth}×${containerHeight}`,
-                imageSize: `${imgWidth}×${imgHeight}`,
-                overlayOffset: `${leftOffset}px, ${topOffset}px`
-            });
-        }
-
-        console.log('🏛️ Landmark overlay created successfully');
+        console.log('🏛️ Clean landmark overlay created successfully');
+        console.log('🏛️ Container dimensions:', {
+            width: imageContainer.offsetWidth,
+            height: imageContainer.offsetHeight
+        });
+        console.log('🏛️ Image dimensions:', {
+            width: img.offsetWidth,
+            height: img.offsetHeight
+        });
+        
         return overlay;
     },
 

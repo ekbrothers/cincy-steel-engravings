@@ -201,14 +201,16 @@ const ModalComponent = {
         
         modalBody.innerHTML = `
             <div class="engraving-details">
-                <div class="engraving-image-container">
-                    <img src="${fullSrc}" 
-                         alt="${engraving.title}" 
-                         class="engraving-img"
-                         onclick="ModalComponent.showFullImage('${fullSrc}', '${engraving.title}')"
-                         onload="ModalComponent.adjustModalSize(this)" />
-                    <div class="image-loading-overlay" style="display: none;">
-                        <div class="loading-spinner"></div>
+                <div class="engraving-image-wrapper">
+                    <div class="engraving-image-container">
+                        <img src="${fullSrc}" 
+                             alt="${engraving.title}" 
+                             class="engraving-img"
+                             onclick="ModalComponent.showFullImage('${fullSrc}', '${engraving.title}')"
+                             onload="ModalComponent.adjustModalSize(this)" />
+                        <div class="image-loading-overlay" style="display: none;">
+                            <div class="loading-spinner"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="engraving-info">
