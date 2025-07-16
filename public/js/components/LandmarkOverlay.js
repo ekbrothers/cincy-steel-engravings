@@ -237,32 +237,32 @@ const LandmarkOverlay = {
                 }
                 
                 .landmark-detail-category.government {
-                    background: rgba(59, 130, 246, 0.3);
-                    color: rgba(59, 130, 246, 0.9);
+                    background: rgba(59, 130, 246, 0.8);
+                    color: white;
                     border: 1px solid rgba(59, 130, 246, 0.4);
                 }
                 
                 .landmark-detail-category.bridge {
-                    background: rgba(16, 185, 129, 0.3);
-                    color: rgba(16, 185, 129, 0.9);
+                    background: rgba(16, 185, 129, 0.8);
+                    color: white;
                     border: 1px solid rgba(16, 185, 129, 0.4);
                 }
                 
                 .landmark-detail-category.transportation {
-                    background: rgba(245, 158, 11, 0.3);
-                    color: rgba(245, 158, 11, 0.9);
+                    background: rgba(245, 158, 11, 0.8);
+                    color: white;
                     border: 1px solid rgba(245, 158, 11, 0.4);
                 }
                 
                 .landmark-detail-category.public_space {
-                    background: rgba(139, 92, 246, 0.3);
-                    color: rgba(139, 92, 246, 0.9);
+                    background: rgba(139, 92, 246, 0.8);
+                    color: white;
                     border: 1px solid rgba(139, 92, 246, 0.4);
                 }
                 
                 .landmark-detail-category.religious {
-                    background: rgba(239, 68, 68, 0.3);
-                    color: rgba(239, 68, 68, 0.9);
+                    background: rgba(239, 68, 68, 0.8);
+                    color: white;
                     border: 1px solid rgba(239, 68, 68, 0.4);
                 }
                 
@@ -632,11 +632,17 @@ const LandmarkOverlay = {
             document.body.appendChild(modal);
         }
 
-        // Build modal content
-        const appearsInList = landmark.appearsIn.map(engravingId => {
+        // Build modal content with clickable engraving links
+        const appearsInItems = landmark.appearsIn.map(engravingId => {
             const engraving = AppState.engravingsData.find(e => e.id === engravingId);
-            return engraving ? engraving.title : engravingId;
-        }).join(', ');
+            return engraving ? {
+                id: engravingId,
+                title: engraving.title
+            } : {
+                id: engravingId,
+                title: engravingId
+            };
+        });
 
         modal.innerHTML = `
             <div class="landmark-detail-content">
@@ -659,22 +665,15 @@ const LandmarkOverlay = {
                         ${landmark.historicalContext}
                     </div>
                     
-                    ${landmark.links && landmark.links.length > 0 ? `
-                        <div class="landmark-detail-links">
-                            <h4>Learn More</h4>
-                            ${landmark.links.map(link => `
-                                <a href="${link}" target="_blank" rel="noopener noreferrer" class="landmark-detail-link">
-                                    ${this.getDomainFromUrl(link)}
-                                </a>
-                            `).join('')}
-                        </div>
-                    ` : ''}
-                    
                     <div class="landmark-appears-in">
                         <h4>Appears in Engravings</h4>
-                        <div class="landmark-appears-in-item">
-                            ${appearsInList}
-                        </div>
+                        ${appearsInItems.map(item => `
+                            <div class="landmark-appears-in-item">
+                                <a href="#" onclick="LandmarkOverlay.openEngraving('${item.id}'); return false;" class="landmark-detail-link">
+                                    ${item.title}
+                                </a>
+                            </div>
+                        `).join('')}
                     </div>
                 </div>
             </div>
@@ -715,6 +714,28 @@ const LandmarkOverlay = {
         } catch (e) {
             return url;
         }
+    },
+
+    /**
+     * Open an engraving from the landmark modal
+     * @param {string} engravingId - ID of the engraving to open
+     */
+    openEngraving(engravingId) {
+        // Close the landmark detail modal first
+        this.closeLandmarkDetail();
+        
+        // Close the current engraving modal if it's open
+        const currentModal = document.getElementById('engraving-modal');
+        if (currentModal) {
+            currentModal.style.display = 'none';
+        }
+        
+        // Open the new engraving modal
+        setTimeout(() => {
+            if (typeof ModalComponent !== 'undefined' && ModalComponent.showEngravingDetails) {
+                ModalComponent.showEngravingDetails(engravingId);
+            }
+        }, 100);
     },
 
     /**
