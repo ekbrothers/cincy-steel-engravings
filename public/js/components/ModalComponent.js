@@ -581,7 +581,7 @@ const ModalComponent = {
     },
 
     /**
-     * Enhanced touch move with pinch-to-zoom
+     * Simple touch move with smooth pinch-to-zoom
      * @param {Event} e - Touch event
      */
     handleTouchMove(e) {
@@ -591,7 +591,9 @@ const ModalComponent = {
             this.drag({ clientX: touch.clientX, clientY: touch.clientY, preventDefault: () => {} });
         } else if (e.touches.length === 2) {
             e.preventDefault();
-            // Pinch-to-zoom
+            AppState.wasPinching = true;
+            
+            // Pinch-to-zoom - no limits, smooth scaling
             const touch1 = e.touches[0];
             const touch2 = e.touches[1];
             const currentDistance = Math.hypot(
@@ -601,17 +603,23 @@ const ModalComponent = {
             
             if (AppState.initialPinchDistance > 0) {
                 const scale = currentDistance / AppState.initialPinchDistance;
-                AppState.currentZoom = Math.max(1, Math.min(5, AppState.initialZoom * scale));
+                AppState.currentZoom = Math.max(0.5, AppState.initialZoom * scale); // Allow zoom out below 1x
                 this.updateImageTransform();
             }
         }
     },
 
     /**
-     * Enhanced touch end
+     * Simple touch end
      */
-    handleTouchEnd() {
+    handleTouchEnd(e) {
         this.endDrag();
+        
+        // Reset pinch state after a short delay
+        setTimeout(() => {
+            AppState.wasPinching = false;
+        }, 100);
+        
         AppState.initialPinchDistance = 0;
         AppState.initialZoom = 1;
     },
