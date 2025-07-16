@@ -422,17 +422,32 @@ const LandmarkOverlay = {
         imageContainer.appendChild(toggleButton);
         imageContainer.appendChild(overlay);
 
+        // Adjust overlay to match image dimensions
+        const img = imageContainer.querySelector('img');
+        if (img) {
+            const containerWidth = imageContainer.offsetWidth;
+            const containerHeight = imageContainer.offsetHeight;
+            const imgWidth = img.offsetWidth;
+            const imgHeight = img.offsetHeight;
+            
+            // Calculate centering offsets
+            const leftOffset = (containerWidth - imgWidth) / 2;
+            const topOffset = (containerHeight - imgHeight) / 2;
+            
+            // Adjust overlay to match image position and size
+            overlay.style.left = `${leftOffset}px`;
+            overlay.style.top = `${topOffset}px`;
+            overlay.style.width = `${imgWidth}px`;
+            overlay.style.height = `${imgHeight}px`;
+            
+            console.log('🏛️ Overlay adjusted to image dimensions:', {
+                containerSize: `${containerWidth}×${containerHeight}`,
+                imageSize: `${imgWidth}×${imgHeight}`,
+                overlayOffset: `${leftOffset}px, ${topOffset}px`
+            });
+        }
+
         console.log('🏛️ Landmark overlay created successfully');
-        console.log('🏛️ Image container dimensions:', {
-            width: imageContainer.offsetWidth,
-            height: imageContainer.offsetHeight,
-            position: imageContainer.style.position
-        });
-        console.log('🏛️ Image element dimensions:', {
-            width: imageContainer.querySelector('img')?.offsetWidth,
-            height: imageContainer.querySelector('img')?.offsetHeight
-        });
-        
         return overlay;
     },
 
