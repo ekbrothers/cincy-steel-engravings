@@ -159,6 +159,8 @@ const LandmarkOverlay = {
                     left: 0;
                     width: 100%;
                     height: 100%;
+                    height: 100vh;
+                    height: 100dvh; /* Dynamic viewport height for mobile */
                     background: rgba(0, 0, 0, 0.95);
                     display: none;
                     z-index: 2000;
@@ -170,6 +172,8 @@ const LandmarkOverlay = {
                     color: #e5e5e5;
                     margin: 0;
                     height: 100%;
+                    height: 100vh;
+                    height: 100dvh;
                     display: flex;
                     flex-direction: column;
                     position: relative;
@@ -177,7 +181,8 @@ const LandmarkOverlay = {
                 
                 .landmark-detail-header {
                     background: #2d2d2d;
-                    padding: 16px 20px;
+                    padding: env(safe-area-inset-top, 0px) 20px 16px 20px;
+                    padding-top: max(env(safe-area-inset-top, 0px), 16px);
                     border-bottom: 1px solid #404040;
                     flex-shrink: 0;
                     position: sticky;
@@ -187,7 +192,8 @@ const LandmarkOverlay = {
                 
                 .landmark-detail-close {
                     position: absolute;
-                    top: 16px;
+                    top: max(env(safe-area-inset-top, 0px), 16px);
+                    top: calc(max(env(safe-area-inset-top, 0px), 16px) + 8px);
                     right: 20px;
                     background: rgba(255, 255, 255, 0.1);
                     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -201,6 +207,7 @@ const LandmarkOverlay = {
                     cursor: pointer;
                     color: #e5e5e5;
                     transition: all 0.2s ease;
+                    z-index: 11;
                 }
                 
                 .landmark-detail-close:hover {
