@@ -598,7 +598,7 @@ const ModalComponent = {
      * @param {Event} e - Touch event
      */
     handleTouchMove(e) {
-        if (e.touches.length === 1 && AppState.isDragging) {
+        if (e.touches.length === 1 && AppState.isDragging && AppState.currentZoom > 1) {
             e.preventDefault();
             const touch = e.touches[0];
             this.drag({ clientX: touch.clientX, clientY: touch.clientY, preventDefault: () => {} });
