@@ -418,6 +418,16 @@ const LandmarkOverlay = {
         imageContainer.appendChild(overlay);
 
         console.log('🏛️ Landmark overlay created successfully');
+        console.log('🏛️ Image container dimensions:', {
+            width: imageContainer.offsetWidth,
+            height: imageContainer.offsetHeight,
+            position: imageContainer.style.position
+        });
+        console.log('🏛️ Image element dimensions:', {
+            width: imageContainer.querySelector('img')?.offsetWidth,
+            height: imageContainer.querySelector('img')?.offsetHeight
+        });
+        
         return overlay;
     },
 
