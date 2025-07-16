@@ -2,7 +2,7 @@
   "id": "steel_engraving_0007",
   "title": "A Sunday Excursion on the Ohio River",
   "creator": {
-    "artist": "Unknown",
+    "artist": "unknown",
     "publisher": "Harper's Weekly"
   },
   "dates": {
@@ -18,7 +18,7 @@
     "subject": "Ohio River near Cincinnati",
     "neighborhood": "Ohio River",
     "viewpoint": {
-      "description": "Sunday excursion scene on the Ohio River",
+      "description": "Sunday excursion scene on the Ohio River showing the Thomas Sherlock steamboat laden with passengers enjoying a leisurely trip.",
       "coordinates": {
         "lat": 39.0945,
         "lng": -84.5085

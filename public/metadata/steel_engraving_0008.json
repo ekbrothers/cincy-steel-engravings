@@ -1,9 +1,9 @@
 {
   "id": "steel_engraving_0008",
-  "title": "Various views of the banks of the Ohio River",
+  "title": "Various Views of the Banks of the Ohio River",
   "subtitle": "Vineyards below Cincinnati, Bellevue, Parkersburg, Patriot, etc.",
   "creator": {
-    "artist": "Unknown",
+    "artist": "John Filmer",
     "publisher": "D. Appleton & Company"
   },
   "dates": {
@@ -11,7 +11,7 @@
     "published": "1872"
   },
   "source": {
-    "publication": "Picturesque America",
+    "publication": "Picturesque America; or, The Land We Live In, A Delineation by Pen and Pencil of the Mountains, Rivers, Lakes with Illustrations on Steel and Wood by Eminent American Artists",
     "editor": "William Cullen Bryant",
     "publisher": "D. Appleton & Company",
     "type": "Antique black and white engraved illustration"
@@ -20,7 +20,7 @@
     "subject": "Ohio River banks including areas near Cincinnati",
     "neighborhood": "Ohio River Valley",
     "viewpoint": {
-      "description": "Multiple views of Ohio River banks including vineyards below Cincinnati",
+      "description": "Multiple views of Ohio River banks including vineyards below Cincinnati. At bottom right is the General Buell paddle steamer.",
       "coordinates": {
         "lat": 39.0935,
         "lng": -84.5115
@@ -37,5 +37,5 @@
     "date": "2025-01-12",
     "source": "Historical documentation"
   },
-  "description": "Antique black and white engraved illustration from William Cullen Bryant's classic 1872 work 'Picturesque America' showing various views of the banks of the Ohio River, including vineyards below Cincinnati, Bellevue, Parkersburg, Patriot, and other locations along the river valley."
+  "description": "Antique black and white engraved illustration from William Cullen Bryant's classic 1872 work 'Picturesque America; or, The Land We Live In, A Delineation by Pen and Pencil of the Mountains, Rivers, Lakes with Illustrations on Steel and Wood by Eminent American Artists' showing various views of the banks of the Ohio River, including vineyards below Cincinnati, Bellevue, Parkersburg, Patriot, and other locations along the river valley."
 }

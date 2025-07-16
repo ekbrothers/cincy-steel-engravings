@@ -1,16 +1,16 @@
 {
   "id": "steel_engraving_0001",
-  "title": "City of Cincinnati",
+  "title": "City of Cincinnati, from Mt. Adams",
   "creator": {
-    "artist": "A. C. Warren",
-    "publisher": "D. Appleton"
+    "artist": "William Wellstood",
+    "publisher": "William Cullen Bryant"
   },
   "dates": {
     "created": "1872",
     "published": "1872"
   },
   "source": {
-    "publication": "Picturesque America",
+    "publication": "Picturesque America; or, The Land We Live In, A Delineation by Pen and Pencil of the Mountains, Rivers, Lakes with Illustrations on Steel and Wood by Eminent American Artists",
     "type": "Original print"
   },
   "location": {
@@ -33,7 +33,7 @@
     "date": "2025-01-12",
     "source": "Historical documentation"
   },
-  "description": "Authentic 1872 steel engraving by A. C. Warren from the renowned 'Picturesque America' series published by D. Appleton. This panoramic view captures Cincinnati from Mt. Adams, showcasing the city's riverfront, commercial district, and the bustling Ohio River during the post-Civil War era of American expansion.",
+  "description": "Authentic 1872 steel engraving by A. C. Warren from the renowned 'Picturesque America; or, The Land We Live In, A Delineation by Pen and Pencil of the Mountains, Rivers, Lakes with Illustrations on Steel and Wood by Eminent American Artists' series published by D. Appleton. This panoramic view captures Cincinnati from Mt. Adams, showcasing the city's riverfront, commercial district, and the bustling Ohio River during the post-Civil War era of American expansion.",
   "landmarks": [
     {
       "landmarkId": "cincinnati_city_hall",
