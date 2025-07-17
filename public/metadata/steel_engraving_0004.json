@@ -34,5 +34,12 @@
     "date": "2025-01-12",
     "source": "Historical documentation"
   },
-  "description": "Historic illustration from Harper's Weekly depicting the devastating Ohio River flood of 1862 in Cincinnati. This dramatic view from the river shows the city during one of its most significant natural disasters, capturing the extent of the flooding and its impact on the riverfront community during the Civil War era."
+  "description": "Historic illustration from Harper's Weekly depicting the devastating Ohio River flood of 1862 in Cincinnati. This dramatic view from the river shows the city during one of its most significant natural disasters, capturing the extent of the flooding and its impact on the riverfront community during the Civil War era.",
+  "landmarks": [
+    {
+      "landmarkId": "cincinnati_transfer_company",
+    "x": 38.2,
+    "y": 67.6
+    }
+  ]
 }

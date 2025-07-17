@@ -134,6 +134,18 @@
       ],
       "historicalContext": "Operational from 1803 to 1894, replaced by Fort Thomas",
       "appearsIn": ["steel_engraving_0001", "steel_engraving_0002"]
+    },
+    "cincinnati_transfer_company": {
+      "name": "Cincinnati Transfer Company",
+      "description": "A prominent transfer and logistics company located at 10 Vine Street in Cincinnati's riverfront district.",
+      "blip": "Established in 1862, the Cincinnati Transfer Company played a vital role in the city's commercial transportation network. Located at 10 Vine Street, the company facilitated the movement of goods and materials during Cincinnati's peak as a major river commerce hub. The company's operations were notably captured in Harper's Weekly during the 1862 Ohio River flood.",
+      "category": "commercial",
+      "status": "Razed",
+      "documents": [
+        "landmarks/ads/cincinnati_transfer_company_1862_ad.pdf"
+      ],
+      "historicalContext": "Established in 1862, serving Cincinnati's transportation needs during the city's commercial peak",
+      "appearsIn": ["steel_engraving_0004"]
     }
   }
 }
