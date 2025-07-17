@@ -118,6 +118,22 @@
       ],
       "historicalContext": "Built in 1859, known for its Good Friday Pilgrimage tradition",
       "appearsIn": ["steel_engraving_0002"]
+    },
+    "newport_barracks": {
+      "name": "Newport Barracks",
+      "description": "Historic military installation on the Kentucky side of the Ohio River, serving as a key military post for nearly a century.",
+      "blip": "Established in 1803, Newport Barracks served as a crucial military installation across from Cincinnati. The post played vital roles in the War of 1812, hosted one of only two U.S. Army Schools of Practice for Field Musicians, and was an important Union facility during the Civil War. Notable figures including Jefferson Davis, Robert E. Lee, and Ulysses S. Grant served here. Frequent flooding led to its eventual relocation to Fort Thomas in 1894.",
+      "category": "military",
+      "status": "Razed",
+      "photos": [
+        "newport_barracks_historic.jpg"
+      ],
+      "links": [
+        "https://www.nkyviews.com/campbell/text/newport_barracks.htm",
+        "https://bcp.enwiki.org/wp/Newport_Barracks"
+      ],
+      "historicalContext": "Operational from 1803 to 1894, replaced by Fort Thomas",
+      "appearsIn": ["steel_engraving_0001", "steel_engraving_0002"]
     }
   }
 }

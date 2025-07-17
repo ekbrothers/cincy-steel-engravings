@@ -36,24 +36,14 @@
   "description": "Authentic 1872 steel engraving by A. C. Warren from the renowned 'Picturesque America; or, The Land We Live In, A Delineation by Pen and Pencil of the Mountains, Rivers, Lakes with Illustrations on Steel and Wood by Eminent American Artists' series published by D. Appleton. This panoramic view captures Cincinnati from Mt. Adams, showcasing the city's riverfront, commercial district, and the bustling Ohio River during the post-Civil War era of American expansion.",
   "landmarks": [
     {
-      "landmarkId": "cincinnati_city_hall",
-      "x": 45.2,
-      "y": 32.8
+    "landmarkId": "roebling_suspension_bridge",
+    "x": 49.5,
+    "y": 47.9
     },
     {
-      "landmarkId": "roebling_suspension_bridge",
-      "x": 60.5,
-      "y": 40.3
-    },
-    {
-      "landmarkId": "public_landing",
-      "x": 55.8,
-      "y": 65.2
-    },
-    {
-      "landmarkId": "isaac_m_wise_temple",
-      "x": 38.5,
-      "y": 28.7
+    "landmarkId": "newport_barracks",
+    "x": 22.9,
+    "y": 50.4
     }
   ]
 }
