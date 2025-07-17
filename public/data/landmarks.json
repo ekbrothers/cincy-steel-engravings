@@ -102,6 +102,22 @@
       ],
       "historicalContext": "Built in 1866 for Congregation K.K. Bene Yeshurun, center of American Reform Judaism",
       "appearsIn": ["steel_engraving_0001"]
+    },
+    "immaculata_church": {
+      "name": "Church of the Immaculata",
+      "description": "Historic Catholic church perched atop Mount Adams, known for its iconic hilltop position overlooking Cincinnati.",
+      "blip": "The Church of the Immaculata, completed in 1859, stands as a prominent landmark atop Mount Adams. The church became famous for its Good Friday Pilgrimage tradition, where worshippers climb the steep steps to reach the church. Its commanding position offers some of the most spectacular views of the Ohio River and Cincinnati's downtown, making it both a spiritual and architectural landmark of the city.",
+      "category": "religious",
+      "status": "Extant",
+      "photos": [
+        "immaculata_exterior.jpg"
+      ],
+      "links": [
+        "https://www.immaculataparish.org/",
+        "https://ohiohistorycentral.org/w/Church_of_the_Immaculata"
+      ],
+      "historicalContext": "Built in 1859, known for its Good Friday Pilgrimage tradition",
+      "appearsIn": ["steel_engraving_0002"]
     }
   }
 }

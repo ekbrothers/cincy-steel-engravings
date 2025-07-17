@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "typescript": "~5.8.3",
-    "vite": "^7.0.4"
+    "vite": "^4.5.1"
   },
   "dependencies": {
     "@types/geojson": "^7946.0.16",
