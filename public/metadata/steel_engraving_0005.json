@@ -40,5 +40,12 @@
     "date": "2025-01-12",
     "source": "Historical documentation"
   },
-  "description": "Steel engraving by William Wellstood showing a panoramic view of Cincinnati's Public Landing during the mid-nineteenth century. This detailed riverfront scene captures the bustling commercial activity and steamboat traffic that made Cincinnati a major inland port during the 1840s."
+  "description": "Steel engraving by William Wellstood showing a panoramic view of Cincinnati's Public Landing during the mid-nineteenth century. This detailed riverfront scene captures the bustling commercial activity and steamboat traffic that made Cincinnati a major inland port during the 1840s.",
+  "landmarks": [
+    {
+      "landmarkId": "immaculata_church",
+  "x": 48.2,
+  "y": 39.1
+    }
+  ]
 }
