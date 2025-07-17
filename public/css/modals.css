@@ -253,8 +253,8 @@
 
 .image-modal-close {
     position: fixed;
-    top: max(env(safe-area-inset-top, 16px), var(--space-4));
-    right: max(env(safe-area-inset-right, 16px), var(--space-4));
+    top: max(env(safe-area-inset-top, 24px), var(--space-6));
+    right: max(env(safe-area-inset-right, 24px), var(--space-6));
     background: rgba(30, 30, 30, 0.8);
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;

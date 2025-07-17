@@ -202,6 +202,12 @@ const ModalComponent = {
             return;
         }
 
+        // Reset viewport zoom for mobile devices to prevent zoomed modals
+        const viewport = document.querySelector('meta[name="viewport"]');
+        if (viewport) {
+            viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0');
+        }
+
         console.log('📖 Showing engraving details:', engraving.title);
 
         const modal = document.getElementById('engraving-modal');
@@ -432,6 +438,12 @@ const ModalComponent = {
             setTimeout(() => {
                 modal.style.display = 'none';
                 modal.classList.remove('fade-out');
+                
+                // Restore viewport zoom settings after modal is closed
+                const viewport = document.querySelector('meta[name="viewport"]');
+                if (viewport) {
+                    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=yes');
+                }
             }, 300);
         }
         
