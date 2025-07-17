@@ -440,13 +440,13 @@ const LandmarkOverlay = {
         }
 
         const overlay = document.createElement('div');
-        overlay.className = 'landmark-overlay hidden';
+        overlay.className = 'landmark-overlay';
         overlay.id = `landmark-overlay-${engraving.id}`;
 
         // Create toggle button
         const toggleButton = document.createElement('button');
-        toggleButton.className = 'landmark-toggle';
-        toggleButton.textContent = 'Show Landmarks';
+        toggleButton.className = 'landmark-toggle active';
+        toggleButton.textContent = 'Hide Landmarks';
         toggleButton.onclick = () => this.toggleOverlay(engraving.id);
 
         console.log('🏛️ Creating markers for', engraving.landmarks.length, 'landmarks');

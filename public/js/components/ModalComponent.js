@@ -31,10 +31,22 @@ const ModalComponent = {
         const imageModal = document.getElementById('image-modal');
         if (imageModal) {
             imageModal.addEventListener('click', (e) => {
-                if (e.target.id === 'image-modal') {
+                // Only close if clicking outside the image
+                if (e.target.id === 'image-modal' || 
+                    e.target.classList.contains('image-modal-content')) {
                     this.closeImageModal();
                 }
             });
+        }
+
+        // Ensure image modal is properly positioned and styled
+        const imageZoomContainer = document.getElementById('image-zoom-container');
+        if (imageZoomContainer) {
+            imageZoomContainer.style.width = '100%';
+            imageZoomContainer.style.height = '100%';
+            imageZoomContainer.style.display = 'flex';
+            imageZoomContainer.style.alignItems = 'center';
+            imageZoomContainer.style.justifyContent = 'center';
         }
 
         // Enhanced keyboard shortcuts
@@ -206,7 +218,7 @@ const ModalComponent = {
                         <img src="${fullSrc}" 
                              alt="${engraving.title}" 
                              class="engraving-img"
-                             onclick="ModalComponent.showFullImage('${fullSrc}', '${engraving.title}')"
+                             onclick="ModalComponent.showFullImage('${encodeURIComponent(fullSrc)}', '${engraving.title}')"
                              onload="ModalComponent.adjustModalSize(this)" />
                         <div class="image-loading-overlay" style="display: none;">
                             <div class="loading-spinner"></div>
@@ -245,7 +257,7 @@ const ModalComponent = {
                     </div>
                     
                     <div class="modal-actions">
-                        <button class="action-btn primary" onclick="ModalComponent.showFullImage('${fullSrc}', '${engraving.title}')">
+                        <button class="action-btn primary" onclick="ModalComponent.showFullImage('${encodeURIComponent(fullSrc)}', '${engraving.title}')">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
                             </svg>
@@ -360,25 +372,32 @@ const ModalComponent = {
      * @param {string} title - Image title
      */
     showFullImage(imageSrc, title) {
+        console.log('🖼️ Showing full image:', { imageSrc, title });
+        
         const imageModal = document.getElementById('image-modal');
         const imageModalImg = document.getElementById('image-modal-img');
         const imageModalTitle = document.getElementById('image-modal-title');
         
         if (!imageModal || !imageModalImg) {
-            console.warn('Image modal elements not found');
+            console.warn('❌ Image modal elements not found');
             return;
         }
 
-        // Set image with loading state
-        imageModalImg.style.opacity = '0';
-        imageModalImg.src = imageSrc;
-        imageModalImg.alt = title;
-        
-        if (imageModalTitle) {
-            imageModalTitle.textContent = title;
-        }
-        
-        imageModal.style.display = 'flex';
+    // Set image with loading state
+    console.log('🔄 Setting image properties...');
+    imageModalImg.style.opacity = '0';
+    imageModalImg.src = decodeURIComponent(imageSrc);
+    imageModalImg.alt = title;
+    
+    if (imageModalTitle) {
+        imageModalTitle.textContent = title;
+    }
+    
+    console.log('📍 Displaying modal...');
+    imageModal.style.display = 'flex';
+    // Trigger reflow to ensure animation works
+    imageModal.offsetHeight;
+    imageModal.classList.add('visible');
         
         // Trigger haptic feedback
         this.triggerHapticFeedback('medium');
@@ -434,10 +453,11 @@ const ModalComponent = {
     closeImageModal() {
         const imageModal = document.getElementById('image-modal');
         if (imageModal) {
-            imageModal.style.opacity = '0';
+            imageModal.classList.remove('visible');
             
             setTimeout(() => {
                 imageModal.style.display = 'none';
+                // Clean up any inline styles
                 imageModal.style.opacity = '';
             }, 300);
         }
