@@ -1,3 +1,8 @@
+/* CSS Variables */
+:root {
+    --status-bar-height: env(safe-area-inset-top, 60px);
+}
+
 /* Modal Components */
 .modal {
     display: none;
@@ -235,6 +240,8 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    padding-top: calc(var(--status-bar-height) + 16px);
+    padding-bottom: 16px;
 }
 
 .image-modal img {
@@ -253,7 +260,7 @@
 
 .image-modal-close {
     position: fixed;
-    top: max(env(safe-area-inset-top, 24px), var(--space-6));
+    top: calc(var(--status-bar-height) + 16px);
     right: max(env(safe-area-inset-right, 24px), var(--space-6));
     background: rgba(30, 30, 30, 0.8);
     border: 2px solid rgba(255, 255, 255, 0.2);
