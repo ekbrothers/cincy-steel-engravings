@@ -117,6 +117,39 @@ const LandmarkOverlay = {
                     color: #ccc;
                     margin: 0;
                 }
+
+                /* Document styling */
+                .landmark-documents {
+                    margin: 20px 0;
+                    padding: 20px;
+                    background: #2d2d2d;
+                    border-radius: 8px;
+                }
+
+                .landmark-document-item {
+                    margin: 10px 0;
+                }
+
+                .landmark-document-link {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    padding: 12px;
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 6px;
+                    color: #60a5fa;
+                    text-decoration: none;
+                    transition: all 0.2s ease;
+                }
+
+                .landmark-document-link:hover {
+                    background: rgba(255, 255, 255, 0.15);
+                    transform: translateY(-1px);
+                }
+
+                .landmark-document-link svg {
+                    flex-shrink: 0;
+                }
                 
                 .landmark-toggle {
                     position: absolute;
@@ -680,6 +713,26 @@ const LandmarkOverlay = {
         // Generate status CSS class
         const statusClass = landmark.status ? landmark.status.toLowerCase().replace(' ', '-') : '';
         
+        // Handle documents section
+        const documentsSection = landmark.documents ? `
+            <div class="landmark-documents">
+                <h4>Historical Documents</h4>
+                ${landmark.documents.map(doc => `
+                    <div class="landmark-document-item">
+                        <a href="/${doc}" target="_blank" class="landmark-document-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="12" y1="18" x2="12" y2="12"></line>
+                                <line x1="9" y1="15" x2="15" y2="15"></line>
+                            </svg>
+                            View Historical Document
+                        </a>
+                    </div>
+                `).join('')}
+            </div>
+        ` : '';
+        
         modal.innerHTML = `
             <div class="landmark-detail-content">
                 <div class="landmark-detail-header">
@@ -701,6 +754,8 @@ const LandmarkOverlay = {
                     <div class="landmark-detail-context">
                         ${landmark.historicalContext}
                     </div>
+                    
+                    ${documentsSection}
                     
                     <div class="landmark-appears-in">
                         <h4>Appears in Engravings</h4>
