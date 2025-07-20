@@ -1,0 +1,51 @@
+{
+  "id": "steel_engraving_0011",
+  "title": "Cincinnati Ohio, the Queen City of the West, From Covington",
+  "alternateTitle": "",
+  "creator": {
+    "artist": "Theo R. Davis",
+    "lifespan": "1841-1920"
+  },
+  "dates": {
+    "created": "1862",
+    "published": "1862"
+  },
+  "source": {
+    "publication": "Harper's Weekly",
+    "page": "368",
+    "type": ""
+  },
+  "location": {
+    "subject": "Ohio River crossing between Cincinnati and Covington during Civil War",
+    "neighborhood": "Cincinnati Riverfront to Covington",
+    "viewpoint": {
+      "description": "Panoramic view showing volunteers crossing on coal boat bridge with Suspension Bridge construction",
+      "coordinates": {
+        "lat": 39.0975,
+        "lng": -84.5075
+      }
+    }
+  },
+  "technical": {
+    "dimensions": "Unknown",
+    "technique": "Engraving"
+  },
+  "historicalContext": {
+    "period": "1861-1870",
+    "event": "Civil War troop movement",
+    "significance": "Shows beginning stages of Suspension Bridge construction and wartime river crossing"
+  },
+  "verification": {
+    "status": "verified",
+    "date": "2025-01-12",
+    "source": "Historical documentation"
+  },
+  "description": "Historic June 1862 engraving by Henry Mosler depicting Union volunteers crossing the Ohio River from Cincinnati to Covington on a bridge of connected coal boats. This Civil War era illustration shows the panoramic view of Cincinnati during wartime, including the beginning stages of the Suspension Bridge construction, capturing a significant moment in the city's Civil War history.",
+  "landmarks": [
+    {
+      "landmarkId": "roebling_suspension_bridge",
+    "x": 58.7,
+    "y": 51.4
+    }
+  ]
+}
