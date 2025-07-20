@@ -71,13 +71,32 @@ const MapComponent = {
     // Removed setupLayerSwitching method and layer switching functionality
 
     /**
-     * Render markers on map
+     * Render markers on map with intelligent preloading and overlap handling
      */
     renderMarkers() {
         AppState.markersLayer.clearLayers();
         
+        // Track used coordinates to handle overlaps
+        const usedCoordinates = new Map();
+        
         AppState.filteredEngravings.forEach(engraving => {
-            const { lat, lng } = engraving.location.viewpoint.coordinates;
+            let { lat, lng } = engraving.location.viewpoint.coordinates;
+            
+            // Create a coordinate key for overlap detection
+            const coordKey = `${lat.toFixed(4)},${lng.toFixed(4)}`;
+            
+            // If this coordinate is already used, add a small offset
+            if (usedCoordinates.has(coordKey)) {
+                const offsetCount = usedCoordinates.get(coordKey);
+                // Add small circular offset to prevent exact overlap
+                const angle = (offsetCount * 60) * (Math.PI / 180); // 60 degrees apart
+                const offsetDistance = 0.002; // Small offset in degrees
+                lat += Math.cos(angle) * offsetDistance;
+                lng += Math.sin(angle) * offsetDistance;
+                usedCoordinates.set(coordKey, offsetCount + 1);
+            } else {
+                usedCoordinates.set(coordKey, 1);
+            }
             
             const customIcon = L.divIcon({
                 className: 'custom-marker',
@@ -94,6 +113,12 @@ const MapComponent = {
             const marker = L.marker([lat, lng], { icon: customIcon })
                 .on('click', () => {
                     ModalComponent.showEngravingDetails(engraving.id);
+                })
+                .on('mouseover', () => {
+                    this.startHoverPreload(engraving.id);
+                })
+                .on('mouseout', () => {
+                    this.cancelHoverPreload(engraving.id);
                 });
             
             AppState.markersLayer.addLayer(marker);
@@ -102,7 +127,78 @@ const MapComponent = {
         // Auto-zoom to fit all markers
         this.fitMapToMarkers();
         
-        console.log(`📍 Rendered ${AppState.filteredEngravings.length} markers`);
+        console.log(`📍 Rendered ${AppState.filteredEngravings.length} markers with intelligent preloading and overlap handling`);
+    },
+
+    /**
+     * Start preloading image on hover with delay
+     * @param {string} engravingId - Engraving ID to preload
+     */
+    startHoverPreload(engravingId) {
+        // Clear any existing timeout
+        if (this.preloadTimeout) {
+            clearTimeout(this.preloadTimeout);
+        }
+        
+        // Start preloading after 500ms hover delay
+        this.preloadTimeout = setTimeout(() => {
+            this.preloadImage(engravingId);
+        }, 500);
+    },
+
+    /**
+     * Cancel hover preload if user moves away quickly
+     * @param {string} engravingId - Engraving ID
+     */
+    cancelHoverPreload(engravingId) {
+        if (this.preloadTimeout) {
+            clearTimeout(this.preloadTimeout);
+            this.preloadTimeout = null;
+        }
+        
+        // Cancel ongoing preload if it exists
+        if (this.currentPreload && this.currentPreload.engravingId === engravingId) {
+            this.currentPreload.img.src = '';
+            this.currentPreload = null;
+        }
+    },
+
+    /**
+     * Preload full resolution image with WebP support
+     * @param {string} engravingId - Engraving ID to preload
+     */
+    async preloadImage(engravingId) {
+        // Don't preload if already loaded or currently loading
+        if (this.preloadedImages?.has(engravingId) ||
+            (this.currentPreload && this.currentPreload.engravingId === engravingId)) {
+            return;
+        }
+        
+        console.log('🔄 Preloading image for hover:', engravingId);
+        
+        const fullSrc = await DataLoader.getImageSrc(engravingId);
+        const img = new Image();
+        
+        this.currentPreload = { img, engravingId };
+        
+        img.onload = () => {
+            console.log('✅ Preloaded:', engravingId);
+            
+            // Initialize preloaded images set if needed
+            if (!this.preloadedImages) {
+                this.preloadedImages = new Set();
+            }
+            
+            this.preloadedImages.add(engravingId);
+            this.currentPreload = null;
+        };
+        
+        img.onerror = () => {
+            console.warn('❌ Failed to preload:', engravingId);
+            this.currentPreload = null;
+        };
+        
+        img.src = fullSrc;
     },
 
     /**

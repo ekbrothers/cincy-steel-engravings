@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
 Create thumbnail versions of steel engraving images for faster loading
+Supports both JPEG and WebP formats for optimal performance
 """
 
 import os
 from PIL import Image, ExifTags
 import sys
 
-def create_thumbnail(input_path, output_path, max_size=(400, 300)):
+def create_thumbnail(input_path, output_path, max_size=(800, 600), format='JPEG'):
     """Create a thumbnail version of an image while preserving orientation"""
     try:
         with Image.open(input_path) as img:
@@ -40,8 +41,11 @@ def create_thumbnail(input_path, output_path, max_size=(400, 300)):
             # Calculate new size maintaining aspect ratio
             img.thumbnail(max_size, Image.Resampling.LANCZOS)
             
-            # Save with optimized quality
-            img.save(output_path, 'JPEG', quality=85, optimize=True)
+            # Save with optimized quality based on format
+            if format.upper() == 'WEBP':
+                img.save(output_path, 'WEBP', quality=85, optimize=True)
+            else:
+                img.save(output_path, 'JPEG', quality=85, optimize=True)
             print(f"✅ Created thumbnail: {output_path}")
             
     except Exception as e:
@@ -70,11 +74,19 @@ def main():
     
     for filename in image_files:
         input_path = os.path.join(input_dir, filename)
-        # Change extension to .jpg for thumbnails
-        thumb_filename = os.path.splitext(filename)[0] + '_thumb.jpg'
-        output_path = os.path.join(output_dir, thumb_filename)
         
-        create_thumbnail(input_path, output_path)
+        # Create both JPEG and WebP thumbnails
+        base_name = os.path.splitext(filename)[0]
+        
+        # JPEG thumbnail (for fallback)
+        jpg_filename = base_name + '_thumb.jpg'
+        jpg_output_path = os.path.join(output_dir, jpg_filename)
+        create_thumbnail(input_path, jpg_output_path, format='JPEG')
+        
+        # WebP thumbnail (for modern browsers)
+        webp_filename = base_name + '_thumb.webp'
+        webp_output_path = os.path.join(output_dir, webp_filename)
+        create_thumbnail(input_path, webp_output_path, format='WEBP')
     
     print(f"✅ Thumbnail generation complete!")
 

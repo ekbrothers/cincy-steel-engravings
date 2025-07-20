@@ -192,10 +192,10 @@ const ModalComponent = {
 
 
     /**
-     * Show engraving details in modal
+     * Show engraving details in modal with progressive loading
      * @param {string} engravingId - Engraving ID to display
      */
-    showEngravingDetails(engravingId) {
+    async showEngravingDetails(engravingId) {
         const engraving = AppState.engravingsData.find(e => e.id === engravingId);
         if (!engraving) {
             console.error('Engraving not found:', engravingId);
@@ -208,26 +208,31 @@ const ModalComponent = {
             viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0');
         }
 
-        console.log('📖 Showing engraving details:', engraving.title);
+        console.log('📖 Showing engraving details with progressive loading:', engraving.title);
 
         const modal = document.getElementById('engraving-modal');
         const modalBody = document.getElementById('modal-body');
         
-        // Get image sources
-        const thumbnailSrc = DataLoader.getThumbnailSrc(engraving.id);
-        const fullSrc = DataLoader.getImageSrc(engraving.id);
+        // Get image sources - use WebP if supported, fallback to JPEG/PNG
+        const thumbnailSrc = await DataLoader.getThumbnailSrc(engraving.id);
+        const fullSrc = await DataLoader.getImageSrc(engraving.id);
         
         modalBody.innerHTML = `
             <div class="engraving-details">
                 <div class="engraving-image-wrapper">
                     <div class="engraving-image-container">
-                        <img src="${fullSrc}" 
-                             alt="${engraving.title}" 
-                             class="engraving-img"
+                        <img src="${thumbnailSrc}"
+                             alt="${engraving.title}"
+                             class="engraving-img progressive-image"
+                             data-full-src="${fullSrc}"
                              onclick="ModalComponent.showFullImage('${encodeURIComponent(fullSrc)}', '${engraving.title}')"
                              onload="ModalComponent.adjustModalSize(this)" />
-                        <div class="image-loading-overlay" style="display: none;">
+                        <div class="image-loading-overlay" style="display: flex;">
                             <div class="loading-spinner"></div>
+                            <div class="loading-text">Loading high-resolution image...</div>
+                        </div>
+                        <div class="image-quality-indicator">
+                            <span class="quality-badge">Loading...</span>
                         </div>
                     </div>
                 </div>
@@ -296,16 +301,119 @@ const ModalComponent = {
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
         
-        // Add landmark overlay after image loads
+        // Start progressive loading immediately
+        this.startProgressiveLoading(engraving.id);
+        
+        // Add landmark overlay after full image loads
         setTimeout(async () => {
             const imageContainer = document.querySelector('.engraving-image-container');
             if (imageContainer) {
                 await LandmarkOverlay.createOverlay(engraving, imageContainer);
             }
-        }, 100);
+        }, 1000); // Increased delay to allow full image to load
         
         // Focus management
         modal.focus();
+    },
+
+    /**
+     * Start progressive loading process with smart caching
+     * @param {string} engravingId - Engraving ID
+     */
+    startProgressiveLoading(engravingId) {
+        const img = document.querySelector('.progressive-image');
+        const overlay = document.querySelector('.image-loading-overlay');
+        const qualityIndicator = document.querySelector('.quality-badge');
+        
+        if (!img || !overlay) return;
+        
+        const fullSrc = img.dataset.fullSrc;
+        
+        // Check if image was already preloaded by hover
+        const isPreloaded = MapComponent.preloadedImages?.has(engravingId);
+        
+        if (isPreloaded) {
+            console.log('⚡ Using preloaded image for instant loading:', engravingId);
+            
+            // Image is already cached, load immediately
+            img.src = fullSrc;
+            overlay.style.display = 'none';
+            
+            if (qualityIndicator) {
+                qualityIndicator.textContent = 'Full Quality';
+                qualityIndicator.className = 'quality-badge full';
+                
+                // Hide quality indicator after 2 seconds
+                setTimeout(() => {
+                    qualityIndicator.style.opacity = '0';
+                }, 2000);
+            }
+            
+            this.adjustModalSize(img);
+            return;
+        }
+        
+        // Update quality indicator for progressive loading
+        if (qualityIndicator) {
+            qualityIndicator.textContent = 'Preview Quality';
+            qualityIndicator.className = 'quality-badge preview';
+        }
+        
+        console.log('🔄 Starting progressive load for:', engravingId);
+        
+        // Preload full resolution image
+        const fullImg = new Image();
+        
+        fullImg.onload = () => {
+            console.log('✅ Full resolution loaded, transitioning...');
+            
+            // Create smooth transition effect
+            img.style.transition = 'opacity 0.5s ease-in-out';
+            img.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                img.src = fullSrc;
+                img.style.opacity = '1';
+                
+                // Hide loading overlay
+                overlay.style.display = 'none';
+                
+                // Update quality indicator
+                if (qualityIndicator) {
+                    qualityIndicator.textContent = 'Full Quality';
+                    qualityIndicator.className = 'quality-badge full';
+                    
+                    // Hide quality indicator after 3 seconds
+                    setTimeout(() => {
+                        qualityIndicator.style.opacity = '0';
+                    }, 3000);
+                }
+                
+                // Adjust modal size for full image
+                this.adjustModalSize(img);
+                
+                // Mark as preloaded for future use
+                if (!MapComponent.preloadedImages) {
+                    MapComponent.preloadedImages = new Set();
+                }
+                MapComponent.preloadedImages.add(engravingId);
+                
+                console.log('🎉 Progressive loading complete');
+            }, 100);
+        };
+        
+        fullImg.onerror = () => {
+            console.error('❌ Failed to load full resolution image');
+            overlay.style.display = 'none';
+            
+            if (qualityIndicator) {
+                qualityIndicator.textContent = 'Preview Only';
+                qualityIndicator.className = 'quality-badge error';
+            }
+        };
+        
+        // Start loading full image
+        fullImg.src = fullSrc;
     },
 
     /**

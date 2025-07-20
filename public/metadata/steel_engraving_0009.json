@@ -20,10 +20,10 @@
     "neighborhood": "Cincinnati Riverfront to Covington",
     "viewpoint": {
       "description": "Panoramic view showing volunteers crossing on coal boat bridge with Suspension Bridge construction",
-      "coordinates": {
-        "lat": 39.0975,
-        "lng": -84.5075
-      }
+"coordinates": {
+  "lat": 39.09487,
+  "lng": -84.51014
+}
     }
   },
   "technical": {

@@ -1,51 +1,46 @@
 {
   "id": "steel_engraving_0013",
-  "title": "Volunteers Crossing the Ohio from Cincinnati to Covington",
-  "alternateTitle": "Civil War prints : includes Cincinnati and non-Cincinnati items. 13",
+  "title": "The Wharf-Boat on the Ohio River at Cincinnati",
+  "alternateTitle": "Cincinnati Wharf-Boat Scene",
   "creator": {
-    "artist": "Henry Mosler",
-    "lifespan": "1841-1920"
+    "artist": "Jacob Gervis",
+    "lifespan": "Active 1860s-1870s"
   },
   "dates": {
-    "created": "1862",
-    "published": "1862"
+    "created": "1869",
+    "published": "June 12, 1869"
   },
   "source": {
-    "publication": "Harper's History of the Great Rebellion",
-    "page": "p. 308",
-    "type": "Civil War print"
+    "publication": "Harper's Weekly",
+    "page": "Unknown",
+    "type": "Wood engraving"
   },
   "location": {
-    "subject": "Ohio River crossing between Cincinnati and Covington during Civil War",
-    "neighborhood": "Cincinnati Riverfront to Covington",
+    "subject": "Ohio River wharf boat scene at Cincinnati's Public Landing",
+    "neighborhood": "Cincinnati riverfront and Public Landing area",
     "viewpoint": {
-      "description": "Panoramic view showing volunteers crossing on coal boat bridge with Suspension Bridge construction",
+      "description": "View of a floating wharf boat on the Ohio River at Cincinnati, showing the essential infrastructure for steamboat commerce and river transportation during the height of the steamboat era",
       "coordinates": {
-        "lat": 39.0975,
-        "lng": -84.5075
+        "lat": 39.096069,
+        "lng": -84.505806
       }
     }
   },
   "technical": {
-    "dimensions": "Unknown",
-    "technique": "Engraving"
+    "dimensions": "Typical Harper's Weekly illustration size, approximately 9\" x 13\"",
+    "technique": "Wood engraving on paper"
   },
   "historicalContext": {
-    "period": "1861-1870",
-    "event": "Civil War troop movement",
-    "significance": "Shows beginning stages of Suspension Bridge construction and wartime river crossing"
+    "period": "1869",
+    "event": "Peak of Ohio River steamboat commerce and river transportation",
+    "significance": "Documents the crucial role of wharf boats in Ohio River commerce. These floating landing structures were essential infrastructure that allowed steamboats to dock and transfer passengers and cargo regardless of fluctuating river levels. Created during the golden age of steamboat travel (1860s-1870s) when Cincinnati was a major river port and gateway to the West."
   },
   "verification": {
     "status": "verified",
-    "date": "2025-01-12",
-    "source": "Historical documentation"
+    "date": "2025-07-20",
+    "source": "Harper's Weekly June 12, 1869 and Clark Art Institute collection"
   },
-  "description": "Historic June 1862 engraving by Henry Mosler depicting Union volunteers crossing the Ohio River from Cincinnati to Covington on a bridge of connected coal boats. This Civil War era illustration shows the panoramic view of Cincinnati during wartime, including the beginning stages of the Suspension Bridge construction, capturing a significant moment in the city's Civil War history.",
+  "description": "Historic 1869 wood engraving by Jacob Gervis published in Harper's Weekly on June 12, 1869, depicting a wharf boat on the Ohio River at Cincinnati. The illustration captures an essential piece of 19th-century river infrastructure - the floating wharf boat that served as a moveable landing platform for steamboats. These structures were crucial to Ohio River commerce, allowing vessels to dock safely regardless of seasonal water level changes. Created during the peak of steamboat travel, when Cincinnati was one of America's busiest river ports, this engraving documents the bustling maritime activity that made Cincinnati the 'Queen City of the West.' The scene likely shows the busy Public Landing area where multiple packet lines operated regular service to Pittsburgh, Louisville, and New Orleans.",
   "landmarks": [
-    {
-      "landmarkId": "roebling_suspension_bridge",
-    "x": 58.7,
-    "y": 51.4
-    }
   ]
 }

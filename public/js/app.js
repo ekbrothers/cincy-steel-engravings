@@ -25,7 +25,9 @@ const Config = {
     ENGRAVING_IDS: [
         'steel_engraving_0001', 'steel_engraving_0002', 'steel_engraving_0003',
         'steel_engraving_0004', 'steel_engraving_0005', 'steel_engraving_0006',
-        'steel_engraving_0007', 'steel_engraving_0008', 'steel_engraving_0009'
+        'steel_engraving_0007', 'steel_engraving_0008', 'steel_engraving_0009',
+        'steel_engraving_0010', 'steel_engraving_0011', 'steel_engraving_0012',
+        'steel_engraving_0013', 'steel_engraving_0014'
     ],
     MAP_LAYERS: {
         modern: {
@@ -69,6 +71,7 @@ async function initApp() {
         LandmarkOverlay.init();
         ModalComponent.init();
         NavigationComponent.init();
+        CoordinateTool.init();
         
         // Initialize URL routing
         initRouting();

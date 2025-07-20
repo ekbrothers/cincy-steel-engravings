@@ -1,10 +1,11 @@
 {
   "id": "steel_engraving_0011",
   "title": "Cincinnati Ohio, the Queen City of the West, From Covington",
-  "alternateTitle": "",
+  "alternateTitle": "Panoramic View of Cincinnati Riverfront from Kentucky",
   "creator": {
-    "artist": "Theo R. Davis",
-    "lifespan": "1841-1920"
+    "artist": "Staff Artist/Engraver",
+    "lifespan": "Unknown",
+    "publication": "Harper's Weekly"
   },
   "dates": {
     "created": "1862",
@@ -13,39 +14,41 @@
   "source": {
     "publication": "Harper's Weekly",
     "page": "368",
-    "type": ""
+    "type": "Wood engraving"
   },
   "location": {
-    "subject": "Ohio River crossing between Cincinnati and Covington during Civil War",
-    "neighborhood": "Cincinnati Riverfront to Covington",
+    "subject": "Cincinnati riverfront panorama viewed from Covington, Kentucky during Civil War era",
+    "neighborhood": "Cincinnati Public Landing and downtown riverfront to Northern Kentucky",
     "viewpoint": {
-      "description": "Panoramic view showing volunteers crossing on coal boat bridge with Suspension Bridge construction",
-      "coordinates": {
-        "lat": 39.0975,
-        "lng": -84.5075
-      }
+      "description": "Panoramic view from Covington, Kentucky looking north across the Ohio River to Cincinnati's bustling commercial riverfront, showing the incomplete Roebling Suspension Bridge towers and busy steamboat traffic",
+"coordinates": {
+  "lat": 39.089547,
+  "lng": -84.509025
+}
     }
   },
   "technical": {
-    "dimensions": "Unknown",
-    "technique": "Engraving"
+    "dimensions": "Approximately 11\" x 16\" (typical Harper's Weekly page spread)",
+    "technique": "Wood engraving"
   },
   "historicalContext": {
-    "period": "1861-1870",
-    "event": "Civil War troop movement",
-    "significance": "Shows beginning stages of Suspension Bridge construction and wartime river crossing"
+    "period": "1861-1865",
+    "event": "Civil War era commercial boom and bridge construction",
+    "significance": "Captures Cincinnati at its height as a major Ohio River commercial center during the Civil War, with the Roebling Suspension Bridge towers under construction. Shows the busy steamboat era before completion of the first permanent bridge across the Ohio River at Cincinnati."
   },
   "verification": {
     "status": "verified",
-    "date": "2025-01-12",
-    "source": "Historical documentation"
+    "date": "2025-07-20",
+    "source": "Historical documentation and Harper's Weekly archives"
   },
-  "description": "Historic June 1862 engraving by Henry Mosler depicting Union volunteers crossing the Ohio River from Cincinnati to Covington on a bridge of connected coal boats. This Civil War era illustration shows the panoramic view of Cincinnati during wartime, including the beginning stages of the Suspension Bridge construction, capturing a significant moment in the city's Civil War history.",
+  "description": "Historic 1862 wood engraving from Harper's Weekly showing a panoramic view of Cincinnati's riverfront as seen from Covington, Kentucky. The illustration captures the 'Queen City of the West' during its Civil War-era commercial peak, featuring the busy Public Landing with numerous steamboats, the growing downtown skyline, and the partially constructed towers of John A. Roebling's suspension bridge. This view represents Cincinnati when it was the sixth-largest city in the United States and a major commercial hub on the Ohio River, before the completion of the first permanent bridge would forever change river traffic patterns.",
   "landmarks": [
     {
       "landmarkId": "roebling_suspension_bridge",
-    "x": 58.7,
-    "y": 51.4
+      "x": 58.7,
+      "y": 51.4,
+      "status": "under_construction",
+      "description": "Roebling Suspension Bridge towers under construction (completed 1866)"
     }
   ]
 }

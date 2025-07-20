@@ -1,51 +1,47 @@
 {
   "id": "steel_engraving_0014",
-  "title": "Volunteers Crossing the Ohio from Cincinnati to Covington",
-  "alternateTitle": "Civil War prints : includes Cincinnati and non-Cincinnati items. 13",
+  "title": "The River Front at Cincinnati",
+  "alternateTitle": "Cincinnati Riverfront View",
   "creator": {
-    "artist": "Henry Mosler",
-    "lifespan": "1841-1920"
+    "artist": "Unknown",
+    "lifespan": "Unknown"
   },
   "dates": {
-    "created": "1862",
-    "published": "1862"
+    "created": "c. 1890s",
+    "published": "c. 1890s"
   },
   "source": {
-    "publication": "Harper's History of the Great Rebellion",
-    "page": "p. 308",
-    "type": "Civil War print"
+    "publication": "The Colonial Portfolio",
+    "page": "Unknown",
+    "type": "Photograph",
+    "publisher": "The Werner Company, London"
   },
   "location": {
-    "subject": "Ohio River crossing between Cincinnati and Covington during Civil War",
-    "neighborhood": "Cincinnati Riverfront to Covington",
+    "subject": "Cincinnati riverfront and Ohio River commercial district",
+    "neighborhood": "Cincinnati Public Landing and downtown riverfront",
     "viewpoint": {
-      "description": "Panoramic view showing volunteers crossing on coal boat bridge with Suspension Bridge construction",
-      "coordinates": {
-        "lat": 39.0975,
-        "lng": -84.5075
-      }
+      "description": "Elevated panoramic view of Cincinnati's riverfront showing the Ohio River, moored steamboats, bridge spanning the river, and the industrial landscape of the bustling transportation hub during the height of water transport commerce",
+"coordinates": {
+  "lat": 39.095599,
+  "lng": -84.507093
+}
     }
   },
   "technical": {
-    "dimensions": "Unknown",
-    "technique": "Engraving"
+    "dimensions": "Typical Colonial Portfolio photograph size, likely 8\" x 12\" or similar",
+    "technique": "Monochrome photograph"
   },
   "historicalContext": {
-    "period": "1861-1870",
-    "event": "Civil War troop movement",
-    "significance": "Shows beginning stages of Suspension Bridge construction and wartime river crossing"
+    "period": "1890s",
+    "event": "Late 19th century American industrial expansion and documentation of colonial/territorial development",
+    "significance": "Part of The Colonial Portfolio series documenting important cities and regions throughout the British Empire and North America during the height of the Victorian era. Captures Cincinnati during its mature industrial period, after the peak of steamboat commerce but during continued growth as a major American manufacturing center. The Werner Company's Colonial Portfolio was a prestigious publication documenting significant locations across the English-speaking world."
   },
   "verification": {
     "status": "verified",
-    "date": "2025-01-12",
-    "source": "Historical documentation"
+    "date": "2025-07-20",
+    "source": "The Colonial Portfolio published by The Werner Company, London"
   },
-  "description": "Historic June 1862 engraving by Henry Mosler depicting Union volunteers crossing the Ohio River from Cincinnati to Covington on a bridge of connected coal boats. This Civil War era illustration shows the panoramic view of Cincinnati during wartime, including the beginning stages of the Suspension Bridge construction, capturing a significant moment in the city's Civil War history.",
+  "description": "A late 19th-century monochrome photograph of Cincinnati's riverfront from The Colonial Portfolio, published by The Werner Company of London. This elevated panoramic view captures the bustling transportation hub during the era when water transport was vital for trade and commerce. The photograph shows steamboats moored along the riverbank, symbolizing the importance of river commerce in shaping Cincinnati's shipping industry. A bridge spans across the Ohio River, serving as both a physical link between different parts of the city and a testament to human ingenuity and connectivity. The image presents an expansive vista that highlights Cincinnati's geographical features and its position within America's transportation network. This monochrome snapshot captures the American landscape at a time of transformation, preserved by The Print Collector as part of the prestigious Colonial Portfolio series documenting significant cities throughout the English-speaking world.",
   "landmarks": [
-    {
-      "landmarkId": "roebling_suspension_bridge",
-    "x": 58.7,
-    "y": 51.4
-    }
   ]
 }

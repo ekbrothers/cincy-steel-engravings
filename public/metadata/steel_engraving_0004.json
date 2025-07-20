@@ -19,10 +19,10 @@
     "neighborhood": "Cincinnati Riverfront",
     "viewpoint": {
       "description": "From the Cincinnati riverfront on from the intersection of Walnut St. and Water St. looking toward the Ohio River during the 1862 flood.",
-      "coordinates": {
-        "lat": 39.0955,
-        "lng": -84.5102
-      }
+"coordinates": {
+  "lat": 39.097264,
+  "lng": -84.511042
+}
     }
   },
   "technical": {

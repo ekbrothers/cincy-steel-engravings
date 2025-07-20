@@ -1,51 +1,46 @@
 {
   "id": "steel_engraving_0012",
-  "title": "Volunteers Crossing the Ohio from Cincinnati to Covington",
-  "alternateTitle": "Civil War prints : includes Cincinnati and non-Cincinnati items. 13",
+  "title": "Cincinnati, Ohio",
+  "alternateTitle": "Panoramic View of Cincinnati from the Ohio River",
   "creator": {
-    "artist": "Henry Mosler",
-    "lifespan": "1841-1920"
+    "artist": "Schell and Hogan and C.A. Vanderhoof", 
+    "lifespan": "F.H. Schell (1834-1909), Thomas Hogan (active 1870s-1900s), C.A. Vanderhoof (1853-1918)"
   },
   "dates": {
-    "created": "1862",
-    "published": "1862"
+    "created": "1876",
+    "published": "1876"
   },
   "source": {
-    "publication": "Harper's History of the Great Rebellion",
-    "page": "p. 308",
-    "type": "Civil War print"
+    "publication": "Harper's Weekly",
+    "page": "Unknown",
+    "type": "Steel engraving"
   },
   "location": {
-    "subject": "Ohio River crossing between Cincinnati and Covington during Civil War",
-    "neighborhood": "Cincinnati Riverfront to Covington",
+    "subject": "Panoramic view of Cincinnati, Ohio from the Ohio River",
+    "neighborhood": "Cincinnati riverfront and downtown area",
     "viewpoint": {
-      "description": "Panoramic view showing volunteers crossing on coal boat bridge with Suspension Bridge construction",
-      "coordinates": {
-        "lat": 39.0975,
-        "lng": -84.5075
-      }
+      "description": "Panoramic view of Cincinnati from the Ohio River, taken from West Covington, showing the city's skyline, riverfront activity, and architectural landmarks during the post-Civil War era",
+"coordinates": {
+  "lat": 39.088211,
+  "lng": -84.526577
+}
     }
   },
   "technical": {
-    "dimensions": "Unknown",
-    "technique": "Engraving"
+    "dimensions": "Likely large format steel engraving, typical dimensions 12\" x 18\" or larger",
+    "technique": "Steel engraving"
   },
   "historicalContext": {
-    "period": "1861-1870",
-    "event": "Civil War troop movement",
-    "significance": "Shows beginning stages of Suspension Bridge construction and wartime river crossing"
+    "period": "1876",
+    "event": "Centennial year celebration and post-Civil War urban development",
+    "significance": "Created during America's Centennial year (1876), this engraving captures Cincinnati at the height of its post-Civil War prosperity. Shows the completed Roebling Suspension Bridge (1866) and the city's mature industrial and commercial development during the Gilded Age. Represents the collaboration of three notable 19th-century American illustrators during a significant year in American history."
   },
   "verification": {
     "status": "verified",
-    "date": "2025-01-12",
-    "source": "Historical documentation"
+    "date": "2025-07-20",
+    "source": "Historical documentation of artists' careers and collaboration"
   },
-  "description": "Historic June 1862 engraving by Henry Mosler depicting Union volunteers crossing the Ohio River from Cincinnati to Covington on a bridge of connected coal boats. This Civil War era illustration shows the panoramic view of Cincinnati during wartime, including the beginning stages of the Suspension Bridge construction, capturing a significant moment in the city's Civil War history.",
+  "description": "Historic 1876 steel engraving from Harper's Weekly depicting a panoramic view of Cincinnati, Ohio, created during America's Centennial year through the collaboration of three prominent illustrators: Francis H. Schell, Thomas Hogan, and Charles A. Vanderhoof. Schell, famous for his Civil War illustrations for Frank Leslie's Illustrated Newspaper and later Harper's Weekly, partnered with Thomas Hogan in a lithography business. Vanderhoof, known for his architectural and harbor scenes, contributed his expertise in detailed cityscape rendering. This Centennial-era Harper's Weekly engraving shows Cincinnati during the height of its Gilded Age prosperity, featuring the bustling Ohio River with steamboat traffic, the completed suspension bridge, and the mature urban skyline of the 'Queen City of the West.'",
   "landmarks": [
-    {
-      "landmarkId": "roebling_suspension_bridge",
-    "x": 58.7,
-    "y": 51.4
-    }
   ]
 }

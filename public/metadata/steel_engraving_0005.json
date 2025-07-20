@@ -20,10 +20,10 @@
     "neighborhood": "Downtown Riverfront",
     "viewpoint": {
       "description": "Panoramic view of the Public Landing and riverfront",
-      "coordinates": {
-        "lat": 39.0965,
-        "lng": -84.5095
-      }
+    "coordinates": {
+      "lat": 39.091074,
+      "lng": -84.507651
+    }
     }
   },
   "technical": {

@@ -14,10 +14,10 @@
     "neighborhood": "Downtown Cincinnati",
     "viewpoint": {
       "description": "Street view of Fourth Street in downtown Cincinnati",
-      "coordinates": {
-        "lat": 39.1020,
-        "lng": -84.5120
-      }
+"coordinates": {
+  "lat": 39.099565,
+  "lng": -84.514775
+}
     }
   },
   "technical": {
@@ -29,5 +29,7 @@
     "date": "2025-01-12",
     "source": "Historical documentation"
   },
-  "description": "Historic 1893 wood engraving depicting Fourth Street in Cincinnati, Ohio. This street-level view captures the urban architecture and streetscape of downtown Cincinnati during the late 19th century, showcasing the city's commercial development and architectural character of the era."
+  "description": "Historic 1893 wood engraving depicting Fourth Street in Cincinnati, Ohio. This street-level view captures the urban architecture and streetscape of downtown Cincinnati during the late 19th century, showcasing the city's commercial development and architectural character of the era.",
+  "landmarks": [
+  ]
 }

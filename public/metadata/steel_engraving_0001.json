@@ -18,10 +18,10 @@
     "neighborhood": "Central Business District",
     "viewpoint": {
       "description": "Overlooking Cincinnati from Mt. Adams",
-      "coordinates": {
-        "lat": 39.1074,
-        "lng": -84.4951
-      }
+"coordinates": {
+  "lat": 39.105922,
+  "lng": -84.499111
+}
     }
   },
   "technical": {

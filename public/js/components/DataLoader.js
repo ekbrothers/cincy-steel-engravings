@@ -57,25 +57,94 @@ const DataLoader = {
     },
 
     /**
-     * Get thumbnail image source path for engraving (for faster loading)
+     * Check if browser supports WebP format
+     * @returns {boolean} True if WebP is supported
+     */
+    supportsWebP() {
+        if (this._webpSupport !== undefined) {
+            return this._webpSupport;
+        }
+        
+        // Create a small WebP image to test support
+        const webpData = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+        const img = new Image();
+        
+        return new Promise((resolve) => {
+            img.onload = img.onerror = () => {
+                this._webpSupport = img.height === 2;
+                resolve(this._webpSupport);
+            };
+            img.src = webpData;
+        });
+    },
+
+    /**
+     * Get thumbnail image source path for engraving with WebP support
+     * @param {string} engravingId - Engraving ID
+     * @returns {Promise<string>} Thumbnail image source path
+     */
+    async getThumbnailSrc(engravingId) {
+        const imageFileName = engravingId.replace('steel_engraving_', 'steel_engraving__');
+        const supportsWebP = await this.supportsWebP();
+        
+        if (supportsWebP) {
+            return `/engravings/thumbs/${imageFileName}_thumb.webp`;
+        } else {
+            return `/engravings/thumbs/${imageFileName}_thumb.jpg`;
+        }
+    },
+
+    /**
+     * Get thumbnail image source path synchronously (fallback method)
      * @param {string} engravingId - Engraving ID
      * @returns {string} Thumbnail image source path
      */
-    getThumbnailSrc(engravingId) {
-        // Convert steel_engraving_0001 to steel_engraving__0001_thumb.jpg
+    getThumbnailSrcSync(engravingId) {
+        // Fallback to JPEG for immediate use
         const imageFileName = engravingId.replace('steel_engraving_', 'steel_engraving__');
         return `/engravings/thumbs/${imageFileName}_thumb.jpg`;
     },
 
     /**
-     * Get full-size image source path for engraving
+     * Get full-size image source path for engraving with WebP support
+     * @param {string} engravingId - Engraving ID
+     * @returns {Promise<string>} Full-size image source path
+     */
+    async getImageSrc(engravingId) {
+        const imageFileName = engravingId.replace('steel_engraving_', 'steel_engraving__');
+        const supportsWebP = await this.supportsWebP();
+        
+        if (supportsWebP) {
+            return `/engravings/${imageFileName}.webp`;
+        } else {
+            // Fallback to original format based on engraving number
+            const engravingNumber = engravingId.replace('steel_engraving_', '');
+            const numericValue = parseInt(engravingNumber, 10);
+            
+            if (numericValue >= 10) {
+                return `/engravings/${engravingId}.png`;
+            } else {
+                return `/engravings/${imageFileName}.jpg`;
+            }
+        }
+    },
+
+    /**
+     * Get full-size image source path synchronously (fallback method)
      * @param {string} engravingId - Engraving ID
      * @returns {string} Full-size image source path
      */
-    getImageSrc(engravingId) {
-        // Convert steel_engraving_0001 to steel_engraving__0001.jpg
-        const imageFileName = engravingId.replace('steel_engraving_', 'steel_engraving__');
-        return `/engravings/${imageFileName}.jpg`;
+    getImageSrcSync(engravingId) {
+        // Fallback to original format for immediate use
+        const engravingNumber = engravingId.replace('steel_engraving_', '');
+        const numericValue = parseInt(engravingNumber, 10);
+        
+        if (numericValue >= 10) {
+            return `/engravings/${engravingId}.png`;
+        } else {
+            const imageFileName = engravingId.replace('steel_engraving_', 'steel_engraving__');
+            return `/engravings/${imageFileName}.jpg`;
+        }
     },
 
     /**

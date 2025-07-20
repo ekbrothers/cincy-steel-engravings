@@ -1,51 +1,45 @@
 {
   "id": "steel_engraving_0010",
   "title": "Ohio - Resenting Judicial Immunity to Murderers - The Jail in Cincinnati Attacked",
-  "alternateTitle": "",
+  "alternateTitle": "The Recent Sanguinary Riot in Cincinnati - Burning and Gutting of the Court House by the Mob",
   "creator": {
-    "artist": "Henry Mosler",
-    "lifespan": "1841-1920"
+    "artist": "Staff Artist/Engraver",
+    "lifespan": "Unknown",
+    "publication": "Frank Leslie's Illustrated Newspaper"
   },
   "dates": {
     "created": "1884",
-    "published": "1884"
+    "published": "April 1884"
   },
   "source": {
     "publication": "Frank Leslie's Illustrated Newspaper",
-    "page": "",
-    "type": ""
+    "page": "Double-page spread",
+    "type": "Wood engraving on rag paper"
   },
   "location": {
-    "subject": "Ohio River crossing between Cincinnati and Covington during Civil War",
-    "neighborhood": "Cincinnati Riverfront to Covington",
+    "subject": "Hamilton County Courthouse and Jail, Cincinnati, Ohio during 1884 riots",
+    "neighborhood": "Downtown Cincinnati - Court Street and Sycamore Street area",
     "viewpoint": {
-      "description": "Panoramic view showing volunteers crossing on coal boat bridge with Suspension Bridge construction",
+      "description": "View of courthouse complex showing the limestone courthouse (built 1854) and county jail (built 1862) during the riot attacks",
       "coordinates": {
-        "lat": 39.0975,
-        "lng": -84.5075
+        "lat": 39.1012,
+        "lng": -84.5120
       }
     }
   },
   "technical": {
-    "dimensions": "Unknown",
-    "technique": "Engraving"
+    "dimensions": "Approximately 16\" x 11\" (typical Frank Leslie's double-page spread)",
+    "technique": "Wood engraving"
   },
   "historicalContext": {
-    "period": "1861-1870",
-    "event": "Civil War troop movement",
-    "significance": "Shows beginning stages of Suspension Bridge construction and wartime river crossing"
+    "period": "1884",
+    "event": "Cincinnati Courthouse Riots (March 28-30, 1884)",
+    "significance": "Documents one of the most destructive riots in American history, sparked by public outrage over a lenient manslaughter verdict in a clear murder case. The riots resulted in 56 deaths, over 300 wounded, and the complete destruction of the courthouse by fire."
   },
   "verification": {
     "status": "verified",
-    "date": "2025-01-12",
-    "source": "Historical documentation"
+    "date": "2025-07-20",
+    "source": "Historical documentation and newspaper archives"
   },
-  "description": "Historic June 1862 engraving by Henry Mosler depicting Union volunteers crossing the Ohio River from Cincinnati to Covington on a bridge of connected coal boats. This Civil War era illustration shows the panoramic view of Cincinnati during wartime, including the beginning stages of the Suspension Bridge construction, capturing a significant moment in the city's Civil War history.",
-  "landmarks": [
-    {
-      "landmarkId": "roebling_suspension_bridge",
-    "x": 58.7,
-    "y": 51.4
-    }
-  ]
+  "description": "Historic 1884 wood engraving from Frank Leslie's Illustrated Newspaper depicting the Cincinnati Courthouse Riots of March 28-30, 1884. Shows the attack on the Hamilton County Courthouse and jail complex located on Court Street and Sycamore Street in downtown Cincinnati. The riots were triggered by public outrage over the lenient sentencing of William Berner, who received only a manslaughter conviction despite confessing to the brutal murder of his employer. The three-day riot involved approximately 10,000 citizens, resulted in 56 deaths and over 300 wounded, and culminated in the complete destruction of the courthouse by fire. This engraving captures a pivotal moment in Cincinnati's history that exposed municipal corruption and ultimately led to significant judicial and political reforms."
 }
