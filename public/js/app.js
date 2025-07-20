@@ -71,7 +71,6 @@ async function initApp() {
         LandmarkOverlay.init();
         ModalComponent.init();
         NavigationComponent.init();
-        CoordinateTool.init();
         
         // Initialize URL routing
         initRouting();
