@@ -196,6 +196,7 @@ const ModalComponent = {
      * @param {string} engravingId - Engraving ID to display
      */
     async showEngravingDetails(engravingId) {
+        const startTime = performance.now();
         const engraving = AppState.engravingsData.find(e => e.id === engravingId);
         if (!engraving) {
             console.error('Engraving not found:', engravingId);
@@ -314,6 +315,13 @@ const ModalComponent = {
         
         // Focus management
         modal.focus();
+        
+        // Track modal opening performance
+        const endTime = performance.now();
+        const modalOpenTime = endTime - startTime;
+        if (window.SpeedInsights) {
+            window.SpeedInsights.trackModalOpen('engraving_details', modalOpenTime);
+        }
     },
 
     /**

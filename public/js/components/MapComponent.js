@@ -74,6 +74,7 @@ const MapComponent = {
      * Render markers on map with intelligent preloading and overlap handling
      */
     renderMarkers() {
+        const startTime = performance.now();
         AppState.markersLayer.clearLayers();
         
         // Track used coordinates to handle overlaps
@@ -126,6 +127,13 @@ const MapComponent = {
         
         // Auto-zoom to fit all markers
         this.fitMapToMarkers();
+        
+        // Track map rendering performance
+        const endTime = performance.now();
+        const renderTime = endTime - startTime;
+        if (window.SpeedInsights) {
+            window.SpeedInsights.trackMapRender(renderTime);
+        }
         
         console.log(`📍 Rendered ${AppState.filteredEngravings.length} markers with intelligent preloading and overlap handling`);
     },
