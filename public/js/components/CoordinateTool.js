@@ -7,12 +7,26 @@ const CoordinateTool = {
     currentMarker: null,
     
     /**
-     * Initialize the coordinate tool
+     * Initialize the coordinate tool (hidden from users)
      */
     init() {
-        this.createToolButton();
         this.setupMapClickHandler();
-        console.log('🎯 Coordinate tool initialized');
+        this.setupSecretActivation();
+        console.log('🎯 Coordinate tool initialized (hidden)');
+    },
+    
+    /**
+     * Setup secret activation method for development use
+     */
+    setupSecretActivation() {
+        // Secret key combination: Ctrl+Shift+C
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+                this.createToolButton();
+                this.showToast('🎯 Coordinate tool activated!', 'success');
+            }
+        });
     },
     
     /**
